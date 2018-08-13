@@ -1,33 +1,14 @@
 # fconvert
 
-## Formats
-- [video](#video-ffmpeg)
-- [image](#image-imagemagick)
-- [sound](#sound-mpg123)
+## 🔧 Formats
+- [video](#🐳-video-ffmpeg)
+- [image](#🐳-image-imagemagick)
+- [sound](#🐳-sound-mpg123)
 
-Every service supports passing an URL directly.
-More to come later, feel free to contribute, I will add an automated build system at some point.
+## 🐳 video (ffmpeg)
 
-## Demonstration
-![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
-
-## Testing
-`test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
-```bash
-$ ./test.sh
-Testing service image format png to jpg with url http://www.pngmart.com/files/1/Cat-PNG-H...
-tmp.png (1859294) is now tmp.jpg (405329).
-Testing service sound format mp3 to wav with url https://archive.org/download/testmp3test...
-tmp.mp3 (198658) is now tmp.wav (1094444).
-Testing service video format mp4 to mkv with url https://archive.org/download/CatDoesYipp...
-tmp.mp4 (484460) is now tmp.mkv (448110).
-```
-
-
-## video (ffmpeg)
-
-1. takes an input.ext
-2. spits out output.ext in the same folder
+- takes an input.ext
+- spits out output.ext in the same folder
 
 ```bash
 $ docker run -v $(pwd):/d/ fconvert/video input.ext1 output.ext2
@@ -379,10 +360,10 @@ yop             Psygnosis YOP
 yuv4mpegpipe    YUV4MPEG pipe
 ``` 
 
-## image (imagemagick)
+## 🐳 image (imagemagick)
 
-1. takes an input.ext
-2. spits out output.ext in the same folder
+- takes an input.ext
+- spits out output.ext in the same folder
 
 ```bash
 $ docker run -v $(pwd):/d/ fconvert/image input.ext1 output.ext2
@@ -643,10 +624,10 @@ THUMBNAIL* THUMBNAIL -w+   EXIF Profile Thumbnail
       YUV* YUV       rw-   CCIR 601 4:1:1 or 4:2:2
 ```
 
-## sound (mpg123)
+## 🐳 sound (mpg123)
 
-1. takes an input.ext
-2. spits out output.ext in the same folder
+- takes an input.ext
+- spits out output.ext in the same folder
 
 ::: tip
 If it does not work with your formats, try with `fconvert/video` instead.
@@ -660,3 +641,19 @@ $ docker run -v $(pwd):/d/ fconvert/sound demo.mp3 demo.wav
 $ docker run -v $(pwd):/d/ fconvert/sound demo.flv demo.mp3 
 # ...
 ```
+
+## 📺 Demonstration
+![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
+
+## ✅ Testing
+`test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
+```bash
+$ ./test.sh
+Testing service image format png to jpg with url http://www.pngmart.com/files/1/Cat-PNG-H...
+tmp.png (1859294) is now tmp.jpg (405329).
+Testing service sound format mp3 to wav with url https://archive.org/download/testmp3test...
+tmp.mp3 (198658) is now tmp.wav (1094444).
+Testing service video format mp4 to mkv with url https://archive.org/download/CatDoesYipp...
+tmp.mp4 (484460) is now tmp.mkv (448110).
+```
+
