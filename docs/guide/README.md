@@ -57,7 +57,8 @@ $ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
 ```
 
 ## CLI
-[fcli](#fcli), a command line utility that aliases all the docker functions 
+[fcli](/futils.html#cli), a command line utility that aliases all the docker 
+functions 
 is also available, instead of writing :
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/png input.png
