@@ -1,8 +1,8 @@
 ---
 home: true
-heroText: fyle
+heroText: 📁 fyle
 tagline: easy file processing
-heroImage: https://emojipedia-us.s3.amazonaws.com/thumbs/120/google/146/file-folder_1f4c1.png
+heroImage: false
 actionText: Get Started →
 actionLink: /guide/
 features:
@@ -12,5 +12,5 @@ features:
   details: File optimization. Optimize gif, png, jpg and many, many more to come.
 - title: futils
   details: File utilities. Resize an image to 50% and many, many more to come.
-footer: MIT Licensed | Copyright © 2018-present Evan You
+footer: GPLv3 | Copyright © 2018-present Kevin Jullien
 ---
