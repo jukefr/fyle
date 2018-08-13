@@ -10,7 +10,7 @@ Every service supports passing an URL directly.
 More to come later, feel free to contribute, I will add an automated build system at some point.
 
 ## CLI
-A command line interface utility is available in [futils](https://github.com/jukefr/futils#cli)
+A command line interface utility is available in [futils](https://github.com/jukefr/fyle/tree/master/futils#cli)
 
 ## Testing
 `test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
@@ -23,7 +23,3 @@ tmp.mp3 (198658) is now tmp.wav (1094444).
 Testing service video format mp4 to mkv with url https://archive.org/download/CatDoesYipp...
 tmp.mp4 (484460) is now tmp.mkv (448110).
 ```
-
-## See also
-- [foptomize](https://github.com/jukefr/foptimize) opinionated and easy file optimization
-- [futils](https://github.com/jukefr/futils) opinionated and easy file utilities

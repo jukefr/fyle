@@ -41,7 +41,3 @@ $ ./test.sh
 Testing service resize format png with url https://www.fnordware.com/superpng/pnggr...
 tmp.png is now 100% of its original size.
 ```
-
-## See also
-- [fconvert](https://github.com/jukefr/fconvert) opinionated and easy file conversion
-- [foptomize](https://github.com/jukefr/foptimize) opinionated and easy file optimization

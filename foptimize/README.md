@@ -12,7 +12,7 @@ Every service supports passing an URL directly.
 More to come later, feel free to contribute, I will add an automated build system at some point.
 
 ## CLI
-A command line interface utility is available in [futils](https://github.com/jukefr/futils#cli)
+A command line interface utility is available in [futils](https://github.com/jukefr/fyle/tree/master/futils#cli)
 
 ## Testing
 `test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
@@ -25,7 +25,3 @@ tmp.png is now 33% of its original size.
 Testing service image format jpg with url https://img.webmd.com/dtmcms/live/webmd/...
 tmp.jpg is now 75% of its original size.
 ```
-
-## See also
-- [fconvert](https://github.com/jukefr/fconvert) opinionated and easy file conversion
-- [futils](https://github.com/jukefr/futils) opinionated and easy file utilities
