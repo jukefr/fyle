@@ -1,4 +1,4 @@
-# 📂fyle
+# 📂 fyle
 If you ever work on web projects that use any assets, you probably have already experienced the lack of openly available and easy to use file utilities. Most packages that allow you to perform such operations are often not maintained, perform poorly, and a myriad of other problems. There are dozens of options available for PNG image optimization for instance, which one is the right one ?
 
 I created [futils](/futils), [fconvert](/fconvert) and [foptimize](/foptimize) for this reason, so that everything can be available under one easy to use domain, without the need for any parameter tunning (opiniated default settings). So that anyone can simply run a single command to get their work done. Maybe even chain commands for any specific workflow.
