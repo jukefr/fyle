@@ -1,0 +1,7 @@
+FROM futils/alpine
+RUN apk add imagemagick
+WORKDIR /
+COPY ./entrypoint.sh /e/entrypoint.sh
+VOLUME /e
+WORKDIR /d
+ENTRYPOINT ["/e/entrypoint.sh"]

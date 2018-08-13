@@ -1,0 +1,33 @@
+#!/bin/sh
+mkdir -p ~/.fcli
+if [ -e ~/.fcli/cli.sh ]; then
+    rm -f ~/.fcli/cli.sh
+fi
+# Not very safe but oh wel... force cache also...
+curl -s "https://raw.githubusercontent.com/jukefr/futils/master/cli/cli.sh?" > ~/.fcli/cli.sh
+if [ -n $6 ]; then
+    sh ~/.fcli/cli.sh "$1" "$2" "$3" "$4" "$5" "$6"
+    exit 0
+fi
+if [ -n $5 ]; then
+    sh ~/.fcli/cli.sh "$1" "$2" "$3" "$4" "$5"
+    exit 0
+fi
+if [ -n $4 ]; then
+    sh ~/.fcli/cli.sh "$1" "$2" "$3" "$4"
+    exit 0
+fi
+if [ -n $3 ]; then
+    sh ~/.fcli/cli.sh "$1" "$2" "$3"
+    exit 0
+fi
+if [ -n $2 ]; then
+    sh ~/.fcli/cli.sh "$1" "$2"
+    exit 0
+fi
+if [ -n $1 ]; then
+    sh ~/.fcli/cli.sh "$1"
+    exit 0
+fi
+sh ~/.fcli/cli.sh
+exit 0
