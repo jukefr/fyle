@@ -92,6 +92,11 @@ As this is early stage, you can open issues for minor questions if you happen
 to have any troubles, this most probably will be caused by bad documentation on
 my part so please do inform me.
 
+There is a `build.sh` file that I use to build all the tools and push them at
+once, if you want to add a tool, update the **testing.csv** of the concerned 
+service and the **images.csv** of the main repository root and everything 
+will get built and deployed during the PR merge by myself (for now).
+
 ## ✅ Testing
 I wrote a very basic `test.sh` script in every service. It reads a `.csv` 
 with all the different `services/formats` you want to test with a given `URL`.
