@@ -6,14 +6,6 @@ CYAN='\033[0;36m'
 PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
-echo "${PURPLE}  __      _ _ "
-echo " / _| ___| (_)"
-echo "| |_ / __| | |"
-echo "|  _| (__| | |"
-echo "|_|  \___|_|_|${NC}"
-echo "==================================================================================="
-
-
 if [ -z "$1" ]; then
     echo "Usage documentation can be shown with fcli --help"
     exit 1
@@ -25,6 +17,12 @@ if [ $1 = "--version" ]; then
 fi
 
 if [ $1 = "--help" ]; then
+    echo "${PURPLE}  __      _ _ "
+    echo " / _| ___| (_)"
+    echo "| |_ / __| | |"
+    echo "|  _| (__| | |"
+    echo "|_|  \___|_|_|${NC}"
+    echo ""
     echo "FCONVERT :"
     echo "${RED}c, conv, convert          (1)"
     echo "${GREEN}  i, img, image           (2)"
@@ -36,7 +34,7 @@ if [ $1 = "--help" ]; then
     echo "ex. fcli ${RED}c ${GREEN}i ${CYAN}file.jpg ${PURPLE}file.png${NC}"
     echo "    fcli ${RED}conv ${GREEN}vid ${CYAN}\"https://...ext1\" ${PURPLE}file.gif${NC}"
     echo "    fcli ${RED}convert ${GREEN}sound ${CYAN}file.mp3 ${PURPLE}file.wav${NC}"
-    echo "==================================================================================="
+    echo ""
     echo "FOPTIMIZE :"
     echo "${RED}o, opt, optim, optimize   (1)"
     echo "${GREEN}  gif                     (2)"
@@ -48,7 +46,7 @@ if [ $1 = "--help" ]; then
     echo "ex. fcli ${RED}o ${GREEN}gif ${CYAN}file.gif${NC}"
     echo "    fcli ${RED}optim ${GREEN}jpg ${CYAN}\"https://...ext1\"${NC}"
     echo "    fcli ${RED}optimize ${GREEN}png ${CYAN}file.png${NC}"
-    echo "==================================================================================="
+    echo ""
     echo "FUTILS :"
     echo "${RED}u, utl, util, utils       (1)"
     echo "${GREEN}  r, res, rsz, resize     (2)"
@@ -57,7 +55,7 @@ if [ $1 = "--help" ]; then
     echo ""
     echo "ex. fcli ${RED}u ${GREEN}r ${CYAN}file.jpg ${PURPLE}\"50%\"${NC}"
     echo "    fcli ${RED}util ${GREEN}rsz ${CYAN}\"https://...ext1\" ${PURPLE}\"300px\"${NC}"
-    echo "==================================================================================="
+    echo ""
     exit 0
 fi
 
