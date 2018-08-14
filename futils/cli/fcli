@@ -4,7 +4,7 @@ if [ -e ~/.fcli/cli.sh ]; then
     rm -f ~/.fcli/cli.sh
 fi
 # Not very safe but oh wel... force cache also...
-curl -s "https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/cli.sh?" > ~/.fcli/cli.sh
+curl -s "https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/cli.sh?$((RANDOM%42424242))" > ~/.fcli/cli.sh
 if [ -n $6 ]; then
     sh ~/.fcli/cli.sh "$1" "$2" "$3" "$4" "$5" "$6"
     exit 0
