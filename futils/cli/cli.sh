@@ -42,6 +42,7 @@ if [ $1 = "--help" ]; then
     echo -e "${GREEN}  gif                     (2)"
     echo -e "${GREEN}  jpg                     (2)"
     echo -e "${GREEN}  png                     (2)"
+    echo -e "${GREEN}  svg                     (2)"
     echo -e "${CYAN}      input.ext1 (or url) (3)${NC}"
     echo -e ""
     echo -e "ex. fcli ${RED}o ${GREEN}gif ${CYAN}file.gif${NC}"
@@ -93,6 +94,11 @@ if [ $1 = "o" ] || [ $1 = "opt" ] || [ $1 = "optim" ] || [ $1 = "optimize" ]; th
     if [ $2 = "png" ] ; then
         echo -e "foptimize/png"
         docker run -v $(pwd):/d/ foptimize/png "$3"
+        exit 0
+    fi
+    if [ $2 = "svg" ] ; then
+        echo -e "foptimize/svg"
+        docker run -v $(pwd):/d/ foptimize/svg "$3"
         exit 0
     fi
     exit 0
