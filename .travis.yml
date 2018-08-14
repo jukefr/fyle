@@ -5,19 +5,13 @@ sudo: required
 services:
   - docker
 before_install:
-  - docker pull futils/alpine
-  - docker pull fconvert/image
-  - docker pull fconvert/sound
-  - docker pull fconvert/video
-  - docker pull foptimize/gif
-  - docker pull foptimize/png
-  - docker pull foptimize/jpg
-  - docker pull foptimize/svg
-  - docker pull futils/resize
   - |
-    if [[ $TRAVIS_BRANCH == 'master' ]]; then
-      npx vuepress build docs
-    fi
+      if [[ $TRAVIS_BRANCH == 'master' ]]; then
+        npx vuepress build docs
+      fi
+      while IFS=, read -r col1 col2; do
+          docker pull ${col2}
+      done < services.csv
 
 deploy:
   provider: pages
