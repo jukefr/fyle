@@ -1,12 +1,12 @@
 # foptimize
 
-## 🔧 Formats
+## :wrench: Formats
 - image
-    - [gif](#🐳-gif)
-    - [png](#🐳-png)
-    - [jpg](#🐳-jpg)
+    - [gif](#gif)
+    - [png](#png)
+    - [jpg](#jpg)
 
-## 🐳 gif
+## :whale: gif
 - imagemagick
 - gifsicle
 
@@ -18,7 +18,7 @@ $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
 $ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 ```
 
-## 🐳 png
+## :whale: png
 - pngcrush
 - pngquant
 
@@ -26,7 +26,7 @@ $ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 $ docker run -v $(pwd):/d/ foptimize/png input.png
 $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 ```
-## 🐳 jpg
+## :whale: jpg
 - imagemagick
 - jpgtran
 - jpgoptim
@@ -36,10 +36,10 @@ $ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
 $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 ```
 
-## 📺 Demonstration
+## :tv: Demonstration
 ![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
 
-## ✅ Testing
+## :white_check_mark: Testing
 `test.sh` runs the built docker images against a test image url (found in
 `test.csv`). It's pretty basic for now.
 ```bash

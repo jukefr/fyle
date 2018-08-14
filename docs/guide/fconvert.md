@@ -1,11 +1,11 @@
 # fconvert
 
-## 🔧 Formats
-- [video](#🐳-video-ffmpeg)
-- [image](#🐳-image-imagemagick)
-- [sound](#🐳-sound-mpg123)
+## :wrench: Formats
+- [video](#video-ffmpeg)
+- [image](#image-imagemagick)
+- [sound](#sound-mpg123)
 
-## 🐳 video (ffmpeg)
+## :whale: video (ffmpeg)
 
 - takes an input.ext
 - spits out output.ext in the same folder
@@ -360,7 +360,7 @@ yop             Psygnosis YOP
 yuv4mpegpipe    YUV4MPEG pipe
 ``` 
 
-## 🐳 image (imagemagick)
+## :whale: image (imagemagick)
 
 - takes an input.ext
 - spits out output.ext in the same folder
@@ -624,7 +624,7 @@ THUMBNAIL* THUMBNAIL -w+   EXIF Profile Thumbnail
       YUV* YUV       rw-   CCIR 601 4:1:1 or 4:2:2
 ```
 
-## 🐳 sound (mpg123)
+## :whale: sound (mpg123)
 
 - takes an input.ext
 - spits out output.ext in the same folder
@@ -642,10 +642,10 @@ $ docker run -v $(pwd):/d/ fconvert/sound demo.flv demo.mp3
 # ...
 ```
 
-## 📺 Demonstration
+## :tv: Demonstration
 ![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
 
-## ✅ Testing
+## :white_check_mark: Testing
 `test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
 ```bash
 $ ./test.sh

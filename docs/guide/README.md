@@ -4,7 +4,7 @@ This project is in very early development, so things **will** break along the
 way. This documentation will be held up to date to help ease these transitions.
 :::
 
-## 🚀 Introduction
+## :rocket: Introduction
 If you ever work on web projects and use any type of asset, you probably have
 experienced first hand the lack of **openly available** and **easy to use**
 file utilities. Most utilities that allow you to perform these operations are
@@ -31,7 +31,7 @@ There is work to be done to allow passing options to container, as of now these
 are very limited.
 :::
 
-## ⚡ Essentials
+## :zap: Essentials
 ![drawing skillz](https://s3.eu-west-3.amazonaws.com/juke-github/draw.jpg)
 
 Each tool is contained in its own Dockerfile.
@@ -61,7 +61,7 @@ then on another the command would be :
 $ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
 ```
 
-## 🔮 CLI
+## :crystal_ball: CLI
 [fcli](/guide/futils.html#cli), a command line utility that aliases all the 
 docker functions 
 is also available, instead of writing :
@@ -85,7 +85,7 @@ breaking changes, I will keep the `--help` command up to date in accordance
 with the current usages.
 :::
 
-## 👥 Contributing
+## :busts_in_silhouette: Contributing
 If you feel like the way something works could be improved, or have a feature 
 you want to add to this project, feel free open an issue to talk about it.
 As this is early stage, you can open issues for minor questions if you happen
@@ -97,7 +97,7 @@ once, if you want to add a tool, update the **testing.csv** of the concerned
 service and the **images.csv** of the main repository root and everything 
 will get built and deployed during the PR merge by myself (for now).
 
-## ✅ Testing
+## :white_check_mark: Testing
 I wrote a very basic `test.sh` script in every service. It reads a `.csv` 
 with all the different `services/formats` you want to test with a given `URL`.
 It will simply run the docker container with the url in a temporary folder. 
