@@ -1,4 +1,5 @@
 #!/bin/sh
-curl https://raw.githubusercontent.com/jukefr/futils/master/cli/fcli > ~/fcli
+curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/fcli >
+~/fcli
 sudo mv ~/fcli /usr/local/bin/
 sudo chmod +x /usr/local/bin/fcli
