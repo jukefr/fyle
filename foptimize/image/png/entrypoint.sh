@@ -11,11 +11,13 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-convert -quality 91 "$in" "$in" &> /dev/null
+pngcrush -ow "$in" > /dev/null
 
-pngcrush -ow "$in" &> /dev/null
+pngquant --ext .png --force 256 "$in" > /dev/null
 
-pngquant --ext .png --force 256 "$in" &> /dev/null
+optipng -o7 -strip all "$in" > /dev/null
+
+advpng -z -4 "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 
