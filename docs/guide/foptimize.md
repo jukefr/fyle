@@ -1,14 +1,17 @@
 # foptimize
+::: warning
+Every optimization format currently used **lossy** compression, meaning the picture quality will get reduced, however it should barely be noticeable. Arguments to allow lossless compression will be added at some point.
+:::
 
 ## :wrench: Formats
 - image
     - [gif](#gif)
     - [png](#png)
     - [jpg](#jpg)
+    - [svg](#svg)
 
 ## :whale: gif
-- imagemagick
-- gifsicle
+- giflossy
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/gif input.gif
@@ -21,19 +24,30 @@ $ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 ## :whale: png
 - pngcrush
 - pngquant
+- optipng
+- advpng
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/png input.png
 $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 ```
 ## :whale: jpg
-- imagemagick
 - jpgtran
 - jpgoptim
+- guetzli
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
 $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
+```
+
+## :whale: svg
+- svgcleaner
+- svgo
+
+```bash
+$ docker run -v $(pwd):/d/ foptimize/svg input.svg
+$ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 ```
 
 ## :tv: Demonstration

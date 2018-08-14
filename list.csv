@@ -5,4 +5,5 @@ fconvert/video/,fconvert/video
 foptimize/image/gif/,foptimize/gif
 foptimize/image/png/,foptimize/png
 foptimize/image/jpg/,foptimize/jpg
+foptimize/image/svg/,foptimize/svg
 futils/image/resize/,futils/resize
