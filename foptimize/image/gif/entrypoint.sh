@@ -12,9 +12,9 @@ fi
 orig_size=$(wc -c < "$in")
 
 if [ -z "$colors" ]; then
-    gifsicle -O3 "$in" -o "$in" &> /dev/null
+    gifsicle -O3 --lossy=80 "$in" -o "$in" &> /dev/null
 else
-    gifsicle -O3 "$in" -o "$in" -k "$colors" &> /dev/null
+    gifsicle -O3 --lossy=80 "$in" -o "$in" -k "$colors" &> /dev/null
 fi
 
 new_size=$(wc -c < "$in")

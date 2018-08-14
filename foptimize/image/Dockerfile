@@ -4,5 +4,4 @@ RUN apk add\
     pngquant\
     imagemagick\
     libjpeg-turbo-utils\
-    jpegoptim\
-    gifsicle
+    jpegoptim
