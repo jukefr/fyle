@@ -8,15 +8,11 @@ function dockbuild() {
     docker tag ${col2}:${current_version} ${col2}:latest
 }
 
-function dockpush(){
-    docker push ${col2}
-}
 
 function build() {
     echo "Service $col1 Format $col2"
     cd ${current_dir}/${col1}
     dockbuild
-    dockpush
 }
 
 while IFS=, read -r col1 col2
