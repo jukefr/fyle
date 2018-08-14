@@ -14,3 +14,5 @@ do
 done <<< "fconvert,foptimize,futils"
 
 ./futils/cli/fcli --version
+
+echo "Test script done."

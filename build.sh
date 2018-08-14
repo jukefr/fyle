@@ -24,11 +24,15 @@ do
     # an argument allows to build a specific service directly for dev
     # $ ./build.sh foptimize/image/png
     if [ -z "$1" ]; then
-        for i in "${CHANGES[@]}"; do
-            if [[ ${i} = *"$col1"* ]]; then
-                build
-            fi
-        done
+        if [[ "$@" == "--all" ]]; then
+            build
+        else
+            for i in "${CHANGES[@]}"; do
+                if [[ ${i} = *"$col1"* ]]; then
+                    build
+                fi
+            done
+        fi
     else
         if [[ ${col1} = *"$1"* ]]; then
             build
@@ -36,3 +40,5 @@ do
     fi
 
 done < services.csv
+
+echo "Build script done."
