@@ -1,14 +1,15 @@
 # futils
+Common file operations 
 
 ## :wrench: Formats
-1. image
-    - [resize](#resize)
+- [resize](#resize)
     
 ## :whale: resize
 ```bash
 $ docker run -v $(pwd):/d/ -e size="50%" futils/resize file.ext
 $ docker run -v $(pwd):/d/ -e size="50%" futils/resize "https://...ext"
 $ docker run -v $(pwd):/d/ -e size="300px" futils/resize file.ext
+$ docker run -v $(pwd):/d/ -e size="300x200" futils/resize file.ext
 ```
 
 ## :crystal_ball: CLI
@@ -51,7 +52,7 @@ screencast
 
 ## :heavy_check_mark: Testing
 `test.sh` runs the built docker images against a test image (found in
-`test.csv`). It's pretty basic for now.
+`test.csv`). 
 ```bash
 $ ./test.sh
 Testing service resize format png with url https://www.fnordware.com/superpng/pnggr...

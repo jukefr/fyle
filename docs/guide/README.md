@@ -35,7 +35,7 @@ are very limited.
 ![drawing skillz](https://s3.eu-west-3.amazonaws.com/juke-github/draw.jpg)
 
 Each tool is contained in its own Dockerfile.
-This dockerfile is built and pushed to the Docker Hub repository of the same 
+This dockerfile is pushed and built on the Docker Hub repository of the same 
 name. (foptimize is foptimize on Docker Hub also, same for every other service)
 
 A tool is composed of a **service** and a **format**, for instance **optimize** 
@@ -92,16 +92,21 @@ As this is early stage, you can open issues for minor questions if you happen
 to have any troubles, this most probably will be caused by bad documentation on
 my part so please do inform me.
 
-There is a `build.sh` file that I use to build all the tools and push them at
-once, if you want to add a tool, update the **testing.csv** of the concerned 
-service and the **images.csv** of the main repository root and everything 
-will get built and deployed during the PR merge by myself (for now).
+There is a `build.sh` file that I use to build the tools easily on my local 
+machine, if you want to add a tool, update the `test.csv` of the 
+service and the `services.csv` in the main repository root.
+Everything will get tested by Travis and built by Docker Hub automatically for
+the deployment phase.
+
+I use the standard [git flow](https://guides.github.com/introduction/flow/) 
+model (master, develop, feature/, release/, hotfix/, v) in this repository 
+so please familiarize yourself with this workflow. The building, testing and
+deployment phase depend on it. I also like to keep my lines under 80 
+characters but that is just personal taste you don't have to adhere.
 
 ## :heavy_check_mark: Testing
 I wrote a very basic `test.sh` script in every service. It reads a `.csv` 
 with all the different `services/formats` you want to test with a given `URL`.
-It will simply run the docker container with the url in a temporary folder. 
-If you see % reductions in your logs, **congratulations the test 
-passed 🎉**
-
-I **will** implement something more automated/reliable at some point...
+It will simply run the docker container with the url, inside a temporary 
+folder. If you see % reductions in your logs, **congratulations the test 
+passed** :tada:
