@@ -15,4 +15,4 @@ ffmpeg -i $in $out > /dev/null
 
 new_size=$(wc -c < "$out")
 
-printf "\033[32;7m$in ($orig_size)\e[0m is now \033[32;7m$out ($new_size)\e[0m."
+printf "\033[32;7m$in ($orig_size)\e[0m is now \033[32;7m$out ($new_size)\e[0m.\n"
