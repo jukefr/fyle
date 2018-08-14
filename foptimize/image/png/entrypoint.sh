@@ -21,4 +21,4 @@ advpng -z -4 "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 
-echo -e "$in is now \033[32;7m$((100*$new_size/$orig_size))%\e[0m of its original size.";
+printf "$in is now \033[32;7m$((100*$new_size/$orig_size))%\e[0m of its original size.";
