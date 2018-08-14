@@ -11,7 +11,7 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-convert "$in" "$out" &> /dev/null
+convert "$in" "$out" > /dev/null
 
 new_size=$(wc -c < "$out")
 

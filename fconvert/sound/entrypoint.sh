@@ -11,7 +11,7 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-mpg123 -w "$out" "$in" &> /dev/null
+mpg123 -w "$out" "$in" > /dev/null
 
 new_size=$(wc -c < "$out")
 

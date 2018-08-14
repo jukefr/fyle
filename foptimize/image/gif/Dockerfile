@@ -7,13 +7,10 @@ WORKDIR giflossy-1.91/
 RUN autoreconf -i
 RUN ./configure
 RUN make install
-WORKDIR /
-RUN rm -rf giflossy-1.91/
-RUN rm -f tar_pkg.tar.gz
-RUN apk del --purge alpine-sdk autoconf automake
 
 # Multi-stage build to reduce image size
 FROM futils/alpine
+WORKDIR /
 COPY --from=build /usr/local/bin/gifsicle /usr/local/bin/gifsicle
 COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
