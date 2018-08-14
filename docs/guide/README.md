@@ -76,7 +76,7 @@ To make using these tools even more convenient.
 
 ### Installing the CLI
 ```bash
-$ curl https://raw.githubusercontent.com/jukefr/futils/master/cli/install | sh
+$ curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install | sh
 ```
 ::: danger
 As this project is in a very early stage, I have made it so that this CLI will

@@ -15,7 +15,7 @@ $ docker run -v $(pwd):/d/ -e size="300px" futils/resize file.ext
 I have created a small shell CLI to alias the docker commands and make using the project easier.
 ```bash
 # Install the CLI (it will automatically update)
-$ curl https://raw.githubusercontent.com/jukefr/futils/master/cli/install | sh
+$ curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install | sh
 
 # Usage
 $ fcli --help
