@@ -1,4 +1,4 @@
-FROM futils/alpine as build
+FROM futils/alpine:latest as build
 WORKDIR /
 RUN mkdir svgcleaner
 WORKDIR svgcleaner/
@@ -7,7 +7,7 @@ RUN wget -O tar_pkg.tar.gz https://github.com/RazrFalcon/svgcleaner-gui/releases
 RUN tar -xvzf tar_pkg.tar.gz
 
 # Multi-stage build to reduce image size
-FROM futils/alpine
+FROM futils/alpine:latest
 WORKDIR /
 RUN apk add npm
 RUN npm i -g svgo
@@ -16,4 +16,5 @@ COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
 VOLUME /e
 WORKDIR /d
+
 ENTRYPOINT ["/e/entrypoint.sh"]
