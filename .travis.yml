@@ -6,6 +6,11 @@ services:
   - docker
 before_install:
   - npx vuepress build docs
+  - |
+      while IFS=, read -r col1 col2; do
+          docker pull ${col2}
+      done < services.csv
+
 deploy:
   provider: pages
   skip-cleanup: true
