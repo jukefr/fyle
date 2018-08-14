@@ -1,17 +1,21 @@
 # foptimize
+Specialized optimisation and compression pipelines
+
 ::: warning
-Every optimization format currently used **lossy** compression, meaning the picture quality will get reduced, however it should barely be noticeable. Arguments to allow lossless compression will be added at some point.
+Every image currently uses **lossy** compression, meaning the 
+picture quality will get reduced, however it should barely be noticeable. 
+Arguments to allow lossless compression will be added at some point. (issue 
+[#1](https://github.com/jukefr/fyle/issues/1))
 :::
 
 ## :wrench: Formats
-- image
-    - [gif](#gif)
-    - [png](#png)
-    - [jpg](#jpg)
-    - [svg](#svg)
+- [gif](#gif)
+- [png](#png)
+- [jpg](#jpg)
+- [svg](#svg)
 
 ## :whale: gif
-- giflossy
+- :white_check_mark: giflossy
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/gif input.gif
@@ -22,19 +26,19 @@ $ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 ```
 
 ## :whale: png
-- pngcrush
-- pngquant
-- optipng
-- advpng
+- :ballot_box_with_check: pngcrush 
+- :ballot_box_with_check: pngquant
+- :ballot_box_with_check: optipng
+- :white_check_mark: advpng
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/png input.png
 $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 ```
 ## :whale: jpg
-- jpgtran
-- jpgoptim
-- guetzli
+- :ballot_box_with_check: jpgtran
+- :ballot_box_with_check: jpgoptim
+- :white_check_mark: guetzli
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
@@ -42,8 +46,8 @@ $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 ```
 
 ## :whale: svg
-- svgcleaner
-- svgo
+- :ballot_box_with_check: svgcleaner
+- :white_check_mark: svgo
 
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/svg input.svg
@@ -55,7 +59,7 @@ $ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 
 ## :heavy_check_mark: Testing
 `test.sh` runs the built docker images against a test image url (found in
-`test.csv`). It's pretty basic for now.
+`test.csv`).
 ```bash
 $ ./test.sh
 Testing service image format gif with url https://upload.wikimedia.org/wikipedia/c...

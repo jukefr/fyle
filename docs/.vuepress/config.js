@@ -4,7 +4,7 @@ module.exports = {
         nav: [
             {text: 'Home', link: '/'},
             {text: 'Guide', link: '/guide/'},
-            {text: 'GitHub', link: 'https://github.com/jukefr/fyle'},
+            {text: 'Source', link: 'https://github.com/jukefr/fyle'},
         ],
         sidebar: {
             '/guide/': [
@@ -13,11 +13,8 @@ module.exports = {
                 'fconvert',
                 'futils',
             ],
-
-            // fallback
             '/': [
-                '', /* / */
-                // 'guide', /* /guide*/
+                '',
             ]
         }
     }
