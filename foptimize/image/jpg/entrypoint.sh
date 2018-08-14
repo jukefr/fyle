@@ -19,4 +19,4 @@ guetzli --quality 85 "$in" "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 
-echo "$in is now $((100*$new_size/$orig_size))% of its original size."
+echo -e "$in is now \033[32;7m$((100*$new_size/$orig_size))%\e[0m of its original size.";

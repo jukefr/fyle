@@ -15,4 +15,4 @@ convert "$in" "$out" > /dev/null
 
 new_size=$(wc -c < "$out")
 
-echo "$in ($orig_size) is now $out ($new_size)."
+echo -e "\033[32;7m$in ($orig_size)\e[0m is now \033[32;7m$out ($new_size)\e[0m."
