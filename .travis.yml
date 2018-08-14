@@ -5,8 +5,10 @@ sudo: required
 services:
   - docker
 before_install:
-  - npx vuepress build docs
   - |
+      if [[ $TRAVIS_BRANCH == 'master' ]]; then
+        npx vuepress build docs
+      fi
       while IFS=, read -r col1 col2; do
           docker pull ${col2}
       done < services.csv
