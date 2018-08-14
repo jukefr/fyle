@@ -11,11 +11,11 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-convert -strip -interlace Plane -quality 85% "$in" "$in" &> /dev/null
+jpegtran -copy none -optimize -outfile "$in" "$in" > /dev/null
 
-jpegtran -copy none -optimize -outfile "$in" "$in" &> /dev/null
+jpegoptim "$in" > /dev/null
 
-jpegoptim "$in" &> /dev/null
+guetzli --quality 85 "$in" "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 
