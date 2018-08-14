@@ -39,7 +39,7 @@ $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 ## :tv: Demonstration
 ![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
 
-## :white_check_mark: Testing
+## :heavy_check_mark: Testing
 `test.sh` runs the built docker images against a test image url (found in
 `test.csv`). It's pretty basic for now.
 ```bash

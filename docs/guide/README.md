@@ -97,7 +97,7 @@ once, if you want to add a tool, update the **testing.csv** of the concerned
 service and the **images.csv** of the main repository root and everything 
 will get built and deployed during the PR merge by myself (for now).
 
-## :white_check_mark: Testing
+## :heavy_check_mark: Testing
 I wrote a very basic `test.sh` script in every service. It reads a `.csv` 
 with all the different `services/formats` you want to test with a given `URL`.
 It will simply run the docker container with the url in a temporary folder. 

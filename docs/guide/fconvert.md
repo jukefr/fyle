@@ -645,7 +645,7 @@ $ docker run -v $(pwd):/d/ fconvert/sound demo.flv demo.mp3
 ## :tv: Demonstration
 ![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
 
-## :white_check_mark: Testing
+## :heavy_check_mark: Testing
 `test.sh` runs the built docker images against a test image (found in `test.csv`). It's pretty basic for now.
 ```bash
 $ ./test.sh
