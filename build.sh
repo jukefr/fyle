@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 # I use Git Releases with semantic versioning
-current_version=$(git describe --exact-match --tags $(git log -n1 --pretty='%h'))
 current_dir=$(pwd)
 
 function dockbuild() {
-    docker build -t ${col2}:${current_version} .
-    docker tag ${col2}:${current_version} ${col2}:latest
+    docker build -t ${col2} .
 }
 
 
