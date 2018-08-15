@@ -12,7 +12,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "--version" ]; then
-    echo "v0.1-alpha3"
+    echo "v0.1-alpha4"
     exit 0
 fi
 
@@ -56,6 +56,7 @@ if [ $1 = "--help" ]; then
     echo "ex. fcli ${RED}u ${GREEN}r ${CYAN}file.jpg"
     echo "    fcli ${RED}util ${GREEN}rsz ${CYAN}\"https://...ext1\""
     echo ""
+    echo "See https://jukefr.github.io/fyle/ for more information."
     exit 0
 fi
 
