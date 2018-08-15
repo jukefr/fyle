@@ -13,7 +13,7 @@ CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
 # $ ./build.sh foptimize/image/png
 
 function build {
-    cd ${current_dir}/$1
+    cd "${current_dir}/$1"
     docker build --cache-from "$1:latest" -t $1 .
 }
 
@@ -25,7 +25,7 @@ if [ -n "$1" ]; then
           fi
           SERVICES=("fconvert" "foptimize" "futils")
           for a in ${SERVICES[@]}; do
-            cd "$a"
+            cd "${current_dir}/$a"
             for b in */ ; do
                 if [ -f "$b/.ignore" ]; then
                     continue
@@ -42,7 +42,7 @@ fi
 
 SERVICES=("fconvert" "foptimize" "futils")
 for a in ${SERVICES[@]}; do
-    cd "$a"
+    cd "${current_dir}/$a"
     for b in */ ; do
         # Allow to ignore specific folders
         if [ -f "$b/.ignore" ]; then
