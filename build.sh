@@ -14,7 +14,7 @@ CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
 
 function build {
     cd ${current_dir}/$1
-    docker --cache-from="$1" build -t $1 .
+    docker --cache-from "$1:latest" build -t $1 .
 }
 
 if [ -n "$1" ]; then
