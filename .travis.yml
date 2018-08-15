@@ -11,9 +11,11 @@ before_install:
       fi
       SERVICES=("fconvert" "foptimize" "futils")
       for a in ${SERVICES[@]}; do
+        cd "$a"
         for b in */ ; do
           docker pull "$a/${b%?}"
         done
+        cd ..
       done
 
 deploy:
