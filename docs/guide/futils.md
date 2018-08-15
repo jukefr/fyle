@@ -49,12 +49,3 @@ screencast
 
 ## :tv: Demonstration
 ![futils](https://s3.eu-west-3.amazonaws.com/juke-github/futils1.gif)
-
-## :heavy_check_mark: Testing
-`test.sh` runs the built docker images against a test image (found in
-`test.csv`). 
-```bash
-$ ./test.sh
-Testing service resize format png with url https://www.fnordware.com/superpng/pnggr...
-tmp.png is now 100% of its original size.
-```

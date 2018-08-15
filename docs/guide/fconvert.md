@@ -55,16 +55,3 @@ $ docker run -v $(pwd):/d/ fconvert/sound demo.flv demo.mp3
 
 ## :tv: Demonstration
 ![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
-
-## :heavy_check_mark: Testing
-`test.sh` runs the built docker images against a test image (found in `test.csv`). 
-```bash
-$ ./test.sh
-Testing service image format png to jpg with url http://www.pngmart.com/files/1/Cat-PNG-H...
-tmp.png (1859294) is now tmp.jpg (405329).
-Testing service sound format mp3 to wav with url https://archive.org/download/testmp3test...
-tmp.mp3 (198658) is now tmp.wav (1094444).
-Testing service video format mp4 to mkv with url https://archive.org/download/CatDoesYipp...
-tmp.mp4 (484460) is now tmp.mkv (448110).
-```
-
