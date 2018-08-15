@@ -41,5 +41,5 @@ for a in ${SERVICES[@]}; do
     cd "$START_DIR"
 done
 echo "Testing futils/cli"
-./futils/cli/fcli --version
+./futils/cli/cli.sh --version
 echo "Test script done."
