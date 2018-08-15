@@ -11,13 +11,11 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-pngcrush -ow "$in" > /dev/null
+jpegtran -copy none -optimize -outfile "$in" "$in" > /dev/null
 
-pngquant --ext .png --force 256 "$in" > /dev/null
+jpegoptim -q "$in" > /dev/null
 
-optipng -o7 -strip all "$in" > /dev/null
-
-advpng -z -4 "$in" > /dev/null
+guetzli --quality 85 "$in" "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 

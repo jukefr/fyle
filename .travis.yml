@@ -5,7 +5,10 @@ sudo: required
 services:
   - docker
 before_install:
-  - npx vuepress build docs
+  - bash build.sh travis
+script:
+  - bash build.sh
+  - bash test.sh
 deploy:
   provider: pages
   skip-cleanup: true
@@ -15,6 +18,3 @@ deploy:
   target-branch: gh-pages
   on:
     branch: master
-script:
-  - bash build.sh
-  - bash test.sh

@@ -12,7 +12,7 @@ RUN make install
 FROM futils/alpine:latest
 WORKDIR /
 COPY --from=build /usr/local/bin/gifsicle /usr/local/bin/gifsicle
-COPY ./entrypoint.sh /e/entrypoint.sh
+COPY entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
 VOLUME /e
 WORKDIR /d
