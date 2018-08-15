@@ -9,9 +9,12 @@ before_install:
       if [[ $TRAVIS_BRANCH == 'master' ]]; then
         npx vuepress build docs
       fi
-      while IFS=, read -r col1 col2; do
-          docker pull ${col2}
-      done < services.csv
+      SERVICES=("fconvert" "foptimize" "futils")
+      for a in ${SERVICES[@]}; do
+        for b in */ ; do
+          docker pull "$a/${b%?}"
+        done
+      done
 
 deploy:
   provider: pages

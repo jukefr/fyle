@@ -92,10 +92,7 @@ As this is early stage, you can open issues for minor questions if you happen
 to have any troubles, this most probably will be caused by bad documentation on
 my part so please do inform me.
 
-There is a `build.sh` file that I use to build the tools easily on my local 
-machine, if you want to add a tool, update the `test.csv` of the 
-service and the `services.csv` in the main repository root.
-Everything will get tested by Travis and built by Docker Hub automatically for
+Everything gets tested by Travis and built by Docker Hub automatically for
 the deployment phase.
 
 I use the standard [git flow](https://guides.github.com/introduction/flow/) 
@@ -104,9 +101,19 @@ so please familiarize yourself with this workflow. The building, testing and
 deployment phase depend on it. I also like to keep my lines under 80 
 characters but that is just personal taste you don't have to adhere.
 
+To build the images dynamically I have made a `build.sh` script that for each
+service loops over every folder inside the service, so every tool and builds 
+an image tagged with the service name and folder name for the format.
+You can also pass a directory to the build script like so `./build.sh 
+futils/resize` to force a build only on this image.
+
 ## :heavy_check_mark: Testing
-I wrote a very basic `test.sh` script in every service. It reads a `.csv` 
-with all the different `services/formats` you want to test with a given `URL`.
-It will simply run the docker container with the url, inside a temporary 
+I wrote a very basic `test.sh` script. For each service it loops over the 
+folders inside of it to know what tools should be tested. You can use the `
+.spec` file to configure the passed parameters during the test. It will 
+simply run the docker container a URL, inside a temporary 
 folder. If you see % reductions in your logs, **congratulations the test 
 passed** :tada:
+
+You can also pass a directory to the test script like so `./test.sh 
+futils/resize` to force a test only on this image.

@@ -11,8 +11,8 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-mpg123 -w "$out" "$in" > /dev/null
+mpg123 -q -w "$out" "$in" > /dev/null
 
 new_size=$(wc -c < "$out")
 
-printf "\033[32;7m$in ($orig_size)\e[0m is now \033[32;7m$out ($new_size)\e[0m.\n"
+printf "$in ($orig_size) is now \033[32;7m$out ($new_size)\e[0m.\n"

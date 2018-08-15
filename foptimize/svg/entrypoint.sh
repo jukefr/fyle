@@ -11,7 +11,9 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-convert $in -resize ${size} $in > /dev/null
+svgcleaner --quiet "$in" "$in" > /dev/null
+
+svgo -q "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 

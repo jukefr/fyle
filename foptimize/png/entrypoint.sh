@@ -11,9 +11,13 @@ fi
 
 orig_size=$(wc -c < "$in")
 
-svgcleaner "$in" "$in" > /dev/null
+pngcrush -q -ow "$in" &> /dev/null
 
-svgo "$in" > /dev/null
+pngquant --quiet --ext .png --force 256 "$in" > /dev/null
+
+optipng -quiet -o7 -strip all "$in" > /dev/null
+
+advpng -q -z -4 "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 
