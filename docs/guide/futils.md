@@ -3,6 +3,7 @@ Common file operations
 
 ## :wrench: Formats
 - [resize](#resize)
+- [alpha](#alpha)
     
 ## :whale: resize
 ```bash
@@ -10,6 +11,13 @@ $ docker run -v $(pwd):/d/ -e size="50%" futils/resize file.ext
 $ docker run -v $(pwd):/d/ -e size="50%" futils/resize "https://...ext"
 $ docker run -v $(pwd):/d/ -e size="300px" futils/resize file.ext
 $ docker run -v $(pwd):/d/ -e size="300x200" futils/resize file.ext
+```
+
+## :whale: alpha
+remove a **png** image background
+```bash
+$ docker run -v $(pwd):/d/ futils/alpha file.png
+$ docker run -v $(pwd):/d/ futils/alpha "https://...png"
 ```
 
 ## :crystal_ball: CLI

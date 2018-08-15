@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
+
 current_dir=$(pwd)
 LATEST_TAG=$(git describe --tags --abbrev=0)
 CURRENT_REVISION=$(git describe)
 NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
 # List of files changed since last tagged release (new docker images)
 CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
-
 
 # if no argument is specified it builds images that have changed since
 # the last git tag
@@ -14,6 +14,7 @@ CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
 
 function build {
     cd "${current_dir}/$1"
+    printf "\nBuilding $1 \n"
     docker build --cache-from "$1:latest" -t $1 .
 }
 
@@ -45,14 +46,15 @@ for a in ${SERVICES[@]}; do
     cd "${current_dir}/$a"
     for b in */ ; do
         # Allow to ignore specific folders
-        if [ -f "$b/.ignore" ]; then
+        if [ -f "${b}.ignore" ]; then
             continue
         fi
         for c in "${CHANGES[@]}"; do
             # Build if the file is in the list and continue to next tool
             if [[ ${c} = *"$a/${b%?}"* ]]; then
                 build "$a/${b%?}"
-                continue
+                cd "${current_dir}/$a"
+                break
             fi
         done
     done

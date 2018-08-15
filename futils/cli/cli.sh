@@ -12,7 +12,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "--version" ]; then
-    echo "v0.1-alpha2"
+    echo "v0.1-alpha3"
     exit 0
 fi
 
@@ -50,6 +50,7 @@ if [ $1 = "--help" ]; then
     echo "FUTILS :"
     echo "${RED}u, utl, util, utils       (1)"
     echo "${GREEN}  r, res, rsz, resize     (2)"
+    echo "${GREEN}  a, alpha                (2)"
     echo "${CYAN}      input.ext1 (or url) (3)"
     echo "${PURPLE}      \"size\"              (4)${NC}"
     echo ""
@@ -106,6 +107,11 @@ if [ $1 = "u" ] || [ $1 = "utl" ] || [ $1 = "util" ] || [ $1 = "utils" ]; then
     if [ $2 = "r" ] || [ $2 = "res" ] || [ $2 = "rsz" ] || [ $2 = "resize" ] ; then
         echo "futils/resize"
         docker run -v $(pwd):/d/ -e size="$4" futils/resize "$3"
+        exit 0
+    fi
+    if [ $2 = "a" ] || [ $2 = "alpha" ]; then
+        echo "futils/alpha"
+        docker run -v $(pwd):/d/ futils/alpha "$3"
         exit 0
     fi
     exit 0
