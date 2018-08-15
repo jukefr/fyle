@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 current_dir=$(pwd)
 
-LATEST_TAG=$(git describe --tags --abbrev=0)
-CURRENT_REVISION=$(git describe)
-NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
-# List of files changed since last tagged release (new docker images)
-CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
-
 # if no argument is specified it builds images that have changed since
 # the last git tag
 # an argument allows to build a specific service directly for dev
