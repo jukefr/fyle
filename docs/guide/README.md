@@ -101,19 +101,19 @@ so please familiarize yourself with this workflow. The building, testing and
 deployment phase depend on it. I also like to keep my lines under 80 
 characters but that is just personal taste you don't have to adhere.
 
-To build the images dynamically I have made a `build.sh` script that for each
-service loops over every folder inside the service, so every tool and builds 
-an image tagged with the service name and folder name for the format.
+To build the images dynamically I have made a `build.sh` script that loops over 
+every folder for every service, so every tool. It builds 
+an image tagged with the service name and the format.
 You can also pass a directory to the build script like so `./build.sh 
-futils/resize` to force a build only on this image.
+futils/resize` to force a build only on said image.
 
 ## :heavy_check_mark: Testing
-I wrote a very basic `test.sh` script. For each service it loops over the 
-folders inside of it to know what tools should be tested. You can use the `
+I wrote a very basic `test.sh` scriptthat loops over every 
+tool that should be tested. You can use the `
 .spec` file to configure the passed parameters during the test. It will 
-simply run the docker container a URL, inside a temporary 
+simply run the docker container with those parameters, inside a temporary 
 folder. If you see % reductions in your logs, **congratulations the test 
 passed** :tada:
 
 You can also pass a directory to the test script like so `./test.sh 
-futils/resize` to force a test only on this image.
+futils/resize` to force a test only on said image.
