@@ -7,8 +7,8 @@
     <meta name="description" content="">
     
     
-    <link rel="preload" href="/fyle/assets/css/0.styles.c7a62f6c.css" as="style"><link rel="preload" href="/fyle/assets/js/app.52046103.js" as="script"><link rel="preload" href="/fyle/assets/js/5.c122ee21.js" as="script"><link rel="prefetch" href="/fyle/assets/js/3.ec884496.js"><link rel="prefetch" href="/fyle/assets/js/2.cda51ec0.js"><link rel="prefetch" href="/fyle/assets/js/4.f3635bc2.js"><link rel="prefetch" href="/fyle/assets/js/6.b24c2f68.js"><link rel="prefetch" href="/fyle/assets/js/7.5dc72599.js"><link rel="prefetch" href="/fyle/assets/js/8.c090b4fc.js">
-    <link rel="stylesheet" href="/fyle/assets/css/0.styles.c7a62f6c.css">
+    <link rel="preload" href="/fyle/assets/css/0.styles.c108f466.css" as="style"><link rel="preload" href="/fyle/assets/js/app.a5961318.js" as="script"><link rel="preload" href="/fyle/assets/js/5.710731ff.js" as="script"><link rel="prefetch" href="/fyle/assets/js/3.7261a286.js"><link rel="prefetch" href="/fyle/assets/js/2.cda51ec0.js"><link rel="prefetch" href="/fyle/assets/js/4.d9f6cff7.js"><link rel="prefetch" href="/fyle/assets/js/6.bdb4c474.js"><link rel="prefetch" href="/fyle/assets/js/7.14807b06.js"><link rel="prefetch" href="/fyle/assets/js/8.d5536dc0.js">
+    <link rel="stylesheet" href="/fyle/assets/css/0.styles.c108f466.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/fyle/" class="home-link router-link-active"></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/fyle/" class="nav-link">Home</a></div><div class="nav-item"><a href="/fyle/guide/" class="nav-link router-link-exact-active router-link-active">Guide</a></div><div class="nav-item"><a href="https://github.com/jukefr/fyle" target="_blank" rel="noopener noreferrer" class="nav-link external">
@@ -56,18 +56,18 @@ the deployment phase.</p> <p>I use the standard <a href="https://guides.github.c
 model (master, develop, feature/, release/, hotfix/, v) in this repository
 so please familiarize yourself with this workflow. The building, testing and
 deployment phase depend on it. I also like to keep my lines under 80
-characters but that is just personal taste you don't have to adhere.</p> <p>To build the images dynamically I have made a <code>build.sh</code> script that for each
-service loops over every folder inside the service, so every tool and builds
-an image tagged with the service name and folder name for the format.
-You can also pass a directory to the build script like so <code>./build.sh futils/resize</code> to force a build only on this image.</p> <h2 id="testing"><a href="#testing" aria-hidden="true" class="header-anchor">#</a> ✔️ Testing</h2> <p>I wrote a very basic <code>test.sh</code> script. For each service it loops over the
-folders inside of it to know what tools should be tested. You can use the <code>.spec</code> file to configure the passed parameters during the test. It will
-simply run the docker container a URL, inside a temporary
+characters but that is just personal taste you don't have to adhere.</p> <p>To build the images dynamically I have made a <code>build.sh</code> script that loops over
+every folder for every service, so every tool. It builds
+an image tagged with the service name and the format.
+You can also pass a directory to the build script like so <code>./build.sh futils/resize</code> to force a build only on said image.</p> <h2 id="testing"><a href="#testing" aria-hidden="true" class="header-anchor">#</a> ✔️ Testing</h2> <p>I wrote a very basic <code>test.sh</code> scriptthat loops over every
+tool that should be tested. You can use the <code>.spec</code> file to configure the passed parameters during the test. It will
+simply run the docker container with those parameters, inside a temporary
 folder. If you see % reductions in your logs, <strong>congratulations the test
-passed</strong> 🎉</p> <p>You can also pass a directory to the test script like so <code>./test.sh futils/resize</code> to force a test only on this image.</p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/fyle/guide/foptimize.html">
+passed</strong> 🎉</p> <p>You can also pass a directory to the test script like so <code>./test.sh futils/resize</code> to force a test only on said image.</p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/fyle/guide/foptimize.html">
           foptimize
         </a>
         →
       </span></p></div> </div> <!----></div></div>
-    <script src="/fyle/assets/js/5.c122ee21.js" defer></script><script src="/fyle/assets/js/app.52046103.js" defer></script>
+    <script src="/fyle/assets/js/5.710731ff.js" defer></script><script src="/fyle/assets/js/app.a5961318.js" defer></script>
   </body>
 </html>
