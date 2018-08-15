@@ -5,7 +5,7 @@ sudo: required
 services:
   - docker
 before_install:
-  - bash buid.sh travis
+  - bash build.sh travis
 script:
   - bash build.sh
   - bash test.sh
