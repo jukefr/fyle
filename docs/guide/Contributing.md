@@ -38,12 +38,21 @@ $ ./build.sh travis
 ```
 
 ## :heavy_check_mark: Testing
-I wrote a very basic `test.sh` scriptthat loops over every 
+I wrote a very basic `test.sh` script that loops over every 
 tool that should be tested. You can use the `
 .spec` file to configure the passed parameters during the test. It will 
 simply run the docker container with those parameters, inside a temporary 
 folder. If you see % reductions in your logs, **congratulations the test 
 passed** :tada:
 
-You can also pass a directory to the test script like so `./test.sh 
-futils/resize` to force a test only on said image.
+Here are the commands that the script supports :
+```bash
+$ ./test.sh
+# Tests all tools against their .spec file
+
+$ ./test.sh $service/$format
+# Force test a specific tool
+
+$ ./build.sh cli
+# Not yet implemented
+```

@@ -19,6 +19,8 @@ $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
 2. quality (`80`)
 3. colors (`128`)
 
+<Asciinema id="le6xZKz4DHK3cLQX0x5ymR8bJ"/>
+
 ## :whale: png
 - :ballot_box_with_check: pngcrush 
 - :ballot_box_with_check: pngquant
@@ -29,6 +31,8 @@ $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
 $ docker run -v $(pwd):/d/ foptimize/png input.png
 $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 ```
+<Asciinema id="PEIe959sirjcn92xGbyF8hyvR"/>
+
 ## :whale: jpg
 - :ballot_box_with_check: jpgtran
 - :ballot_box_with_check: jpgoptim
@@ -42,6 +46,8 @@ $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 1. file
 2. quality (`85`)
 
+<Asciinema id="PilzrrZesuDBvjen4ycEbwulY"/>
+
 ## :whale: svg
 - :ballot_box_with_check: svgcleaner
 - :white_check_mark: svgo
@@ -51,14 +57,4 @@ $ docker run -v $(pwd):/d/ foptimize/svg input.svg
 $ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 ```
 
-## :tv: Demonstration
-![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
-
-<script src="https://asciinema.org/a/174524.js" id="asciicast-174524" async></script>
-<script>
-export default {
-    mounted () {
-        document.querySelector(`.${this.$style.example}`) .textContent = 'This is rendered by inline script and styled by inline CSS'
-    }
-}
-</script>
+<Asciinema id="3iRRUqnxFNf9a5xEDI9KtxpyG"/>

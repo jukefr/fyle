@@ -17,6 +17,8 @@ $ docker run -v $(pwd):/d/ fconvert/video demo.mkv demo.flv
 # ...
 ```
 
+<Asciinema id="mE72lgGCDDmQwwVGb0sk7rGG1"/>
+
 ### Supported formats
 ```bash
 $ ffmpeg -formats
@@ -32,6 +34,8 @@ $ docker run -v $(pwd):/d/ fconvert/image demo.png demo.jpg
 $ docker run -v $(pwd):/d/ fconvert/image demo.pdf demo.jpg
 # ...
 ```
+
+<Asciinema id="9iiEr7Se9GvUsR5jirQoKFrtx"/>
 
 ### Supported formats
 ```bash
@@ -53,5 +57,4 @@ $ docker run -v $(pwd):/d/ fconvert/sound demo.flv demo.mp3
 # ...
 ```
 
-## :tv: Demonstration
-![fconvert](https://s3.eu-west-3.amazonaws.com/juke-github/fconvert1.gif)
+<Asciinema id="znGvIuU3XjguFwr3PeRGLmbwx"/>
