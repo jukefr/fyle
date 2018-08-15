@@ -17,6 +17,7 @@ module.exports = {
                 'foptimize',
                 'fconvert',
                 'futils',
+                'Contributing',
             ],
             '/': [
                 '',

@@ -1,15 +1,6 @@
 # foptimize
 Specialized optimisation and compression pipelines
 
-The arguments are presented as : **name (`default`)**
-
-::: warning
-Every image currently uses **lossy** compression, meaning the 
-picture quality will get reduced, however it should barely be noticeable. 
-Arguments to allow lossless compression will be added at some point. (issue 
-[#1](https://github.com/jukefr/fyle/issues/1))
-:::
-
 ## :wrench: Formats
 - [gif](#gif)
 - [png](#png)
@@ -22,13 +13,11 @@ Arguments to allow lossless compression will be added at some point. (issue
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/gif input.gif
 $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
-
-# reducing the amount of colors will help greatly, so will reducing the size (see futils for that)
-$ docker run -v $(pwd):/d/ foptimize/gif input.gif 16
 ```
-argument order :
+**name (`default`)**
 1. file
-2. colors (`256`)
+2. quality (`80`)
+3. colors (`128`)
 
 ## :whale: png
 - :ballot_box_with_check: pngcrush 
@@ -49,6 +38,9 @@ $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 $ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
 $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 ```
+**name (`default`)**
+1. file
+2. quality (`85`)
 
 ## :whale: svg
 - :ballot_box_with_check: svgcleaner
@@ -62,3 +54,11 @@ $ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 ## :tv: Demonstration
 ![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
 
+<script src="https://asciinema.org/a/174524.js" id="asciicast-174524" async></script>
+<script>
+export default {
+    mounted () {
+        document.querySelector(`.${this.$style.example}`) .textContent = 'This is rendered by inline script and styled by inline CSS'
+    }
+}
+</script>

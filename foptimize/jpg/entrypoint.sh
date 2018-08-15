@@ -7,13 +7,18 @@ else
     in=$1
 fi
 
+quality="85"
+if [[ -n "$2" ]]; then
+    quality="$2"
+fi
+
 orig_size=$(wc -c < "$in")
 
 jpegtran -copy none -optimize -outfile "$in" "$in" > /dev/null
 
 jpegoptim -q "$in" > /dev/null
 
-guetzli --quality 85 "$in" "$in" > /dev/null
+guetzli --quality "$quality" "$in" "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 

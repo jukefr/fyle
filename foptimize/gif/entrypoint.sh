@@ -7,14 +7,19 @@ else
     in=$1
 fi
 
-colors="256"
+quality="80"
 if [[ -n "$2" ]]; then
-    colors="$2"
+    quality="$2"
+fi
+
+colors="128"
+if [[ -n "$3" ]]; then
+    colors="$3"
 fi
 
 orig_size=$(wc -c < "$in")
 
-gifsicle -O3 --lossy=80 "$in" -o "$in" -k "$colors" > /dev/null
+gifsicle -O3 --lossy="$quality" "$in" -o "$in" -k "$colors" > /dev/null
 
 new_size=$(wc -c < "$in")
 

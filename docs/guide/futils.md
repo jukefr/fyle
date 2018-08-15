@@ -12,7 +12,7 @@ $ docker run -v $(pwd):/d/ futils/resize "https://...ext" 50%
 $ docker run -v $(pwd):/d/ futils/resize file.ext 300px
 $ docker run -v $(pwd):/d/ futils/resize file.ext 400x200
 ```
-argument order :
+**name (`default`)**
 1. file
 2. size (`100%`)
 
@@ -24,7 +24,7 @@ $ docker run -v $(pwd):/d/ futils/alpha "https://...png"
 $ docker run -v $(pwd):/d/ futils/alpha file.png Black
 $ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
 ```
-argument order :
+**name (`default`)**
 1. file 
 2. background color (`White`)
 3. fuzz (`10%`)
@@ -66,3 +66,4 @@ screencast
 
 ## :tv: Demonstration
 ![futils](https://s3.eu-west-3.amazonaws.com/juke-github/futils1.gif)
+

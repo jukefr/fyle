@@ -81,12 +81,12 @@ fi
 if [ $1 = "o" ] || [ $1 = "opt" ] || [ $1 = "optim" ] || [ $1 = "optimize" ]; then
     if [ $2 = "gif" ] ; then
         echo "foptimize/gif"
-        docker run -v $(pwd):/d/ foptimize/gif "$3" "$4"
+        docker run -v $(pwd):/d/ foptimize/gif "$3" "$4" "$5"
         exit 0
     fi
     if [ $2 = "jpg" ] ; then
         echo "foptimize/jpg"
-        docker run -v $(pwd):/d/ foptimize/jpg "$3"
+        docker run -v $(pwd):/d/ foptimize/jpg "$3" "$4"
         exit 0
     fi
     if [ $2 = "png" ] ; then
