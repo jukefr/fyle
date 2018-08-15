@@ -1,6 +1,6 @@
 FROM fconvert/image:latest
 WORKDIR /
-COPY entrypoint.sh /e/entrypoint.sh
+COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
 VOLUME /e
 WORKDIR /d

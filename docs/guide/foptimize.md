@@ -1,6 +1,8 @@
 # foptimize
 Specialized optimisation and compression pipelines
 
+The arguments are presented as : **name (`default`)**
+
 ::: warning
 Every image currently uses **lossy** compression, meaning the 
 picture quality will get reduced, however it should barely be noticeable. 
@@ -24,6 +26,9 @@ $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
 # reducing the amount of colors will help greatly, so will reducing the size (see futils for that)
 $ docker run -v $(pwd):/d/ foptimize/gif input.gif 16
 ```
+argument order :
+1. file
+2. colors (`256`)
 
 ## :whale: png
 - :ballot_box_with_check: pngcrush 

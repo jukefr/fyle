@@ -61,6 +61,23 @@ if [ -n "$1" ]; then
           done
     fi
 
+    if [[ "$1" = "all" ]]; then
+        SERVICES=("fconvert" "foptimize" "futils")
+        for a in ${SERVICES[@]}; do
+            cd "${current_dir}/$a"
+            for b in */ ; do
+                # Allow to ignore specific folders
+                if [ -f "${b}.ignore" ]; then
+                    continue
+                fi
+                build "$a/${b%?}"
+                cd "${current_dir}/$a"
+            done
+            cd ..
+        done
+        exit 0
+    fi
+
     build $1
     exit 0
 fi
