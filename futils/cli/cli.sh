@@ -52,10 +52,9 @@ if [ $1 = "--help" ]; then
     echo "${GREEN}  r, res, rsz, resize     (2)"
     echo "${GREEN}  a, alpha                (2)"
     echo "${CYAN}      input.ext1 (or url) (3)"
-    echo "${PURPLE}      \"size\"              (4)${NC}"
     echo ""
-    echo "ex. fcli ${RED}u ${GREEN}r ${CYAN}file.jpg ${PURPLE}\"50%\"${NC}"
-    echo "    fcli ${RED}util ${GREEN}rsz ${CYAN}\"https://...ext1\" ${PURPLE}\"300px\"${NC}"
+    echo "ex. fcli ${RED}u ${GREEN}r ${CYAN}file.jpg"
+    echo "    fcli ${RED}util ${GREEN}rsz ${CYAN}\"https://...ext1\""
     echo ""
     exit 0
 fi
@@ -82,7 +81,7 @@ fi
 if [ $1 = "o" ] || [ $1 = "opt" ] || [ $1 = "optim" ] || [ $1 = "optimize" ]; then
     if [ $2 = "gif" ] ; then
         echo "foptimize/gif"
-        docker run -v $(pwd):/d/ -e colors="$4" foptimize/gif "$3"
+        docker run -v $(pwd):/d/ foptimize/gif "$3" "$4"
         exit 0
     fi
     if [ $2 = "jpg" ] ; then
@@ -106,12 +105,12 @@ fi
 if [ $1 = "u" ] || [ $1 = "utl" ] || [ $1 = "util" ] || [ $1 = "utils" ]; then
     if [ $2 = "r" ] || [ $2 = "res" ] || [ $2 = "rsz" ] || [ $2 = "resize" ] ; then
         echo "futils/resize"
-        docker run -v $(pwd):/d/ -e size="$4" futils/resize "$3"
+        docker run -v $(pwd):/d/ futils/resize "$3" "$4"
         exit 0
     fi
     if [ $2 = "a" ] || [ $2 = "alpha" ]; then
         echo "futils/alpha"
-        docker run -v $(pwd):/d/ futils/alpha "$3"
+        docker run -v $(pwd):/d/ futils/alpha "$3" "$4" "$5"
         exit 0
     fi
     exit 0

@@ -7,14 +7,19 @@ else
     in=$1
 fi
 
-fuzzy=10
+color="White"
 if [[ -n "$2" ]]; then
-    fuzzy="$2"
+    color="$2"
+fi
+
+fuzzy="10%"
+if [[ -n "$3" ]]; then
+    fuzzy="$3"
 fi
 
 orig_size=$(wc -c < "$in")
 
-convert "$in" -fuzz "$fuzzy%" -transparent White "$in" > /dev/null
+convert "$in" -fuzz "$fuzzy" -transparent "$color" "$in" > /dev/null
 
 new_size=$(wc -c < "$in")
 

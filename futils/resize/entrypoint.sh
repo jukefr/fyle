@@ -7,6 +7,7 @@ else
     in=$1
 fi
 
+size="100%"
 if [[ -n "$2" ]]; then
     size="$2"
 fi

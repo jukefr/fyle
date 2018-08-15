@@ -7,18 +7,27 @@ Common file operations
     
 ## :whale: resize
 ```bash
-$ docker run -v $(pwd):/d/ -e size="50%" futils/resize file.ext
-$ docker run -v $(pwd):/d/ -e size="50%" futils/resize "https://...ext"
-$ docker run -v $(pwd):/d/ -e size="300px" futils/resize file.ext
-$ docker run -v $(pwd):/d/ -e size="300x200" futils/resize file.ext
+$ docker run -v $(pwd):/d/ futils/resize file.ext 50%
+$ docker run -v $(pwd):/d/ futils/resize "https://...ext" 50%
+$ docker run -v $(pwd):/d/ futils/resize file.ext 300px
+$ docker run -v $(pwd):/d/ futils/resize file.ext 400x200
 ```
+argument order :
+1. file
+2. size (`100%`)
 
 ## :whale: alpha
 remove a **png** image background
 ```bash
 $ docker run -v $(pwd):/d/ futils/alpha file.png
 $ docker run -v $(pwd):/d/ futils/alpha "https://...png"
+$ docker run -v $(pwd):/d/ futils/alpha file.png Black
+$ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
 ```
+argument order :
+1. file 
+2. background color (`White`)
+3. fuzz (`10%`)
 
 ## :crystal_ball: CLI
 I have created a small shell CLI to alias the docker commands and make using the project easier.
