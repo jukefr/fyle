@@ -57,16 +57,3 @@ $ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 ## :tv: Demonstration
 ![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
 
-## :heavy_check_mark: Testing
-`test.sh` runs the built docker images against a test image url (found in
-`test.csv`).
-```bash
-$ ./test.sh
-Testing service image format gif with url https://upload.wikimedia.org/wikipedia/c...
-tmp.gif is now 34% of its original size.
-Testing service image format png with url http://www.pngmart.com/files/1/Cat-PNG-H...
-tmp.png is now 33% of its original size.
-Testing service image format jpg with url https://img.webmd.com/dtmcms/live/webmd/...
-tmp.jpg is now 75% of its original size.
-```
-
