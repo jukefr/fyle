@@ -74,6 +74,23 @@ if [ -n "$1" ]; then
     exit 0
 fi
 
+if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+    SERVICES=("fconvert" "foptimize" "futils")
+    for a in ${SERVICES[@]}; do
+        cd "${current_dir}/$a"
+        for b in */ ; do
+            # Allow to ignore specific folders
+            if [ -f "${b}.ignore" ]; then
+                continue
+            fi
+            build "$a/${b%?}"
+            cd "${current_dir}/$a"
+        done
+        cd ..
+    done
+    exit 0
+fi
+
 unset GIT_DIR
 LATEST_TAG=$(git describe --tags --abbrev=0)
 CURRENT_REVISION=$(git describe)
