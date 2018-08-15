@@ -12,7 +12,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "--version" ]; then
-    echo "alpha 0.0.5"
+    echo "v0.1-alpha2"
     exit 0
 fi
 
