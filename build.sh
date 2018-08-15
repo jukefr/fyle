@@ -12,9 +12,9 @@ CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
 # an argument allows to build a specific service directly for dev
 # $ ./build.sh foptimize/image/png
 
-function build() {
+function build {
     cd ${current_dir}/$1
-    docker build -t $1 .
+    docker --cache-from="$1" build -t $1 .
 }
 
 if [ -n "$1" ]; then
@@ -48,14 +48,7 @@ for a in ${SERVICES[@]}; do
         if [ -f "$b/.ignore" ]; then
             continue
         fi
-        # Loop over file changes since last tagged version
-        for c in "${CHANGES[@]}"; do
-            # Build if the file is in the list and continue to next tool
-            if [[ ${c} = *"$a/${b%?}"* ]]; then
-                build "$a/${b%?}"
-                continue 2
-            fi
-        done
+        build "$a/${b%?}"
     done
     cd ..
 done
