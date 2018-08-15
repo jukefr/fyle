@@ -18,7 +18,3 @@ deploy:
   target-branch: gh-pages
   on:
     branch: master
-addons:
-  apt:
-    packages:
-    - docker-ce

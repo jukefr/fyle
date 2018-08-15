@@ -14,7 +14,7 @@ CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
 
 function build {
     cd ${current_dir}/$1
-    docker --cache-from "$1:latest" build -t $1 .
+    docker build --cache-from "$1:latest" -t $1 .
 }
 
 if [ -n "$1" ]; then
@@ -30,7 +30,7 @@ if [ -n "$1" ]; then
                 if [ -f "$b/.ignore" ]; then
                     continue
                 fi
-                docker pull "$a/${b%?}"
+                docker pull "$a/${b%?}:latest"
             done
             cd ..
           done
