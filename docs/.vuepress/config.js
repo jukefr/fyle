@@ -1,4 +1,9 @@
 module.exports = {
+    head: [
+        ['link', { rel: 'icon', href: 'https://s3.eu-west-3.amazonaws.com/juke-github/ico.png' }],
+    ],
+    title: "fyle",
+    description: "web asset conversion, optimization and processing",
     base: "/fyle/",
     themeConfig: {
         nav: [
@@ -12,6 +17,7 @@ module.exports = {
                 'foptimize',
                 'fconvert',
                 'futils',
+                'Contributing',
             ],
             '/': [
                 '',

@@ -1,13 +1,6 @@
 # foptimize
 Specialized optimisation and compression pipelines
 
-::: warning
-Every image currently uses **lossy** compression, meaning the 
-picture quality will get reduced, however it should barely be noticeable. 
-Arguments to allow lossless compression will be added at some point. (issue 
-[#1](https://github.com/jukefr/fyle/issues/1))
-:::
-
 ## :wrench: Formats
 - [gif](#gif)
 - [png](#png)
@@ -20,10 +13,13 @@ Arguments to allow lossless compression will be added at some point. (issue
 ```bash
 $ docker run -v $(pwd):/d/ foptimize/gif input.gif
 $ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
-
-# reducing the amount of colors will help greatly, so will reducing the size (see futils for that)
-$ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 ```
+**name (`default`)**
+1. file
+2. quality (`80`)
+3. colors (`128`)
+
+<Asciinema id="le6xZKz4DHK3cLQX0x5ymR8bJ"/>
 
 ## :whale: png
 - :ballot_box_with_check: pngcrush 
@@ -35,6 +31,8 @@ $ docker run -v $(pwd):/d/ -e colors=16 foptimize/gif input.gif
 $ docker run -v $(pwd):/d/ foptimize/png input.png
 $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 ```
+<Asciinema id="PEIe959sirjcn92xGbyF8hyvR"/>
+
 ## :whale: jpg
 - :ballot_box_with_check: jpgtran
 - :ballot_box_with_check: jpgoptim
@@ -44,6 +42,11 @@ $ docker run -v $(pwd):/d/ foptimize/png "https://...png"
 $ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
 $ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
 ```
+**name (`default`)**
+1. file
+2. quality (`85`)
+
+<Asciinema id="PilzrrZesuDBvjen4ycEbwulY"/>
 
 ## :whale: svg
 - :ballot_box_with_check: svgcleaner
@@ -54,6 +57,4 @@ $ docker run -v $(pwd):/d/ foptimize/svg input.svg
 $ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
 ```
 
-## :tv: Demonstration
-![foptimize](https://s3.eu-west-3.amazonaws.com/juke-github/foptimize1.gif)
-
+<Asciinema id="3iRRUqnxFNf9a5xEDI9KtxpyG"/>

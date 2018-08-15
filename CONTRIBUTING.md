@@ -8,5 +8,5 @@ Thanks for being one of the rare people that read this file!
 I welcome any contribution no matter the scale in this project.
 More to come later.
 
-See  https://jukefr.github.io/fyle/guide/#contributing for more 
+See  https://jukefr.github.io/fyle/guide/Contributing.html for more 
 information.

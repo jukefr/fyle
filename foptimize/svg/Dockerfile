@@ -12,7 +12,7 @@ WORKDIR /
 RUN apk add npm
 RUN npm i -g svgo
 COPY --from=build /svgcleaner/svgcleaner /usr/local/bin/svgcleaner
-COPY entrypoint.sh /e/entrypoint.sh
+COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
 VOLUME /e
 WORKDIR /d

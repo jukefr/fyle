@@ -11,7 +11,7 @@ FROM futils/alpine:latest
 WORKDIR /
 RUN apk add jpegoptim libjpeg-turbo-utils libpng libstdc++
 COPY --from=build /guetzli-1.0.1/bin/Release/guetzli /usr/local/bin/guetzli
-COPY entrypoint.sh /e/entrypoint.sh
+COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh
 VOLUME /e
 WORKDIR /d
