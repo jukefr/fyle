@@ -18,6 +18,24 @@ function build() {
 }
 
 if [ -n "$1" ]; then
+    # Travis Install
+    if [[ "$1" = "travis" ]]; then
+        if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+            npx vuepress build docs
+          fi
+          SERVICES=("fconvert" "foptimize" "futils")
+          for a in ${SERVICES[@]}; do
+            cd "$a"
+            for b in */ ; do
+                if [ -f "$b/.ignore" ]; then
+                    continue
+                fi
+                docker pull "$a/${b%?}"
+            done
+            cd ..
+          done
+    fi
+
     build $1
     exit 0
 fi

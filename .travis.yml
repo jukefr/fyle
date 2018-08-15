@@ -5,19 +5,10 @@ sudo: required
 services:
   - docker
 before_install:
-  - |
-      if [[ $TRAVIS_BRANCH == 'master' ]]; then
-        npx vuepress build docs
-      fi
-      SERVICES=("fconvert" "foptimize" "futils")
-      for a in ${SERVICES[@]}; do
-        cd "$a"
-        for b in */ ; do
-          docker pull "$a/${b%?}"
-        done
-        cd ..
-      done
-
+  - bash buid.sh travis
+script:
+  - bash build.sh
+  - bash test.sh
 deploy:
   provider: pages
   skip-cleanup: true
@@ -27,6 +18,3 @@ deploy:
   target-branch: gh-pages
   on:
     branch: master
-script:
-  - bash build.sh
-  - bash test.sh
