@@ -7,7 +7,7 @@ services:
 before_install:
   - bash build.sh travis
 script:
-  - bash build.sh
+  - bash build.sh all
   - bash test.sh
 deploy:
   provider: pages
