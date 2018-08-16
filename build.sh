@@ -37,9 +37,9 @@ function build_all {
 }
 
 
-# FORCE BUILD ALL IF ON TRAVIS AND ON MASTER
-travis_master_force() {
-    if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+# FORCE BUILD ALL IF NEW TAG
+travis_tag_force_all() {
+    if [[ -n "$CURRENTLY_TAGGING" ]]; then
         build_all
     fi
 }
@@ -77,6 +77,8 @@ docker_build() {
 }
 
 cli_generate() {
+    echo "Generating CLI..."
+
     # Bump CLI version if needed
     echo "#!/bin/sh" > "$1"
     CLI_VERSION=$(git describe --abbrev=0 --tags)
@@ -90,8 +92,7 @@ cli_generate() {
     echo "REMOTE_VERSION=\"\$( echo \"\$REMOTE_VERSIONS\" | sed -n 1p )\"" >> "$1"
     echo "fi" >> "$1"
     echo "if [[ \"\$REMOTE_VERSION\" != \"\$VERSION\" ]]; then" >> "$1"
-    echo "echo \"CLI is outdated, please run docker pull futils/cli then try again.\"" >> "$1"
-    echo "exit 1" >> "$1"
+    echo "echo \"CLI is outdated, please run docker pull futils/cli to update.\"" >> "$1"
     echo "fi" >> "$1"
 
     # --version
@@ -170,9 +171,9 @@ if [ -n "$1" ]; then
     exit 0
 fi
 
-travis_master_force
 git_changes
 cli_generate futils/cli/cli.sh
+travis_tag_force_all
 docker_build
 
 echo "Build script done."
