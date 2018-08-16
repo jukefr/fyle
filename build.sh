@@ -176,7 +176,11 @@ if [ -n "$1" ]; then
     done
 fi
 
-cli_generate "futils/cli/cli.sh"
+# dont build cli on travis
+if [ -z "$TRAVIS_BRANCH" ]; then
+    cli_generate "futils/cli/cli.sh"
+fi
+
 if [[ -n "$CURRENTLY_TAGGING" ]]; then
     echo "New Release detected."
     build_all
