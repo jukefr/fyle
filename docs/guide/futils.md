@@ -33,11 +33,20 @@ $ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
 
 <Asciinema id="5TXzMrMdT1hOJSGYUVeNRoSjn"/>
 
-## :crystal_ball: CLI
-I have created a small shell CLI to alias the docker commands and make using the project easier.
+## :whale: CLI
+I have created a small CLI to alias the docker commands and make using the project easier.
+The way this works is :
+1. You call the CLI with a `docker run` command, it creates a container that has the **host docker socket mounted**
+2. This container calls the cli.sh script, it `docker runs` a container for the needed tool on the **host** 
+
+Effectively you run a docker container, that will run a docker container. But not nested, both containers are on the host, because we bind the socket.
+
 ```bash
-# Install the CLI (it will automatically update)
-$ curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install | sh
+# Using the CLI
+$ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli --help
+
+# Installing (.bashrc example, adjust for your specific shell)
+$ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
 
 # Usage
 $ fcli --help
