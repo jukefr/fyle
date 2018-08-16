@@ -77,7 +77,9 @@ To make using these tools even more convenient.
 
 ### Installing the CLI
 ```bash
-$ curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install | sh
+# This command creates an alias "fcli" that runs a docker container
+# and appends it to your .bashrc file
+$ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
 ```
 ::: danger
 As this project is in a very early stage, I have made it so that this CLI will
