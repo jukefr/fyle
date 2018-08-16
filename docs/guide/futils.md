@@ -57,13 +57,3 @@ $ fcli c v screen_recording.mov demo.gif
 $ fcli u resize demo.gif "50%"
 $ fcli o gif demo.gif
 ```
-
-## :tv: Workflow Demos
-asciinema
-![asciinema](https://s3.eu-west-3.amazonaws.com/juke-github/asciinema.gif)
-::: tip
-Append `.gif` to the asciinema URL to get the docker command)
-:::
-
-screencast
-![screencast](https://s3.eu-west-3.amazonaws.com/juke-github/screencast.gif)
