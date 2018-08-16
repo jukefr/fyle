@@ -9,7 +9,7 @@ sudo: required
 services:
   - docker
 before_install:
-  - npm i -g vuepress
+  - if [ ! -f "/home/travis/.nvm/versions/node/v10.9.0/bin/vuepress" ];then npm i -g vuepress; fi
   - bash build.sh travis
 script:
   - bash build.sh
