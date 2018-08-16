@@ -34,9 +34,6 @@ $ ./build.sh all
 
 $ ./build.sh $service/$format
 # Force build a specific tool
-
-$ ./build.sh travis
-# Travis CI pre-install helper
 ```
 
 ## :heavy_check_mark: Testing
@@ -50,11 +47,37 @@ passed** :tada:
 Here are the commands that the script supports :
 ```bash
 $ ./test.sh
-# Tests all tools against their .spec file
+# Tests all images that have changed since last git tag
+
+$ ./test.sh all
+# Force test all
 
 $ ./test.sh $service/$format
 # Force test a specific tool
 
 $ ./test.sh cli
-# Tests all tools against their .spec file, but with fcli instead of direct docker run.
+# Tests all tools against their .spec file, but with fcli directly
 ```
+
+## :busts_in_silhouette: Example Contribution Workflow
+Let's say you have a proposal : **add an image filter (black and white, sepia...) tool to futils**
+
+1. Start off by submitting the proposal as an issue to the repository to get the discussion going.
+2. Once the proposal is accepted, get to implementing.
+3. Start by cloning the repository.
+    1. Check out `develop`
+    2. Create a new feature branch.
+    3. Copy `futils/resize` to `futils/filter` and do some magic :sparkles:
+    4. Use `./build.sh` at the root of the repository to build the new tool.
+    5. Use `./test.sh` at the root of the repository to test the new tool.
+    6. Do some testing of your own of the new tool on some of your assets try check it works great.
+    7. :fire: Add the correspond documentation to `docs/guide` (plans to automate this, see [#19](https://github.com/jukefr/fyle/issues/19))
+4. Push your feature branch and create a pull request pointing to `develop` on the repository.
+5. Wait for a moderator (me) to review your pull request.
+6. If the feature is good it is merged to develop.
+7. The feature will be available publicly on the next release (tag and merge to master).
+    1. Travis builds doc and deploys it.
+    2. Travis builds and tests all tools and the cli.
+    3. Docker Hub builds and deploy all tools with tag `latest` and `$VERSION`
+    
+Pat yourself on the back, you are now an open-source contributor ! :tada:
