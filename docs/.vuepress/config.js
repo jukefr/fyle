@@ -4,6 +4,7 @@ module.exports = {
     ],
     title: "fyle",
     description: "web asset conversion, optimization and processing",
+    ga: "UA-124031707-1",
     base: "/fyle/",
     themeConfig: {
         nav: [
