@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # CONFIG
-CURRENT_DIR=$(pwd)
+START_DIR=$(pwd)
 SERVICES=("fconvert" "foptimize" "futils")
 
 # CHECK IF CURRENT COMMIT IS A TAG
@@ -13,38 +13,34 @@ else
 fi
 
 # DOCKER BUILD
-function build {
-    cd "${CURRENT_DIR}/$1"
-    printf "\n$1 \n"
-    docker build --cache-from "$1:latest" -t "$1:$VERSION" .
+build() {
+    docker build --cache-from "$1:latest" -t "$1:$VERSION" "$2"
 }
 
 # DOCKER BUILD ALL
-function build_all {
-    for a in ${SERVICES[@]}; do
-        cd "${CURRENT_DIR}/$a"
-        for b in */ ; do
+force_build_all() {
+    for SERVICE in ${SERVICES[@]}; do
+        for TOOL in ${SERVICE}/*/; do
+            TOOL_NAME=$(basename "$TOOL")
             # Allow to ignore specific folders
-            if [ -f "${b}.ignore" ]; then
+            if [ -f "${TOOL}.ignore" ]; then
                 continue
             fi
-            build "$a/${b%?}"
-            cd "${CURRENT_DIR}/$a"
+            build "$SERVICE/$TOOL_NAME" "$START_DIR/$TOOL"
         done
-        cd ..
     done
     exit 0
 }
 
 
 # FORCE BUILD ALL IF NEW TAG
-travis_tag_force_all() {
+new_tag_force_all() {
     if [[ -n "$CURRENTLY_TAGGING" ]]; then
-        build_all
+        force_build_all
     fi
 }
 
-git_changes() {
+diff_calc() {
     unset GIT_DIR
     LATEST_TAG=$(git describe --tags --abbrev=0)
     CURRENT_REVISION=$(git describe)
@@ -55,34 +51,38 @@ git_changes() {
     printf '%s\n' "${CHANGES[@]}"
 }
 
-docker_build() {
-    for a in ${SERVICES[@]}; do
-        cd "${CURRENT_DIR}/$a"
-        for b in */ ; do
+diff_build() {
+    for SERVICE in ${SERVICES[@]}; do
+        for TOOL in ${SERVICE}/*/; do
+            TOOL_NAME=$(basename "$TOOL")
             # Allow to ignore specific folders
-            if [ -f "${b}.ignore" ]; then
+            if [ -f "${TOOL}.ignore" ]; then
                 continue
             fi
-            for c in "${CHANGES[@]}"; do
+            for CHANGE in "${CHANGES[@]}"; do
                 # Build if the file is in the list and continue to next tool
-                if [[ ${c} = *"$a/${b%?}"* ]]; then
-                    build "$a/${b%?}"
-                    cd "${CURRENT_DIR}/$a"
+                if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
+                    build "$SERVICE/$TOOL_NAME" "$START_DIR/$TOOL"
                     break
                 fi
             done
         done
-        cd ..
     done
 }
 
+# Very ugly but does the job for now...
 cli_generate() {
     echo "Generating CLI..."
+    echo "#!/bin/sh" > "$1"
+
+    # show help message if no argument is passed
+    echo "if [ -z \"\$1\" ]; then" >> "$1"
+    echo "echo \"--help to see available tools\"" >> "$1"
+    echo "exit 1" >> "$1"
+    echo "fi" >> "$1"
 
     # Bump CLI version if needed
-    echo "#!/bin/sh" > "$1"
     CLI_VERSION=$(git describe --abbrev=0 --tags)
-
     # update check
     echo "VERSION=\"$CLI_VERSION\"" >> "$1"
     echo "REMOTE_VERSIONS=\$(curl -s -S \"https://registry.hub.docker.com/v2/repositories/futils/cli/tags/\" | jq -r '.\"results\"[][\"name\"]')" >> "$1"
@@ -102,17 +102,17 @@ cli_generate() {
 
     # --help
     echo "if [ \$1 = \"--help\" ]; then" >> "$1"
-    for a in ${SERVICES[@]}; do
-        SERVICE_NAME=${a:1}
+    for SERVICE in ${SERVICES[@]}; do
+        SERVICE_NAME=${SERVICE:1}
         FIRST_LETTER=$(echo "$SERVICE_NAME" | cut -c1-1)
         echo "echo \"\"" >> "$1"
-        echo "echo \"$FIRST_LETTER, $SERVICE_NAME, $a:\"" >> "$1"
-        for b in ${a}/*/; do
-            FORMAT_NAME=$(basename "$b")
-            if [ -f "${b}.ignore" ]; then
+        echo "echo \"$FIRST_LETTER, $SERVICE_NAME, $SERVICE:\"" >> "$1"
+        for TOOL in ${SERVICE}/*/; do
+            TOOL_NAME=$(basename "$TOOL")
+            if [ -f "${TOOL}.ignore" ]; then
                 continue
             fi
-            echo "echo \">$FORMAT_NAME\"" >> "$1"
+            echo "echo \">$TOOL_NAME\"" >> "$1"
         done
     done
     echo "echo \"\"" >> "$1"
@@ -120,19 +120,19 @@ cli_generate() {
     echo "fi" >> "$1"
 
     # Services
-    for a in ${SERVICES[@]}; do
-        SERVICE_NAME=${a:1}
+    for SERVICE in ${SERVICES[@]}; do
+        SERVICE_NAME=${SERVICE:1}
         FIRST_LETTER=$(echo "$SERVICE_NAME" | cut -c1-1)
-        echo "if [ \$1 = \"$FIRST_LETTER\" ] || [ \$1 = \"$SERVICE_NAME\" ] || [ \$1 = \"$a\" ]; then" >> "$1"
-        for b in ${a}/*/; do
-            FORMAT_NAME=$(basename "$b")
-            if [ -f "${b}.ignore" ]; then
+        echo "if [ \$1 = \"$FIRST_LETTER\" ] || [ \$1 = \"$SERVICE_NAME\" ] || [ \$1 = \"$SERVICE\" ]; then" >> "$1"
+        for TOOL in ${SERVICE}/*/; do
+            TOOL_NAME=$(basename "$TOOL")
+            if [ -f "${TOOL}.ignore" ]; then
                 continue
             fi
-            echo "if [ \$2 = \"$FORMAT_NAME\" ]; then" >> "$1"
-            echo "echo \"$b\"" >> "$1"
+            echo "if [ \$2 = \"$TOOL_NAME\" ]; then" >> "$1"
+            echo "echo \"$TOOL\"" >> "$1"
             echo "shift 2" >> "$1"
-            echo "docker run --volumes-from \"\$(hostname)\" \"$a/$FORMAT_NAME:$CLI_VERSION\" \"\$@\"" >> "$1"
+            echo "docker run --volumes-from \"\$(hostname)\" \"$SERVICE/$TOOL_NAME:$CLI_VERSION\" \"\$@\"" >> "$1"
             echo "exit 0" >> "$1"
             echo "fi" >> "$1"
         done
@@ -149,21 +149,21 @@ if [ -n "$1" ]; then
         if [[ "$TRAVIS_BRANCH" = "master" ]]; then
             npx vuepress build docs
         fi
-        for a in ${SERVICES[@]}; do
-            cd "${CURRENT_DIR}/$a"
-            for b in */ ; do
-                if [ -f "$b/.ignore" ]; then
+        for SERVICE in ${SERVICES[@]}; do
+            for TOOL in ${SERVICE}/*/; do
+                TOOL_NAME=$(basename "$TOOL")
+                # Allow to ignore specific folders
+                if [ -f "${TOOL}.ignore" ]; then
                     continue
                 fi
-                docker pull "$a/${b%?}:latest"
+                docker pull "$SERVICE/$TOOL_NAME:latest"
             done
-            cd ..
         done
     fi
 
     # FORCE ALL
     if [[ "$1" = "all" ]]; then
-        build_all
+        force_build_all
     fi
 
     # BUILD SPECIFIC
@@ -171,9 +171,9 @@ if [ -n "$1" ]; then
     exit 0
 fi
 
-git_changes
-cli_generate futils/cli/cli.sh
-travis_tag_force_all
-docker_build
+diff_calc
+cli_generate "futils/cli/cli.sh"
+new_tag_force_all
+diff_build
 
 echo "Build script done."

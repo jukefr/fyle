@@ -1,4 +1,8 @@
 #!/bin/sh
+if [ -z "$1" ]; then
+echo "--help to see available tools"
+exit 1
+fi
 VERSION="v0.1-alpha5"
 REMOTE_VERSIONS=$(curl -s -S "https://registry.hub.docker.com/v2/repositories/futils/cli/tags/" | jq -r '."results"[]["name"]')
 if [[ "$( echo "$REMOTE_VERSIONS" | sed -n 1p )" == "latest" ]]; then
@@ -7,7 +11,7 @@ else
 REMOTE_VERSION="$( echo "$REMOTE_VERSIONS" | sed -n 1p )"
 fi
 if [[ "$REMOTE_VERSION" != "$VERSION" ]]; then
-echo "CLI is outdated, please run docker pull futils/cli:$REMOTE_VERSION to update."
+echo "CLI is outdated, please run docker pull futils/cli to update."
 fi
 if [ $1 = "--version" ]; then
 echo "v0.1-alpha5"
