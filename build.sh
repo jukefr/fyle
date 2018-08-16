@@ -120,5 +120,7 @@ for a in ${SERVICES[@]}; do
     cd ..
 done
 
+# Bump CLI version if needed
+sed -i "2s/.*/VERSION=\"$(git describe --abbrev=0 --tags)\"/" futils/cli/cli.sh
 
 echo "Build script done."
