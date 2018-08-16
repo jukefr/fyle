@@ -16,7 +16,7 @@ so please familiarize yourself with this workflow. The building, testing and
 deployment phase depend on it. I also like to keep my lines under 80 
 characters but that is just personal taste you don't have to adhere.
 
-## :construction_worker: Building
+## :whale: Building
 
 To build the images dynamically I have made a `build.sh` script that loops over 
 every folder for every service, so every tool. It builds 

@@ -32,7 +32,7 @@ There is work to be done to allow passing options to container, as of now these
 are very limited.
 :::
 
-## :zap: Essentials
+## :sparkles: How It Works
 ![drawing skillz](https://s3.eu-west-3.amazonaws.com/juke-github/draw.jpg)
 
 Each tool is contained in its own Dockerfile.
@@ -62,7 +62,7 @@ then on another the command would be :
 $ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
 ```
 
-## :crystal_ball: CLI
+## :whale: CLI
 [fcli](/guide/futils.html#cli), a command line utility that aliases all the 
 docker functions 
 is also available, instead of writing :
@@ -73,11 +73,5 @@ You run :
 ```bash
 $ fcli o png input.png
 ```
-To make using these tools even more convenient.
-
-### Installing the CLI
-```bash
-# This command creates an alias "fcli" that runs a docker container
-# and appends it to your .bashrc file
-$ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
-```
+To make using these tools even more convenient. Instructions on [how to 
+install the CLI are available on the futils documentation](/guide/futils.html#installing-the-cli-linux-macos)

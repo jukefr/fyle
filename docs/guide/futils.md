@@ -44,13 +44,24 @@ The way this works is :
 Effectively you run a docker container, that will run a docker container. But not nested, both containers are on the host, because we bind the socket.
 
 ```bash
-# Using the CLI
 $ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli --help
+```
 
-# Installing (.bashrc example, adjust for your specific shell)
+### Installing the CLI (linux, macos)
+To "install" on unix you simply need to create an alias for **fcli** that 
+will run the `docker run ...` command for you.
+```bash
 $ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
+```
 
-# Usage
+### Installing the CLI (windows)
+For Windows, you need to run this **inside the boot2docker or hyper-v instance
+as Windows does not use sockets**. Other solution is to expose the daemon (see
+[https://bit.ly/2MRAk5M](https://bit.ly/2MRAk5M)) then you pass the ENV variable
+**DOCKER_HOST=tcp://0.0.0.0:2375 instead of mounting the socket**. 
+
+### Usage
+```bash
 $ fcli --help
 
 $ fcli o png file.png
@@ -66,3 +77,4 @@ $ fcli o gif demo.gif
 
 ## :whale: alpine
 A base Alpine image used by all tools. You shouldn't need this unless creating a new tool.
+
