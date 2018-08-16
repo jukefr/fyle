@@ -1,10 +1,15 @@
 language: node_js
 node_js:
   - "10"
+cache:
+  directories:
+  - $(npm config get prefix)/lib/node_modules
+  - $(npm config get prefix)/bin
 sudo: required
 services:
   - docker
 before_install:
+  - npm i -g vuepress
   - bash build.sh travis
 script:
   - bash build.sh

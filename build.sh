@@ -151,7 +151,7 @@ if [ -n "$1" ]; then
     if [[ "$1" = "travis" ]]; then
         if [[ "$TRAVIS_BRANCH" = "master" ]]; then
             echo "Building docs (am on master branch)"
-            npx vuepress build docs
+            vuepress build docs
         fi
         pull_diffs
         exit 0
