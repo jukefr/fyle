@@ -12,7 +12,8 @@ often not maintained and perform poorly. One of the biggest problem I
 encountered for instance was that that there are dozens of options
 available for PNG image optimization, so which one is the right one ?
 
-[futils](/futils), [fconvert](/fconvert) and [foptimize](/foptimize) were 
+[futils](/guide/futils.html), [fconvert](/guide/fconvert.html) and 
+[foptimize](/guide/foptimize.html) were 
 created for this reason, so that everything can be available easily, without 
 the need for any parameter tuning, **by using opinionated defaults**.
 Anyone can run a single command to get their task done without having to 
