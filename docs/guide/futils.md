@@ -2,11 +2,27 @@
 Common file operations 
 
 ### Tools
-- [resize](#resize)
 - [alpha](#alpha)
+- [resize](#resize)
+- [rotate](#rotate)
 - [CLI](#cli)
 - [alpine](#alpine)
-    
+
+## :whale: alpha
+remove a **png** image background ([#18](https://github.com/jukefr/fyle/issues/18) for more formats)
+```bash
+$ docker run -v $(pwd):/d/ futils/alpha file.png
+$ docker run -v $(pwd):/d/ futils/alpha "https://...png"
+$ docker run -v $(pwd):/d/ futils/alpha file.png Black
+$ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
+```
+**name (`default`)**
+1. file 
+2. background color (`White`)
+3. fuzz (`10%`)
+
+<Asciinema id="5TXzMrMdT1hOJSGYUVeNRoSjn"/>
+
 ## :whale: resize
 ```bash
 $ docker run -v $(pwd):/d/ futils/resize file.ext 50%
@@ -20,20 +36,14 @@ $ docker run -v $(pwd):/d/ futils/resize file.ext 400x200
 
 <Asciinema id="0O3U1bIuC7mQebNt3VadapT9h"/>
 
-## :whale: alpha
-remove a **png** image background
+## :whale: rotate
 ```bash
-$ docker run -v $(pwd):/d/ futils/alpha file.png
-$ docker run -v $(pwd):/d/ futils/alpha "https://...png"
-$ docker run -v $(pwd):/d/ futils/alpha file.png Black
-$ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
+$ docker run -v $(pwd):/d/ futils/rotate file.ext 90
+$ docker run -v $(pwd):/d/ futils/rotate "https://...ext" -45
 ```
 **name (`default`)**
-1. file 
-2. background color (`White`)
-3. fuzz (`10%`)
-
-<Asciinema id="5TXzMrMdT1hOJSGYUVeNRoSjn"/>
+1. file
+2. angle (`0`)
 
 ## :whale: CLI
 A CLI gets dynamically generated on new releases. It aliases the docker commands to make them shorter and easier to use/memorize.
