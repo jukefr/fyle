@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-current_dir=$(pwd)
+# CONFIG
+CURRENT_DIR=$(pwd)
 SERVICES=("fconvert" "foptimize" "futils")
+
+# CHECK IF CURRENT COMMIT IS A TAG
 CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
 if [ -n "$CURRENTLY_TAGGING" ]; then
     VERSION="$CURRENTLY_TAGGING"
@@ -9,86 +12,35 @@ else
     VERSION="latest"
 fi
 
-if [ -n "$1" ]; then
-    # Travis Install
-    if [[ "$1" = "travis" ]]; then
-        if [[ "$TRAVIS_BRANCH" = "master" ]]; then
-            npx vuepress build docs
-          fi
-          for a in ${SERVICES[@]}; do
-            cd "${current_dir}/$a"
-            for b in */ ; do
-                if [ -f "$b/.ignore" ]; then
-                    continue
-                fi
-                docker pull "$a/${b%?}:latest"
-            done
-            cd ..
-          done
-    fi
-
-    if [[ "$1" = "all" ]]; then
-        for a in ${SERVICES[@]}; do
-            cd "${current_dir}/$a"
-            for b in */ ; do
-                # Allow to ignore specific folders
-                if [ -f "${b}.ignore" ]; then
-                    continue
-                fi
-                build "$a/${b%?}"
-                cd "${current_dir}/$a"
-            done
-            cd ..
-        done
-        exit 0
-    fi
-
-    build $1
-    exit 0
-fi
-
-function dotdotdot {
-  mypid=$!
-  loadingText=$1
-
-  echo -ne "$loadingText\r"
-
-  while kill -0 $mypid 2>/dev/null; do
-    echo -ne "$loadingText.\r"
-    sleep 0.5
-    echo -ne "$loadingText..\r"
-    sleep 0.5
-    echo -ne "$loadingText...\r"
-    sleep 0.5
-    echo -ne "\r\033[K"
-    echo -ne "$loadingText\r"
-    sleep 0.5
-  done
-
-  echo "$loadingText...Build done."
-}
-
+# DOCKER BUILD
 function build {
-    cd "${current_dir}/$1"
+    cd "${CURRENT_DIR}/$1"
     printf "\n$1 \n"
-    docker build --cache-from "$1:latest" -t "$1:$VERSION" . > /dev/null & dotdotdot "Building"
+    docker build --cache-from "$1:latest" -t "$1:$VERSION" .
 }
 
+# DOCKER BUILD ALL
+function build_all {
+    for a in ${SERVICES[@]}; do
+        cd "${CURRENT_DIR}/$a"
+        for b in */ ; do
+            # Allow to ignore specific folders
+            if [ -f "${b}.ignore" ]; then
+                continue
+            fi
+            build "$a/${b%?}"
+            cd "${CURRENT_DIR}/$a"
+        done
+        cd ..
+    done
+    exit 0
+}
+
+
+# FORCE BUILD ALL IF ON TRAVIS AND ON MASTER
 travis_master_force() {
     if [[ "$TRAVIS_BRANCH" = "master" ]]; then
-        for a in ${SERVICES[@]}; do
-            cd "${current_dir}/$a"
-            for b in */ ; do
-                # Allow to ignore specific folders
-                if [ -f "${b}.ignore" ]; then
-                    continue
-                fi
-                build "$a/${b%?}"
-                cd "${current_dir}/$a"
-            done
-            cd ..
-        done
-        exit 0
+        build_all
     fi
 }
 
@@ -105,7 +57,7 @@ git_changes() {
 
 docker_build() {
     for a in ${SERVICES[@]}; do
-        cd "${current_dir}/$a"
+        cd "${CURRENT_DIR}/$a"
         for b in */ ; do
             # Allow to ignore specific folders
             if [ -f "${b}.ignore" ]; then
@@ -115,7 +67,7 @@ docker_build() {
                 # Build if the file is in the list and continue to next tool
                 if [[ ${c} = *"$a/${b%?}"* ]]; then
                     build "$a/${b%?}"
-                    cd "${current_dir}/$a"
+                    cd "${CURRENT_DIR}/$a"
                     break
                 fi
             done
@@ -127,12 +79,11 @@ docker_build() {
 cli_generate() {
     # Bump CLI version if needed
     echo "#!/bin/sh" > "$1"
-    VERSION=$(git describe --abbrev=0 --tags)
-    echo "VERSION=\"$VERSION\"" >> "$1"
+    CLI_VERSION=$(git describe --abbrev=0 --tags)
 
     # --version
     echo "if [ \$1 = \"--version\" ]; then" >> "$1"
-    echo "echo \"$VERSION\"" >> "$1"
+    echo "echo \"$CLI_VERSION\"" >> "$1"
     echo "fi" >> "$1"
 
     # --help
@@ -167,13 +118,44 @@ cli_generate() {
             echo "if [ \$2 = \"$FORMAT_NAME\" ]; then" >> "$1"
             echo "echo \"$b\"" >> "$1"
             echo "shift 2" >> "$1"
-            echo "docker run --volumes-from \"\$(hostname)\" \"$a/$FORMAT_NAME:$VERSION\" \"\$@\"" >> "$1"
+            echo "docker run --volumes-from \"\$(hostname)\" \"$a/$FORMAT_NAME:$CLI_VERSION\" \"\$@\"" >> "$1"
             echo "exit 0" >> "$1"
             echo "fi" >> "$1"
         done
         echo "fi" >> "$1"
     done
 }
+
+
+# OVERRIDES
+if [ -n "$1" ]; then
+
+    # TAVIS HELPER
+    if [[ "$1" = "travis" ]]; then
+        if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+            npx vuepress build docs
+        fi
+        for a in ${SERVICES[@]}; do
+            cd "${CURRENT_DIR}/$a"
+            for b in */ ; do
+                if [ -f "$b/.ignore" ]; then
+                    continue
+                fi
+                docker pull "$a/${b%?}:latest"
+            done
+            cd ..
+        done
+    fi
+
+    # FORCE ALL
+    if [[ "$1" = "all" ]]; then
+        build_all
+    fi
+
+    # BUILD SPECIFIC
+    build $1
+    exit 0
+fi
 
 travis_master_force
 git_changes

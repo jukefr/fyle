@@ -1,5 +1,4 @@
 #!/bin/sh
-VERSION="v0.1-alpha4"
 if [ $1 = "--version" ]; then
 echo "v0.1-alpha4"
 fi
