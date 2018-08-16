@@ -7,8 +7,8 @@
     <meta name="description" content="web asset conversion, optimization and processing">
     <link rel="icon" href="https://s3.eu-west-3.amazonaws.com/juke-github/ico.png">
     
-    <link rel="preload" href="/fyle/assets/css/0.styles.276971cd.css" as="style"><link rel="preload" href="/fyle/assets/js/app.1ee7c3b7.js" as="script"><link rel="preload" href="/fyle/assets/js/7.f4a3b89c.js" as="script"><link rel="prefetch" href="/fyle/assets/js/4.74a7c4b4.js"><link rel="prefetch" href="/fyle/assets/js/2.8d45b1a8.js"><link rel="prefetch" href="/fyle/assets/js/3.87f3499e.js"><link rel="prefetch" href="/fyle/assets/js/5.a87f42bb.js"><link rel="prefetch" href="/fyle/assets/js/6.da1dc5bc.js"><link rel="prefetch" href="/fyle/assets/js/8.a3391ade.js"><link rel="prefetch" href="/fyle/assets/js/9.a71bd070.js"><link rel="prefetch" href="/fyle/assets/js/10.f20466cd.js">
-    <link rel="stylesheet" href="/fyle/assets/css/0.styles.276971cd.css">
+    <link rel="preload" href="/fyle/assets/css/0.styles.fd686277.css" as="style"><link rel="preload" href="/fyle/assets/js/app.ee2065e7.js" as="script"><link rel="preload" href="/fyle/assets/js/7.91e85f33.js" as="script"><link rel="prefetch" href="/fyle/assets/js/4.27b46a47.js"><link rel="prefetch" href="/fyle/assets/js/2.8d45b1a8.js"><link rel="prefetch" href="/fyle/assets/js/3.1ef87d55.js"><link rel="prefetch" href="/fyle/assets/js/5.2931a133.js"><link rel="prefetch" href="/fyle/assets/js/6.888ad196.js"><link rel="prefetch" href="/fyle/assets/js/8.2c73512e.js"><link rel="prefetch" href="/fyle/assets/js/9.67d5501d.js"><link rel="prefetch" href="/fyle/assets/js/10.2751278a.js">
+    <link rel="stylesheet" href="/fyle/assets/css/0.styles.fd686277.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/fyle/" class="home-link router-link-active"><!----> <span class="site-name">fyle</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/fyle/" class="nav-link">Home</a></div><div class="nav-item"><a href="/fyle/guide/" class="nav-link router-link-exact-active router-link-active">Guide</a></div><div class="nav-item"><a href="https://github.com/jukefr/fyle" target="_blank" rel="noopener noreferrer" class="nav-link external">
@@ -44,15 +44,14 @@ you type :</p> <div class="language-bash extra-class"><pre class="language-bash"
 docker functions
 is also available, instead of writing :</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ docker run -v <span class="token variable"><span class="token variable">$(</span><span class="token function">pwd</span><span class="token variable">)</span></span>:/d/ foptimize/png input.png
 </code></pre></div><p>You run :</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ fcli o png input.png
-</code></pre></div><p>To make using these tools even more convenient.</p> <h3 id="installing-the-cli"><a href="#installing-the-cli" aria-hidden="true" class="header-anchor">#</a> Installing the CLI</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">curl</span> https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install <span class="token operator">|</span> sh
-</code></pre></div><div class="danger custom-block"><p class="custom-block-title">WARNING</p> <p>As this project is in a very early stage, I have made it so that this CLI will
-automatically update to the latest version pushed to master. Expect some
-breaking changes, I will keep the <code>--help</code> command up to date in accordance
-with the current usages.</p></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/fyle/guide/foptimize.html">
+</code></pre></div><p>To make using these tools even more convenient.</p> <h3 id="installing-the-cli"><a href="#installing-the-cli" aria-hidden="true" class="header-anchor">#</a> Installing the CLI</h3> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># This command creates an alias &quot;fcli&quot; that runs a docker container</span>
+<span class="token comment"># and appends it to your .bashrc file</span>
+$ <span class="token keyword">echo</span> <span class="token string">'alias fcli=&quot;docker run -v /var/run/docker.sock:/var/run/docker.sock -v <span class="token variable"><span class="token variable">$(</span><span class="token function">pwd</span><span class="token variable">)</span></span>:/d/ futils/cli&quot;'</span> <span class="token operator">&gt;&gt;</span> ~/.bashrc
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/fyle/guide/foptimize.html">
           foptimize
         </a>
         →
       </span></p></div> </div> <!----></div></div>
-    <script src="/fyle/assets/js/7.f4a3b89c.js" defer></script><script src="/fyle/assets/js/app.1ee7c3b7.js" defer></script>
+    <script src="/fyle/assets/js/7.91e85f33.js" defer></script><script src="/fyle/assets/js/app.ee2065e7.js" defer></script>
   </body>
 </html>

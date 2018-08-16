@@ -7,8 +7,8 @@
     <meta name="description" content="web asset conversion, optimization and processing">
     <link rel="icon" href="https://s3.eu-west-3.amazonaws.com/juke-github/ico.png">
     
-    <link rel="preload" href="/fyle/assets/css/0.styles.276971cd.css" as="style"><link rel="preload" href="/fyle/assets/js/app.1ee7c3b7.js" as="script"><link rel="preload" href="/fyle/assets/js/6.da1dc5bc.js" as="script"><link rel="prefetch" href="/fyle/assets/js/4.74a7c4b4.js"><link rel="prefetch" href="/fyle/assets/js/2.8d45b1a8.js"><link rel="prefetch" href="/fyle/assets/js/3.87f3499e.js"><link rel="prefetch" href="/fyle/assets/js/5.a87f42bb.js"><link rel="prefetch" href="/fyle/assets/js/7.f4a3b89c.js"><link rel="prefetch" href="/fyle/assets/js/8.a3391ade.js"><link rel="prefetch" href="/fyle/assets/js/9.a71bd070.js"><link rel="prefetch" href="/fyle/assets/js/10.f20466cd.js">
-    <link rel="stylesheet" href="/fyle/assets/css/0.styles.276971cd.css">
+    <link rel="preload" href="/fyle/assets/css/0.styles.fd686277.css" as="style"><link rel="preload" href="/fyle/assets/js/app.ee2065e7.js" as="script"><link rel="preload" href="/fyle/assets/js/6.888ad196.js" as="script"><link rel="prefetch" href="/fyle/assets/js/4.27b46a47.js"><link rel="prefetch" href="/fyle/assets/js/2.8d45b1a8.js"><link rel="prefetch" href="/fyle/assets/js/3.1ef87d55.js"><link rel="prefetch" href="/fyle/assets/js/5.2931a133.js"><link rel="prefetch" href="/fyle/assets/js/7.91e85f33.js"><link rel="prefetch" href="/fyle/assets/js/8.2c73512e.js"><link rel="prefetch" href="/fyle/assets/js/9.67d5501d.js"><link rel="prefetch" href="/fyle/assets/js/10.2751278a.js">
+    <link rel="stylesheet" href="/fyle/assets/css/0.styles.fd686277.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/fyle/" class="home-link router-link-active"><!----> <span class="site-name">fyle</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/fyle/" class="nav-link">Home</a></div><div class="nav-item"><a href="/fyle/guide/" class="nav-link router-link-active">Guide</a></div><div class="nav-item"><a href="https://github.com/jukefr/fyle" target="_blank" rel="noopener noreferrer" class="nav-link external">
@@ -26,7 +26,7 @@ so please familiarize yourself with this workflow. The building, testing and
 deployment phase depend on it. I also like to keep my lines under 80
 characters but that is just personal taste you don't have to adhere.</p> <h2 id="building"><a href="#building" aria-hidden="true" class="header-anchor">#</a> 👷 Building</h2> <p>To build the images dynamically I have made a <code>build.sh</code> script that loops over
 every folder for every service, so every tool. It builds
-an image tagged with the service name and the format.</p> <p>Here are the commands that the script supports :</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ ./build.sh
+an image tagged with the service name and the format.</p> <p>It will also automatically generate a <code>cli.sh</code> in <code>futils/cli</code> with every tool inside it. This should be done on every new tag (release).</p> <p>Here are the commands that the script supports :</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ ./build.sh
 <span class="token comment"># Builds images that have changed since last git tag</span>
 
 $ ./build.sh all
@@ -47,13 +47,13 @@ passed</strong> 🎉</p> <p>Here are the commands that the script supports :</p>
 $ ./test.sh <span class="token variable">$service</span>/<span class="token variable">$format</span>
 <span class="token comment"># Force test a specific tool</span>
 
-$ ./build.sh cli
-<span class="token comment"># Not yet implemented</span>
+$ ./test.sh cli
+<span class="token comment"># Tests all tools against their .spec file, but with fcli instead of direct docker run.</span>
 </code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
         ←
         <a href="/fyle/guide/futils.html" class="prev">
           futils
         </a></span> <!----></p></div> </div> <!----></div></div>
-    <script src="/fyle/assets/js/6.da1dc5bc.js" defer></script><script src="/fyle/assets/js/app.1ee7c3b7.js" defer></script>
+    <script src="/fyle/assets/js/6.888ad196.js" defer></script><script src="/fyle/assets/js/app.ee2065e7.js" defer></script>
   </body>
 </html>
