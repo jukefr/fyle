@@ -38,7 +38,7 @@ function dockerrun {
     SPEC=($(head -n 1 .spec))
     mkdir tmp_test
     cd tmp_test
-    echo "Testing $1/${2%?}"
+    echo "Testing $1/${2%?}:$VERSION"
     timeout 30 docker run -v $(pwd):/d/ "$1/${2%?}:$VERSION" "${SPEC[@]}"
     cd ..
     rm -rf tmp_test
@@ -50,7 +50,7 @@ function clirun {
     SPEC=($(head -n 1 .spec))
     mkdir tmp_test
     cd tmp_test
-    echo "Testing $1/${2%?}"
+    echo "Testing $1/${2%?}:$VERSION"
     timeout 30 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli "$1" "${2%?}" "${SPEC[@]}"
     cd ..
     rm -rf tmp_test

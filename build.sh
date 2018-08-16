@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 current_dir=$(pwd)
-
+SERVICES=("fconvert" "foptimize" "futils")
 CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
 if [ -n "$CURRENTLY_TAGGING" ]; then
     VERSION="$CURRENTLY_TAGGING"
@@ -15,7 +15,6 @@ if [ -n "$1" ]; then
         if [[ "$TRAVIS_BRANCH" = "master" ]]; then
             npx vuepress build docs
           fi
-          SERVICES=("fconvert" "foptimize" "futils")
           for a in ${SERVICES[@]}; do
             cd "${current_dir}/$a"
             for b in */ ; do
@@ -29,7 +28,6 @@ if [ -n "$1" ]; then
     fi
 
     if [[ "$1" = "all" ]]; then
-        SERVICES=("fconvert" "foptimize" "futils")
         for a in ${SERVICES[@]}; do
             cd "${current_dir}/$a"
             for b in */ ; do
@@ -78,7 +76,6 @@ function build {
 
 travis_master_force() {
     if [[ "$TRAVIS_BRANCH" = "master" ]]; then
-        SERVICES=("fconvert" "foptimize" "futils")
         for a in ${SERVICES[@]}; do
             cd "${current_dir}/$a"
             for b in */ ; do
@@ -107,7 +104,6 @@ git_changes() {
 }
 
 docker_build() {
-    SERVICES=("fconvert" "foptimize" "futils")
     for a in ${SERVICES[@]}; do
         cd "${current_dir}/$a"
         for b in */ ; do
@@ -141,7 +137,6 @@ cli_generate() {
 
     # --help
     echo "if [ \$1 = \"--help\" ]; then" >> "$1"
-    SERVICES=("fconvert" "foptimize" "futils")
     for a in ${SERVICES[@]}; do
         SERVICE_NAME=${a:1}
         FIRST_LETTER=$(echo "$SERVICE_NAME" | cut -c1-1)
@@ -160,7 +155,6 @@ cli_generate() {
     echo "fi" >> "$1"
 
     # Services
-    SERVICES=("fconvert" "foptimize" "futils")
     for a in ${SERVICES[@]}; do
         SERVICE_NAME=${a:1}
         FIRST_LETTER=$(echo "$SERVICE_NAME" | cut -c1-1)
