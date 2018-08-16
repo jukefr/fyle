@@ -2,6 +2,13 @@
 
 current_dir=$(pwd)
 
+CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
+if [ -n "$CURRENTLY_TAGGING" ]; then
+    VERSION="$CURRENTLY_TAGGING"
+else
+    VERSION="latest"
+fi
+
 if [ -n "$1" ]; then
     # Travis Install
     if [[ "$1" = "travis" ]]; then
@@ -66,7 +73,7 @@ function dotdotdot {
 function build {
     cd "${current_dir}/$1"
     printf "\n$1 \n"
-    docker build --cache-from "$1:latest" -t $1 . > /dev/null & dotdotdot "Building"
+    docker build --cache-from "$1:latest" -t "$1:$VERSION" . > /dev/null & dotdotdot "Building"
 }
 
 travis_master_force() {

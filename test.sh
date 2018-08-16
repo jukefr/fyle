@@ -3,6 +3,13 @@ set -e
 START_DIR=$(pwd)
 SERVICES=("fconvert" "foptimize" "futils")
 
+CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
+if [ -n "$CURRENTLY_TAGGING" ]; then
+    VERSION="$CURRENTLY_TAGGING"
+else
+    VERSION="latest"
+fi
+
 function testfn {
     for a in ${SERVICES[@]}; do
         # Loop folders in service (formats)
@@ -32,7 +39,7 @@ function dockerrun {
     mkdir tmp_test
     cd tmp_test
     echo "Testing $1/${2%?}"
-    timeout 30 docker run -v $(pwd):/d/ "$1/${2%?}" "${SPEC[@]}"
+    timeout 30 docker run -v $(pwd):/d/ "$1/${2%?}:$VERSION" "${SPEC[@]}"
     cd ..
     rm -rf tmp_test
     cd "$START_DIR"
@@ -51,7 +58,6 @@ function clirun {
 }
 
 if [ -n "$1" ]; then
-    # CLI testing should only be done against new tagged versions (new master merge)
     if [[ "$1" == "cli" ]]; then
         echo "Testing CLI..."
         testfn clirun
@@ -62,7 +68,8 @@ fi
 
 testfn dockerrun
 
-if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+# CLI testing should only be done against new tagged versions
+if [ -n "$CURRENTLY_TAGGING" ]; then
     echo "Testing CLI..."
     testfn clirun
     exit 0
