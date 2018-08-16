@@ -1,9 +1,11 @@
 # futils
 Common file operations 
 
-## :wrench: Formats
+### Tools
 - [resize](#resize)
 - [alpha](#alpha)
+- [CLI](#cli)
+- [alpine](#alpine)
     
 ## :whale: resize
 ```bash
@@ -61,3 +63,6 @@ $ fcli c video screen_recording.mov demo.gif
 $ fcli u resize demo.gif "50%"
 $ fcli o gif demo.gif
 ```
+
+## :whale: alpine
+A base Alpine image used by all tools. You shouldn't need this unless creating a new tool.

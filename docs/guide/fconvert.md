@@ -1,7 +1,7 @@
 # fconvert
 One tool, many formats
 
-## :wrench: Formats
+### Tools
 - [video](#video-ffmpeg)
 - [image](#image-imagemagick)
 - [sound](#sound-mpg123)

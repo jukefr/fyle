@@ -1,7 +1,7 @@
 # foptimize
 Specialized optimisation and compression pipelines
 
-## :wrench: Formats
+### Tools
 - [gif](#gif)
 - [png](#png)
 - [jpg](#jpg)
