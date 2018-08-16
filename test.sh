@@ -17,57 +17,58 @@ diff_calc() {
     NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
     # List of files changed since last tagged release (new docker images)
     CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
-    echo "Changes since last git tag :"
+    echo "Changes: (since last git tag)"
     printf '%s\n' "${CHANGES[@]}"
+    echo
+
+    for SERVICE_NAME in ${SERVICES[@]}; do
+        for TOOL in ${SERVICE_NAME}/*/; do
+            TOOLS+=("$TOOL")
+        done
+    done
+    echo "Tools:"
+    printf '%s\n' "${TOOLS[@]}"
+    echo
+
+    SPACE_SEPARATED=" ${CHANGES[*]} "
+    for TOOL in ${TOOLS[@]}; do
+      if [[ "$SPACE_SEPARATED" = *"$TOOL"* ]] ; then
+        DIFFS+=("$TOOL")
+      fi
+    done
+    echo "Intersection:"
+    echo  ${DIFFS[@]}
+    echo
 }
 diff_calc
 
-test_runner() {
-    for SERVICE in ${SERVICES[@]}; do
-        for TOOL in ${SERVICE}/*/; do
+test_diffs() {
+    for TOOL in ${DIFFS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
 
-            TOOL_NAME=$(basename "$TOOL")
+        # Main
+        if [[ "$1" == "" ]] || [[ "$1" == "docker" ]]; then
+            echo "Testing diffed $SERVICE_NAME/$TOOL_NAME:$VERSION"
+            docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+        fi
+    done
+}
 
-            # Ignored ?
-            if [ -f "$START_DIR/$SERVICE/$TOOL_NAME/.ignore" ]; then
-                continue
-            fi
-
-            SPEC=($(head -n 1 "$START_DIR/$SERVICE/$TOOL_NAME/.spec"))
-
-            # Specific ?
-            if [ -n "$SPECIFIC" ]; then
-                if [[ "$SPECIFIC" = *"$SERVICE/$TOOL_NAME"* ]]; then
-                    echo "Specific Testing $SERVICE/$TOOL_NAME:$VERSION"
-                    docker run -v /tmp/:/d/ "$SERVICE/$TOOL_NAME:$VERSION" "${SPEC[@]}"
-                    exit 0
-                fi
-            fi
-
-            # CLI ?
-            if [[ "$1" == "cli" ]]; then
-                echo "CLI Testing $SERVICE/$TOOL_NAME:$VERSION"
-                docker run -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/d/ "futils/cli:$VERSION" "$SERVICE" "$TOOL_NAME" "${SPEC[@]}"
-            fi
-
-            # TRAVIS ?
-            if [ -n "$TRAVIS_BRANCH" ]; then
-                echo "Travis Detected, only testing changed/new tools to save cycles."
-                for CHANGE in "${CHANGES[@]}"; do
-                    # Test if the file is in the list
-                    if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
-                        echo "Testing $SERVICE/$TOOL_NAME:$VERSION"
-                        docker run -v /tmp/:/d/ "$SERVICE/$TOOL_NAME:$VERSION" "${SPEC[@]}"
-                    fi
-                done
-            fi
-
-            # Main
-            if [[ "$1" == "" ]] || [[ "$1" == "docker" ]]; then
-                echo "Testing $SERVICE/$TOOL_NAME:$VERSION"
-                docker run -v /tmp/:/d/ "$SERVICE/$TOOL_NAME:$VERSION" "${SPEC[@]}"
-            fi
-        done
+test_all() {
+    for TOOL in ${TOOLS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        # CLI ?
+        if [[ "$1" == "cli" ]]; then
+            echo "CLI Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
+            docker run -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/d/ "futils/cli:$VERSION" "$SERVICE_NAME" "$TOOL_NAME" "${SPEC[@]}"
+            continue
+        fi
+        echo "Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
+        docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
     done
 }
 
@@ -76,20 +77,39 @@ if [ -n "$1" ]; then
     # CLI
     if [[ "$1" == "cli" ]]; then
         echo "Testing CLI..."
-        test_runner "cli"
+        test_all "cli"
         exit 0
     fi
+
+    # Force all ?
+    if [[ "$1" == "all" ]]; then
+        echo "Testing all"
+        test_all
+        exit 0
+    fi
+
     # Otherwise, assume specific image
-    SPECIFIC="$1"
+    for TOOL in ${TOOLS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        if [[ "$TOOL" =~ "$1" ]]; then
+            echo "Specific Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
+            docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+            exit 0
+        fi
+    done
+fi
+
+# New Release
+if [ -n "$CURRENTLY_TAGGING" ] ; then
+    echo "New Release detected."
+    test_all
+    test_all "cli"
+    exit 0
 fi
 
 # Main
-test_runner
-
-# CLI test if new tag (new release)
-if [ -n "$CURRENTLY_TAGGING" ] ; then
-    echo "Testing CLI..."
-    test_runner "cli"
-fi
+test_diffs
 
 echo "Test script done."

@@ -12,34 +12,6 @@ else
     VERSION="latest"
 fi
 
-# DOCKER BUILD
-build() {
-    docker build --cache-from "$1:latest" -t "$1:$VERSION" "$2"
-}
-
-# DOCKER BUILD ALL
-force_build_all() {
-    for SERVICE in ${SERVICES[@]}; do
-        for TOOL in ${SERVICE}/*/; do
-            TOOL_NAME=$(basename "$TOOL")
-            # Allow to ignore specific folders
-            if [ -f "${TOOL}.ignore" ]; then
-                continue
-            fi
-            build "$SERVICE/$TOOL_NAME" "$START_DIR/$TOOL"
-        done
-    done
-    exit 0
-}
-
-
-# FORCE BUILD ALL IF NEW TAG
-new_tag_force_all() {
-    if [[ -n "$CURRENTLY_TAGGING" ]]; then
-        force_build_all
-    fi
-}
-
 diff_calc() {
     unset GIT_DIR
     LATEST_TAG=$(git describe --tags --abbrev=0)
@@ -47,27 +19,63 @@ diff_calc() {
     NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
     # List of files changed since last tagged release (new docker images)
     CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
-    echo "Changes since last git tag :"
+    echo "Changes: (since last git tag)"
     printf '%s\n' "${CHANGES[@]}"
+    echo
+
+    for SERVICE_NAME in ${SERVICES[@]}; do
+        for TOOL in ${SERVICE_NAME}/*/; do
+            TOOLS+=("$TOOL")
+        done
+    done
+    echo "Tools:"
+    printf '%s\n' "${TOOLS[@]}"
+    echo
+
+    SPACE_SEPARATED=" ${CHANGES[*]} "
+    for TOOL in ${TOOLS[@]}; do
+      if [[ "$SPACE_SEPARATED" = *"$TOOL"* ]] ; then
+        DIFFS+=("$TOOL")
+      fi
+    done
+    echo "Intersection:"
+    echo  ${DIFFS[@]}
+    echo
 }
 diff_calc
 
-diff_build() {
-    for SERVICE in ${SERVICES[@]}; do
-        for TOOL in ${SERVICE}/*/; do
-            TOOL_NAME=$(basename "$TOOL")
-            # Allow to ignore specific folders
-            if [ -f "${TOOL}.ignore" ]; then
-                continue
-            fi
-            for CHANGE in "${CHANGES[@]}"; do
-                # Build if the file is in the list and continue to next tool
-                if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
-                    build "$SERVICE/$TOOL_NAME" "$START_DIR/$TOOL"
-                    break
-                fi
-            done
-        done
+# DOCKER BUILD
+build() {
+    docker build --cache-from "$1:latest" -t "$1:$VERSION" "$2"
+}
+
+build_diffs() {
+    for TOOL in ${DIFFS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        echo "Building diffed $SERVICE_NAME/$TOOL_NAME:$VERSION"
+        build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
+    done
+}
+
+pull_diffs() {
+    for TOOL in ${DIFFS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        echo "Pulling latest diffed $SERVICE_NAME/$TOOL_NAME"
+        docker pull "$SERVICE_NAME/$TOOL_NAME"
+    done
+}
+
+build_all() {
+    for TOOL in ${TOOLS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        echo "Building $SERVICE_NAME/$TOOL_NAME:$VERSION"
+        build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
     done
 }
 
@@ -110,9 +118,6 @@ cli_generate() {
         echo "echo \"$FIRST_LETTER, $SERVICE_NAME, $SERVICE:\"" >> "$1"
         for TOOL in ${SERVICE}/*/; do
             TOOL_NAME=$(basename "$TOOL")
-            if [ -f "${TOOL}.ignore" ]; then
-                continue
-            fi
             echo "echo \">$TOOL_NAME\"" >> "$1"
         done
     done
@@ -127,9 +132,6 @@ cli_generate() {
         echo "if [ \$1 = \"$FIRST_LETTER\" ] || [ \$1 = \"$SERVICE_NAME\" ] || [ \$1 = \"$SERVICE\" ]; then" >> "$1"
         for TOOL in ${SERVICE}/*/; do
             TOOL_NAME=$(basename "$TOOL")
-            if [ -f "${TOOL}.ignore" ]; then
-                continue
-            fi
             echo "if [ \$2 = \"$TOOL_NAME\" ]; then" >> "$1"
             echo "echo \"$TOOL\"" >> "$1"
             echo "shift 2" >> "$1"
@@ -142,7 +144,7 @@ cli_generate() {
 }
 
 
-# OVERRIDES
+# Arguments
 if [ -n "$1" ]; then
 
     # TAVIS HELPER
@@ -151,36 +153,36 @@ if [ -n "$1" ]; then
             echo "Building docs (am on master branch)"
             npx vuepress build docs
         fi
-        for SERVICE in ${SERVICES[@]}; do
-            for TOOL in ${SERVICE}/*/; do
-                TOOL_NAME=$(basename "$TOOL")
-                # Allow to ignore specific folders
-                if [ -f "${TOOL}.ignore" ]; then
-                    continue
-                fi
-                for CHANGE in "${CHANGES[@]}"; do
-                    # Pull if the file is in the list
-                    if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
-                        docker pull "$SERVICE/$TOOL_NAME:latest"
-                        continue 2
-                    fi
-                done
-            done
-        done
+        pull_diffs
+        exit 0
     fi
 
     # FORCE ALL
     if [[ "$1" = "all" ]]; then
-        force_build_all
+        build_all
+        exit 0
     fi
 
-    # BUILD SPECIFIC
-    build $1
-    exit 0
+    # Otherwise, assume specific image
+    for TOOL in ${TOOLS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        if [[ "$TOOL" =~ "$1" ]]; then
+            echo "Specific building $SERVICE_NAME/$TOOL_NAME:$VERSION"
+            build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
+            exit 0
+        fi
+    done
 fi
 
 cli_generate "futils/cli/cli.sh"
-new_tag_force_all
-diff_build
+if [[ -n "$CURRENTLY_TAGGING" ]]; then
+    echo "New Release detected."
+    build_all
+    exit 0
+fi
+
+build_diffs
 
 echo "Build script done."
