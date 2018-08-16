@@ -3,43 +3,76 @@ set -e
 START_DIR=$(pwd)
 SERVICES=("fconvert" "foptimize" "futils")
 
-if [ -n "$1" ]; then
-    SPECIFIC="$1"
-    echo "$SPECIFIC"
+CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
+if [ -n "$CURRENTLY_TAGGING" ]; then
+    VERSION="$CURRENTLY_TAGGING"
+else
+    VERSION="latest"
 fi
 
 function testfn {
+    for a in ${SERVICES[@]}; do
+        # Loop folders in service (formats)
+        cd "$START_DIR/$a"
+        for b in */ ; do
+            # Allow to ignore specific folders
+            if [ -f "$START_DIR/$a/$b/.ignore" ]; then
+                continue
+            fi
+            # Test a specific image or all
+            if [ -n "$SPECIFIC" ]; then
+                if [[ "$SPECIFIC" = *"$a/${b%?}"* ]]; then
+                    $1 ${a} ${b}
+                    exit 0
+                fi
+            else
+                $1 ${a} ${b}
+            fi
+        done
+        cd "$START_DIR"
+    done
+}
+
+function dockerrun {
     cd "$START_DIR/$1/$2"
     SPEC=($(head -n 1 .spec))
     mkdir tmp_test
     cd tmp_test
-    echo "Testing $1/${2%?}"
-    timeout 30 docker run -v $(pwd):/d/ "$1/${2%?}" "${SPEC[@]}"
+    echo "Testing $1/${2%?}:$VERSION"
+    timeout 30 docker run -v $(pwd):/d/ "$1/${2%?}:$VERSION" "${SPEC[@]}"
     cd ..
     rm -rf tmp_test
     cd "$START_DIR"
 }
 
-for a in ${SERVICES[@]}; do
-    # Loop folders in service (formats)
-    cd "$START_DIR/$a"
-    for b in */ ; do
-        # Allow to ignore specific folders
-        if [ -f "$START_DIR/$a/$b/.ignore" ]; then
-            continue
-        fi
-        # Test a specific image or all
-        if [ -n "$SPECIFIC" ]; then
-            if [[ "$SPECIFIC" = *"$a/${b%?}"* ]]; then
-                testfn ${a} ${b}
-                exit 0
-            fi
-        else
-            testfn ${a} ${b}
-        fi
-    done
+function clirun {
+    cd "$START_DIR/$1/$2"
+    SPEC=($(head -n 1 .spec))
+    mkdir tmp_test
+    cd tmp_test
+    echo "Testing $1/${2%?}:$VERSION"
+    timeout 30 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli "$1" "${2%?}" "${SPEC[@]}"
+    cd ..
+    rm -rf tmp_test
     cd "$START_DIR"
-done
-echo "Testing futils/cli"
-./futils/cli/cli.sh --version
+}
+
+if [ -n "$1" ]; then
+    if [[ "$1" == "cli" ]]; then
+        echo "Testing CLI..."
+        testfn clirun
+        exit 0
+    fi
+    SPECIFIC="$1"
+fi
+
+testfn dockerrun
+
+# CLI testing should only be done against new tagged versions
+if [ -n "$CURRENTLY_TAGGING" ]; then
+    echo "Testing CLI..."
+    testfn clirun
+    exit 0
+fi
+
 echo "Test script done."

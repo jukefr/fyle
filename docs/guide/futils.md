@@ -33,27 +33,31 @@ $ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
 
 <Asciinema id="5TXzMrMdT1hOJSGYUVeNRoSjn"/>
 
-## :crystal_ball: CLI
-I have created a small shell CLI to alias the docker commands and make using the project easier.
+## :whale: CLI
+A CLI gets dynamically generated on new releases. It aliases the docker commands to make them shorter and easier to use/memorize.
+The way this works is :
+1. You call the CLI with a `docker run` command, it creates a container that has the **host docker socket mounted**
+2. This container calls the cli.sh script, this script in turn `docker runs` a container for the needed tool.
+
+Effectively you run a docker container, that will run a docker container. But not nested, both containers are on the host, because we bind the socket.
+
 ```bash
-# Install the CLI (it will automatically update)
-$ curl https://raw.githubusercontent.com/jukefr/fyle/master/futils/cli/install | sh
+# Using the CLI
+$ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli --help
+
+# Installing (.bashrc example, adjust for your specific shell)
+$ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
 
 # Usage
 $ fcli --help
 
 $ fcli o png file.png
-$ fcli opt gif file.gif
-$ fcli optimize jpg "https://...jpg" 
-
-$ fcli c i file1.jpg file2.png
-$ fcli conv vid "https://...mp4" file2.mkv  
-
+$ fcli c image file1.jpg file2.png
+$ fcli c video "https://...mp4" file2.mkv  
 $ fcli u resize file1.jpg "50%"
-$ fcli util resize "https://...mp4" "300px" 
 
 # Example Workflow Chaining :
-$ fcli c v screen_recording.mov demo.gif
+$ fcli c video screen_recording.mov demo.gif
 $ fcli u resize demo.gif "50%"
 $ fcli o gif demo.gif
 ```
