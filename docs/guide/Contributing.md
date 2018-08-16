@@ -22,6 +22,8 @@ To build the images dynamically I have made a `build.sh` script that loops over
 every folder for every service, so every tool. It builds 
 an image tagged with the service name and the format.
 
+It will also automatically generate a `cli.sh` in `futils/cli` with every tool inside it. This should be done on every new tag (release).
+
 Here are the commands that the script supports :
 ```bash
 $ ./build.sh
@@ -53,6 +55,6 @@ $ ./test.sh
 $ ./test.sh $service/$format
 # Force test a specific tool
 
-$ ./build.sh cli
-# Not yet implemented
+$ ./test.sh cli
+# Tests all tools against their .spec file, but with fcli instead of direct docker run.
 ```
