@@ -15,7 +15,6 @@ diff_calc() {
     LATEST_TAG=$(git describe --tags --abbrev=0)
     CURRENT_REVISION=$(git describe)
     NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
-    # List of files changed since last tagged release (new docker images)
     CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
     echo "Changes: (since last git tag)"
     printf '%s\n' "${CHANGES[@]}"
