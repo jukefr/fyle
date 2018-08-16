@@ -9,7 +9,7 @@ Common file operations
 - [alpine](#alpine)
 
 ## :whale: alpha
-remove a **png** image background
+remove a **png** image background ([#18](https://github.com/jukefr/fyle/issues/18) for more formats)
 ```bash
 $ docker run -v $(pwd):/d/ futils/alpha file.png
 $ docker run -v $(pwd):/d/ futils/alpha "https://...png"

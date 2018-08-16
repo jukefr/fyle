@@ -71,7 +71,7 @@ Let's say you have a proposal : **add an image filter (black and white, sepia...
     4. Use `./build.sh` at the root of the repository to build the new tool.
     5. Use `./test.sh` at the root of the repository to test the new tool.
     6. Do some testing of your own of the new tool on some of your assets try check it works great.
-    7. :fire: Add the correspond documentation to `docs/guide` (plans to automate this, see [#19](https://github.com/jukefr/fyle/issues/19))
+    7. :fire: Add the corresponding documentation to `docs/guide` (plans to automate this, see [#19](https://github.com/jukefr/fyle/issues/19))
 4. Push your feature branch and create a pull request pointing to `develop` on the repository.
 5. Wait for a moderator (me) to review your pull request.
 6. If the feature is good it is merged to develop.
