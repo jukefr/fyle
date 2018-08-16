@@ -148,6 +148,7 @@ if [ -n "$1" ]; then
     # TAVIS HELPER
     if [[ "$1" = "travis" ]]; then
         if [[ "$TRAVIS_BRANCH" = "master" ]]; then
+            echo "Building docs (am on master branch)"
             npx vuepress build docs
         fi
         for SERVICE in ${SERVICES[@]}; do

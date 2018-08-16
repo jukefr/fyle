@@ -10,6 +10,18 @@ else
     VERSION="latest"
 fi
 
+diff_calc() {
+    unset GIT_DIR
+    LATEST_TAG=$(git describe --tags --abbrev=0)
+    CURRENT_REVISION=$(git describe)
+    NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
+    # List of files changed since last tagged release (new docker images)
+    CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
+    echo "Changes since last git tag :"
+    printf '%s\n' "${CHANGES[@]}"
+}
+diff_calc
+
 test_runner() {
     for SERVICE in ${SERVICES[@]}; do
         for TOOL in ${SERVICE}/*/; do
@@ -36,6 +48,18 @@ test_runner() {
             if [[ "$1" == "cli" ]]; then
                 echo "CLI Testing $SERVICE/$TOOL_NAME:$VERSION"
                 docker run -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/d/ "futils/cli:$VERSION" "$SERVICE" "$TOOL_NAME" "${SPEC[@]}"
+            fi
+
+            # TRAVIS ?
+            if [ -n "$TRAVIS_BRANCH" ]; then
+                echo "Travis Detected, only testing changed/new tools to save cycles."
+                for CHANGE in "${CHANGES[@]}"; do
+                    # Test if the file is in the list
+                    if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
+                        echo "Testing $SERVICE/$TOOL_NAME:$VERSION"
+                        docker run -v /tmp/:/d/ "$SERVICE/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+                    fi
+                done
             fi
 
             # Main
