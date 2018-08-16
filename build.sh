@@ -81,6 +81,15 @@ cli_generate() {
     echo "#!/bin/sh" > "$1"
     CLI_VERSION=$(git describe --abbrev=0 --tags)
 
+    # update check
+    echo "VERSION=\"$CLI_VERSION\"" >> "$1"
+    echo "REMOTE_VERSIONS=(\$(curl -s -S \"https://registry.hub.docker.com/v2/repositories/futils/cli/tags/\" | jq -r '.\"results\"[][\"name\"]'))" >> "$1"
+    echo "REMOTE_VERSION=\"\${REMOTE_VERSIONS[1]}\"" >> "$1"
+    echo "if [[ \"\$REMOTE_VERSION\" != \"\$VERSION\" ]]; then" >> "$1"
+    echo "echo \"CLI is outdated, please run docker pull futils/cli then try again.\"" >> "$1"
+    echo "exit 1" >> "$1"
+    echo "fi" >> "$1"
+
     # --version
     echo "if [ \$1 = \"--version\" ]; then" >> "$1"
     echo "echo \"$CLI_VERSION\"" >> "$1"
