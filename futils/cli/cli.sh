@@ -7,7 +7,7 @@ else
 REMOTE_VERSION="$( echo "$REMOTE_VERSIONS" | sed -n 1p )"
 fi
 if [[ "$REMOTE_VERSION" != "$VERSION" ]]; then
-echo "CLI is outdated, please run `docker pull futils/cli` to update."
+echo "CLI is outdated, please run docker pull futils/cli:$REMOTE_VERSION to update."
 fi
 if [ $1 = "--version" ]; then
 echo "v0.1-alpha5"
