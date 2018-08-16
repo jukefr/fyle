@@ -50,6 +50,7 @@ diff_calc() {
     echo "Changes since last git tag :"
     printf '%s\n' "${CHANGES[@]}"
 }
+diff_calc
 
 diff_build() {
     for SERVICE in ${SERVICES[@]}; do
@@ -156,7 +157,13 @@ if [ -n "$1" ]; then
                 if [ -f "${TOOL}.ignore" ]; then
                     continue
                 fi
-                docker pull "$SERVICE/$TOOL_NAME:latest"
+                for CHANGE in "${CHANGES[@]}"; do
+                    # Pull if the file is in the list
+                    if [[ ${CHANGE} = *"$SERVICE/$TOOL_NAME"* ]]; then
+                        docker pull "$SERVICE/$TOOL_NAME:latest"
+                        continue 2
+                    fi
+                done
             done
         done
     fi
@@ -171,7 +178,6 @@ if [ -n "$1" ]; then
     exit 0
 fi
 
-diff_calc
 cli_generate "futils/cli/cli.sh"
 new_tag_force_all
 diff_build
