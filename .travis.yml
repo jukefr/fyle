@@ -3,8 +3,8 @@ node_js:
   - "10"
 cache:
   directories:
-  - $(npm config get prefix)/lib/node_modules
-  - $(npm config get prefix)/bin
+  - /home/travis/.nvm/versions/node/v10.9.0/bin/
+  - /home/travis/.nvm/versions/node/v10.9.0/lib/node_modules/
 sudo: required
 services:
   - docker
