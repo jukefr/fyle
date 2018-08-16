@@ -9,7 +9,7 @@ module.exports = {
         nav: [
             {text: 'Home', link: '/'},
             {text: 'Guide', link: '/guide/'},
-            {text: 'Source', link: 'https://github.com/jukefr/fyle'},
+            {text: 'GitHub', link: 'https://github.com/jukefr/fyle'},
         ],
         sidebar: {
             '/guide/': [
