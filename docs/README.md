@@ -1,7 +1,7 @@
 ---
 home: true
 heroText: 📁 fyle
-tagline: easy file processing
+tagline: web asset conversion, optimization and processing
 heroImage: false
 actionText: Get Started →
 actionLink: /guide/
