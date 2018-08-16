@@ -63,7 +63,7 @@ fi
 test_runner
 
 # CLI test if new tag (new release)
-if [ -n "$CURRENTLY_TAGGING" ] || [[ "$TRAVIS_BRANCH" = "master" ]]; then
+if [ -n "$CURRENTLY_TAGGING" ] ; then
     echo "Testing CLI..."
     test_runner "cli"
 fi
