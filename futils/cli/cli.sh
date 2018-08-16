@@ -1,7 +1,11 @@
 #!/bin/sh
 VERSION="v0.1-alpha4"
-REMOTE_VERSIONS=($(curl -s -S "https://registry.hub.docker.com/v2/repositories/futils/cli/tags/" | jq -r '."results"[]["name"]'))
-REMOTE_VERSION="${REMOTE_VERSIONS[1]}"
+REMOTE_VERSIONS=$(curl -s -S "https://registry.hub.docker.com/v2/repositories/futils/cli/tags/" | jq -r '."results"[]["name"]')
+if [[ "$( echo "$REMOTE_VERSIONS" | sed -n 1p )" == "latest" ]]; then
+REMOTE_VERSION="$( echo "$REMOTE_VERSIONS" | sed -n 2p )"
+else
+REMOTE_VERSION="$( echo "$REMOTE_VERSIONS" | sed -n 1p )"
+fi
 if [[ "$REMOTE_VERSION" != "$VERSION" ]]; then
 echo "CLI is outdated, please run docker pull futils/cli then try again."
 exit 1
