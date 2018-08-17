@@ -6,7 +6,6 @@ $ docker run -v $(pwd):/d/ foptimize/gif file.ext
 $ docker run -v $(pwd):/d/ foptimize/gif https://...ext
 $ docker run -v $(pwd):/d/ foptimize/gif https://www.sample-vid... 50 16
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `50`→`quality`
 3. `16`→`colors`
@@ -17,7 +16,6 @@ $ docker run -v $(pwd):/d/ foptimize/jpg file.ext
 $ docker run -v $(pwd):/d/ foptimize/jpg https://...ext
 $ docker run -v $(pwd):/d/ foptimize/jpg https://www.sample-vid... 90
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `90`→`quality`
 ## :whale: png
@@ -27,7 +25,6 @@ $ docker run -v $(pwd):/d/ foptimize/png file.ext
 $ docker run -v $(pwd):/d/ foptimize/png https://...ext
 $ docker run -v $(pwd):/d/ foptimize/png https://www.sample-vid...
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 ## :whale: svg
 optimize svg images
@@ -36,5 +33,4 @@ $ docker run -v $(pwd):/d/ foptimize/svg file.ext
 $ docker run -v $(pwd):/d/ foptimize/svg https://...ext
 $ docker run -v $(pwd):/d/ foptimize/svg https://www.sample-vid...
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
