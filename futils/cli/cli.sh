@@ -33,6 +33,7 @@ echo "u, utils, futils:"
 echo ">alpha"
 echo ">alpine"
 echo ">cli"
+echo ">monochrome"
 echo ">resize"
 echo ">rotate"
 echo ""
@@ -101,6 +102,12 @@ if [ $2 = "cli" ]; then
 echo "futils/cli/"
 shift 2
 docker run --volumes-from "$(hostname)" "futils/cli:v0.1-alpha6" "$@"
+exit 0
+fi
+if [ $2 = "monochrome" ]; then
+echo "futils/monochrome/"
+shift 2
+docker run --volumes-from "$(hostname)" "futils/monochrome:v0.1-alpha6" "$@"
 exit 0
 fi
 if [ $2 = "resize" ]; then
