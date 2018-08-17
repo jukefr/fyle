@@ -3,6 +3,9 @@
 # CONFIG
 START_DIR=$(pwd)
 SERVICES=("fconvert" "foptimize" "futils")
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# Bump CLI version if needed
+CLI_VERSION=$(git describe --abbrev=0 --tags)
 
 # CHECK IF CURRENT COMMIT IS A TAG
 CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
@@ -90,8 +93,6 @@ cli_generate() {
     echo "exit 1" >> "$1"
     echo "fi" >> "$1"
 
-    # Bump CLI version if needed
-    CLI_VERSION=$(git describe --abbrev=0 --tags)
     # update check
     echo "VERSION=\"$CLI_VERSION\"" >> "$1"
     echo "REMOTE_VERSIONS=\$(curl -s -S \"https://registry.hub.docker.com/v2/repositories/futils/cli/tags/\" | jq -r '.\"results\"[][\"name\"]')" >> "$1"
@@ -143,6 +144,65 @@ cli_generate() {
     done
 }
 
+create_hub_repos() {
+    npm i puppeteer
+    for TOOL in ${DIFFS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        REMOTE_RESPONSE=$(curl -o -I -L -s -w "%{http_code}" "https://registry.hub.docker.com/v2/repositories/$SERVICE_NAME/$TOOL_NAME/")
+        if [ "$REMOTE_RESPONSE" -eq 404 ]; then
+            echo "Creating Repo $SERVICE_NAME/$TOOL_NAME"
+            echo "const puppeteer = require(\"puppeteer\");
+(async () => {
+    const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    const page = await browser.newPage();
+    await page.goto(\"https://hub.docker.com/sso/start/\");
+    await page.type(\"#nw_username\", \"$HUB_USERNAME\");
+    await page.type(\"#nw_password\", \"$HUB_PW\");
+    await page.click(\"#nw_submit\");
+    await page.waitFor(1000);
+    await page.goto(\"https://hub.docker.com/add/automated-build/$SERVICE_NAME/github/orgs/\");
+    const search = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div[2]/div/div/div/form/div/div[1]/input\");
+    await Promise.all(search.map(handle => handle.type(\"fyle\")));
+    await page.waitFor(1000);
+    const result = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div[2]/div/ul/li/a\");
+    await Promise.all(result.map(handle => handle.click()));
+    await page.waitFor(1000);
+    const tool = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[1]/div[1]/div[2]/div[2]/div/input\");
+    await Promise.all(tool.map(handle => {
+        handle.click({clickCount: 3})
+    }));
+    await page.waitFor(500);
+    await Promise.all(tool.map(handle => {
+        handle.type(\"$TOOL_NAME\")
+    }));
+    await page.waitFor(500);
+    const description = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[3]/textarea\");
+    await Promise.all(description.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME\")));
+    await page.waitFor(500);
+    const customizeLink = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/label[2]/a\");
+    await Promise.all(customizeLink.map(handle => handle.click()));
+    const dockerfile1 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[2]/div[3]/input\");
+    await Promise.all(dockerfile1.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
+    await page.waitFor(500);
+    const dockerfile2 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[3]/input\");
+    await Promise.all(dockerfile2.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
+    await page.waitFor(500);
+    const typeSelect = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[1]/select\");
+    await Promise.all(typeSelect.map(handle => handle.click()));
+    await page.select(\"#app > main > div:nth-child(3) > div.row > div > div > div > form > div:nth-child(6) > div > div:nth-child(3) > div:nth-child(1) > select\", \"Tag\");
+    const submitForm = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[5]/div/button\")
+    await Promise.all(submitForm.map(handle => handle.click()));
+    await page.waitFor(2000)
+
+    await browser.close();
+})();" | node
+    echo "Docker Hub Repository created"
+        fi
+    done
+
+}
 
 # Arguments
 if [ -n "$1" ]; then
@@ -181,6 +241,17 @@ if [ -z "$TRAVIS_BRANCH" ]; then
     cli_generate "futils/cli/cli.sh"
 fi
 
+if [[ "$TRAVIS_BRANCH" = *"release/"* ]]; then
+    create_hub_repos
+fi
+
+# On release/* ?
+if [[ $CURRENT_BRANCH = *"release/"* ]]; then
+    CLI_VERSION=$(basename "$CURRENT_BRANCH")
+    cli_generate "futils/cli/cli.sh"
+fi
+
+# new tag ?
 if [[ -n "$CURRENTLY_TAGGING" ]]; then
     echo "New Release detected."
     build_all

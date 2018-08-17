@@ -63,6 +63,7 @@ will run the `docker run ...` command for you.
 ```bash
 $ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
 ```
+Then relaunch your terminal or `source ~/.bashrc`.
 
 ### Installing the CLI (windows)
 For Windows, you need to run this **inside the boot2docker or hyper-v instance
@@ -86,5 +87,5 @@ $ fcli o gif demo.gif
 ```
 
 ## :whale: alpine
-A base Alpine image used by all tools. You shouldn't need this unless creating a new tool.
+A base Alpine image used by all tools. You shouldn't need this unless contributing a new tool.
 

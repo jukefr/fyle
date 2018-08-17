@@ -50,7 +50,7 @@ test_diffs() {
         # Main
         if [[ "$1" == "" ]] || [[ "$1" == "docker" ]]; then
             echo "Testing diffed $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+            docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
         fi
     done
 }
@@ -63,11 +63,11 @@ test_all() {
         # CLI ?
         if [[ "$1" == "cli" ]]; then
             echo "CLI Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/d/ "futils/cli:$VERSION" "$SERVICE_NAME" "$TOOL_NAME" "${SPEC[@]}"
+            docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(mktemp -d):/d/ "futils/cli:$VERSION" "$SERVICE_NAME" "$TOOL_NAME" "${SPEC[@]}"
             continue
         fi
         echo "Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-        docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+        docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
     done
 }
 
@@ -94,7 +94,7 @@ if [ -n "$1" ]; then
         SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
         if [[ "$TOOL" =~ "$1" ]]; then
             echo "Specific Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v /tmp/:/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+            docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
             exit 0
         fi
     done
