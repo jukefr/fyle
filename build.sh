@@ -174,7 +174,6 @@ docs_generate() {
         # Usage
         echo "\`\`\`bash" >> "docs/guide/$SERVICE_NAME.md"
         echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME file.ext" >> "docs/guide/$SERVICE_NAME.md"
-        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME https://...ext" >> "docs/guide/$SERVICE_NAME.md"
         echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME ${SHORTENED_ARGS[@]}" >> "docs/guide/$SERVICE_NAME.md"
         echo "\`\`\`" >> "docs/guide/$SERVICE_NAME.md"
 
