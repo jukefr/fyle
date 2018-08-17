@@ -3,6 +3,7 @@ Common file operations
 
 ### Tools
 - [alpha](#alpha)
+- [monochrome](#monochrome)
 - [resize](#resize)
 - [rotate](#rotate)
 - [CLI](#cli)
@@ -22,6 +23,15 @@ $ docker run -v $(pwd):/d/ futils/alpha file.png Black 5%
 3. fuzz (`10%`)
 
 <Asciinema id="5TXzMrMdT1hOJSGYUVeNRoSjn"/>
+
+## :whale: monochrome
+```bash
+$ docker run -v $(pwd):/d/ futils/resize file.ext
+$ docker run -v $(pwd):/d/ futils/resize "https://...ext"
+```
+**name (`default`)**
+1. file
+2. color (`Gray`)
 
 ## :whale: resize
 ```bash
