@@ -3,7 +3,6 @@
 remove a **png** image background
 ```bash
 $ docker run -v $(pwd):/d/ futils/alpha file.ext
-$ docker run -v $(pwd):/d/ futils/alpha https://...ext
 $ docker run -v $(pwd):/d/ futils/alpha https://www.sample-vid... White 10
 ```
 1. `https://www.sample-vid...`→`input`
@@ -13,7 +12,6 @@ $ docker run -v $(pwd):/d/ futils/alpha https://www.sample-vid... White 10
 base image for all tools
 ```bash
 $ docker run -v $(pwd):/d/ futils/alpine file.ext
-$ docker run -v $(pwd):/d/ futils/alpine https://...ext
 $ docker run -v $(pwd):/d/ futils/alpine uname
 ```
 1. `uname`→`command`
@@ -21,7 +19,6 @@ $ docker run -v $(pwd):/d/ futils/alpine uname
 cli for fyle
 ```bash
 $ docker run -v $(pwd):/d/ futils/cli file.ext
-$ docker run -v $(pwd):/d/ futils/cli https://...ext
 $ docker run -v $(pwd):/d/ futils/cli --version
 ```
 1. `--version`→`command`
@@ -29,7 +26,6 @@ $ docker run -v $(pwd):/d/ futils/cli --version
 convert an image to monochrome
 ```bash
 $ docker run -v $(pwd):/d/ futils/monochrome file.ext
-$ docker run -v $(pwd):/d/ futils/monochrome https://...ext
 $ docker run -v $(pwd):/d/ futils/monochrome https://www.sample-vid... Gray
 ```
 1. `https://www.sample-vid...`→`input`
@@ -38,7 +34,6 @@ $ docker run -v $(pwd):/d/ futils/monochrome https://www.sample-vid... Gray
 resize an image
 ```bash
 $ docker run -v $(pwd):/d/ futils/resize file.ext
-$ docker run -v $(pwd):/d/ futils/resize https://...ext
 $ docker run -v $(pwd):/d/ futils/resize https://www.sample-vid... 50%
 ```
 1. `https://www.sample-vid...`→`input`
@@ -47,7 +42,6 @@ $ docker run -v $(pwd):/d/ futils/resize https://www.sample-vid... 50%
 rotate an image
 ```bash
 $ docker run -v $(pwd):/d/ futils/rotate file.ext
-$ docker run -v $(pwd):/d/ futils/rotate https://...ext
 $ docker run -v $(pwd):/d/ futils/rotate https://www.sample-vid... 90
 ```
 1. `https://www.sample-vid...`→`input`
