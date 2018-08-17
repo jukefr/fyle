@@ -6,7 +6,6 @@ $ docker run -v $(pwd):/d/ futils/alpha file.ext
 $ docker run -v $(pwd):/d/ futils/alpha https://...ext
 $ docker run -v $(pwd):/d/ futils/alpha https://www.sample-vid... White 10
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `White`→`color`
 3. `10`→`fuzziness`
@@ -17,7 +16,6 @@ $ docker run -v $(pwd):/d/ futils/alpine file.ext
 $ docker run -v $(pwd):/d/ futils/alpine https://...ext
 $ docker run -v $(pwd):/d/ futils/alpine uname
 ```
-**Arguments (in order)**
 1. `uname`→`command`
 ## :whale: cli
 cli for fyle
@@ -26,7 +24,6 @@ $ docker run -v $(pwd):/d/ futils/cli file.ext
 $ docker run -v $(pwd):/d/ futils/cli https://...ext
 $ docker run -v $(pwd):/d/ futils/cli --version
 ```
-**Arguments (in order)**
 1. `--version`→`command`
 ## :whale: monochrome
 convert an image to monochrome
@@ -35,7 +32,6 @@ $ docker run -v $(pwd):/d/ futils/monochrome file.ext
 $ docker run -v $(pwd):/d/ futils/monochrome https://...ext
 $ docker run -v $(pwd):/d/ futils/monochrome https://www.sample-vid... Gray
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `Gray`→`color`
 ## :whale: resize
@@ -45,7 +41,6 @@ $ docker run -v $(pwd):/d/ futils/resize file.ext
 $ docker run -v $(pwd):/d/ futils/resize https://...ext
 $ docker run -v $(pwd):/d/ futils/resize https://www.sample-vid... 50%
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `50%`→`size`
 ## :whale: rotate
@@ -55,6 +50,5 @@ $ docker run -v $(pwd):/d/ futils/rotate file.ext
 $ docker run -v $(pwd):/d/ futils/rotate https://...ext
 $ docker run -v $(pwd):/d/ futils/rotate https://www.sample-vid... 90
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `90`→`angle`

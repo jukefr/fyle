@@ -6,7 +6,6 @@ $ docker run -v $(pwd):/d/ fconvert/image file.ext
 $ docker run -v $(pwd):/d/ fconvert/image https://...ext
 $ docker run -v $(pwd):/d/ fconvert/image https://www.sample-vid... ouput.jpg
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `ouput.jpg`→`output`
 ## :whale: sound
@@ -16,7 +15,6 @@ $ docker run -v $(pwd):/d/ fconvert/sound file.ext
 $ docker run -v $(pwd):/d/ fconvert/sound https://...ext
 $ docker run -v $(pwd):/d/ fconvert/sound https://www.sample-vid... ouput.wav
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `ouput.wav`→`output`
 ## :whale: video
@@ -26,6 +24,5 @@ $ docker run -v $(pwd):/d/ fconvert/video file.ext
 $ docker run -v $(pwd):/d/ fconvert/video https://...ext
 $ docker run -v $(pwd):/d/ fconvert/video https://www.sample-vid... ouput.avi
 ```
-**Arguments (in order)**
 1. `https://www.sample-vid...`→`input`
 2. `ouput.avi`→`output`

@@ -179,7 +179,6 @@ docs_generate() {
         echo "\`\`\`" >> "docs/guide/$SERVICE_NAME.md"
 
         # Instructions
-        echo "**Arguments (in order)**" >> "docs/guide/$SERVICE_NAME.md"
         ARG_INDEX=1
         for ARGUMENT in ${FINAL_ARGS[@]}; do
             echo "$ARG_INDEX. $ARGUMENT" >> "docs/guide/$SERVICE_NAME.md"
