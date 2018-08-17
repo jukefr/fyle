@@ -159,7 +159,7 @@ docs_generate() {
         TMP_INDEX=0
         FINAL_ARGS=()
         for ARGUMENT_NAME in ${SPEC_2[@]}; do
-            FINAL_ARGS+=("\`${SHORTENED_ARGS[$TMP_INDEX]}\`→\`$ARGUMENT_NAME\`")
+            FINAL_ARGS+=("\`${SHORTENED_ARGS[$TMP_INDEX]}\`→\`\$$ARGUMENT_NAME\`")
             TMP_INDEX=$((TMP_INDEX + 1))
         done
 
@@ -173,7 +173,7 @@ docs_generate() {
 
         # Usage
         echo "\`\`\`bash" >> "docs/guide/$SERVICE_NAME.md"
-        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME file.ext" >> "docs/guide/$SERVICE_NAME.md"
+        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME \$${SPEC_2[0]} $([[ ${SPEC_2[1]} == "output" ]] && echo \$${SPEC_2[1]})" >> "docs/guide/$SERVICE_NAME.md"
         echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME ${SHORTENED_ARGS[@]}" >> "docs/guide/$SERVICE_NAME.md"
         echo "\`\`\`" >> "docs/guide/$SERVICE_NAME.md"
 
