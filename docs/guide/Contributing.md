@@ -39,7 +39,7 @@ $ ./build.sh $service/$format
 ## :heavy_check_mark: Testing
 I wrote a very basic `test.sh` script that loops over every 
 tool that should be tested. You can use the `
-.spec` file to configure the passed parameters during the test. It will 
+spec.txt` file to configure the passed parameters during the test. It will 
 simply run the docker container with those parameters, inside a temporary 
 folder. If you see % reductions in your logs, **congratulations the test 
 passed** :tada:
@@ -56,10 +56,10 @@ $ ./test.sh $service/$format
 # Force test a specific tool
 
 $ ./test.sh cli
-# Tests all tools against their .spec file, but with fcli directly
+# Tests all tools against their spec.txt file, but with fcli directly
 ```
 
-## :busts_in_silhouette: Example Contribution Workflow
+## :busts_in_silhouette: Contribution Workflow
 Let's say you have a proposal : **add an image filter (black and white, sepia...) tool to futils**
 
 1. Start off by submitting the proposal as an issue to the repository to get the discussion going.
@@ -71,13 +71,36 @@ Let's say you have a proposal : **add an image filter (black and white, sepia...
     4. Use `./build.sh` at the root of the repository to build the new tool.
     5. Use `./test.sh` at the root of the repository to test the new tool.
     6. Do some testing of your own of the new tool on some of your assets try check it works great.
-    7. :fire: Add the corresponding documentation to `docs/guide` (plans to automate this, see [#19](https://github.com/jukefr/fyle/issues/19))
 4. Push your feature branch and create a pull request pointing to `develop` on the repository.
 5. Wait for a moderator (me) to review your pull request.
 6. If the feature is good it is merged to develop.
 7. The feature will be available publicly on the next release (tag and merge to master).
-    1. Travis builds doc and deploys it.
-    2. Travis builds and tests all tools and the cli.
-    3. Docker Hub builds and deploy all tools with tag `latest` and `$VERSION`
-    
+
 Pat yourself on the back, you are now an open-source contributor ! :tada:
+
+## :robot: Automation
+Here is what happens automatically (or dynamically at least) for every step of development :
+1. **feature/$T**, let's say you are creating a new tool named `T` in service `S`
+    - `./build.sh` will build every image that has changed since last git tag by default
+    - **it will also dynamically generate the CLI and the Vuepress documentation for the tool** (make sure the `spec.txt` file is configured properly)
+    - `./test.sh` will test every image that has changed since last git tag by default
+2. **develop**, let's say the pull request for `T` gets accepted and merged into develop
+    - `./build.sh` will behave the same as on a **feature** branch
+    - `./test.sh` will behave the same as on a **feature** branch
+3. **release/$VERSION**, let's say everything went smoothly and we want to prepare a new release
+    - `./build.sh` will automatically set the CLI version to the current release name
+    - **if a new tool has been introduced in this release, Travis will automatically create the corresponding Docker Hub repository so that everything will deploy automatically when merged to master.**
+4. **master**, when anything is pushed to master, it is automatically built, tested and deployed
+    - Travis compiles the Vuepress docs (that have already automatically been generated) and deploys to Github Pages
+    - Travis pulls all the latest tools from Docker Hub to use as build cache.
+    - Travis builds all the tools and tags them with the new $VERSION
+    - Travis tests all the tools locally
+    - Travis tests all the tools with the CLI locally
+    - Docker Hub builds all the tools with tags `latest` and `$VERSION`
+    - Docker Hub deploys the built images publicly
+
+And now the entire process is done. I tried to make everything automated/dynamic, currently if you want to add a new tool, the bare minimum you have to edit is :
+1. `entrypoint.sh` of the tool, `Dockerfile` will usually remain the same.
+2. `spec.txt` of the tool to configure **cli generation**, **doc generation** and **testing**.
+
+The rest is done for you !

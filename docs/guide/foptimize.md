@@ -1,60 +1,40 @@
 # foptimize
-Specialized optimisation and compression pipelines
-
-### Tools
-- [gif](#gif)
-- [png](#png)
-- [jpg](#jpg)
-- [svg](#svg)
-
 ## :whale: gif
-- giflossy
-
+optimize gif images
 ```bash
-$ docker run -v $(pwd):/d/ foptimize/gif input.gif
-$ docker run -v $(pwd):/d/ foptimize/gif "https://...gif"
+$ docker run -v $(pwd):/d/ foptimize/gif file.ext
+$ docker run -v $(pwd):/d/ foptimize/gif https://...ext
+$ docker run -v $(pwd):/d/ foptimize/gif https://www.sample-vid... 50 16
 ```
-**name (`default`)**
-1. file
-2. quality (`80`)
-3. colors (`128`)
-
-<Asciinema id="le6xZKz4DHK3cLQX0x5ymR8bJ"/>
-
-## :whale: png
-- pngcrush 
-- pngquant
-- optipng
-- advpng
-
-```bash
-$ docker run -v $(pwd):/d/ foptimize/png input.png
-$ docker run -v $(pwd):/d/ foptimize/png "https://...png"
-```
-<Asciinema id="PEIe959sirjcn92xGbyF8hyvR"/>
-
+**Arguments (in order)**
+1. `https://www.sample-vid...`→`input`
+2. `50`→`quality`
+3. `16`→`colors`
 ## :whale: jpg
-- jpgtran
-- jpgoptim
-- guetzli
-
+optimize jpg images
 ```bash
-$ docker run -v $(pwd):/d/ foptimize/jpg input.jpg
-$ docker run -v $(pwd):/d/ foptimize/jpg "https://...jpg"
+$ docker run -v $(pwd):/d/ foptimize/jpg file.ext
+$ docker run -v $(pwd):/d/ foptimize/jpg https://...ext
+$ docker run -v $(pwd):/d/ foptimize/jpg https://www.sample-vid... 90
 ```
-**name (`default`)**
-1. file
-2. quality (`85`)
-
-<Asciinema id="PilzrrZesuDBvjen4ycEbwulY"/>
-
+**Arguments (in order)**
+1. `https://www.sample-vid...`→`input`
+2. `90`→`quality`
+## :whale: png
+optimize png images
+```bash
+$ docker run -v $(pwd):/d/ foptimize/png file.ext
+$ docker run -v $(pwd):/d/ foptimize/png https://...ext
+$ docker run -v $(pwd):/d/ foptimize/png https://www.sample-vid...
+```
+**Arguments (in order)**
+1. `https://www.sample-vid...`→`input`
 ## :whale: svg
-- svgcleaner
-- svgo
-
+optimize svg images
 ```bash
-$ docker run -v $(pwd):/d/ foptimize/svg input.svg
-$ docker run -v $(pwd):/d/ foptimize/svg "https://...svg"
+$ docker run -v $(pwd):/d/ foptimize/svg file.ext
+$ docker run -v $(pwd):/d/ foptimize/svg https://...ext
+$ docker run -v $(pwd):/d/ foptimize/svg https://www.sample-vid...
 ```
-
-<Asciinema id="3iRRUqnxFNf9a5xEDI9KtxpyG"/>
+**Arguments (in order)**
+1. `https://www.sample-vid...`→`input`

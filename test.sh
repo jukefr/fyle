@@ -16,18 +16,12 @@ diff_calc() {
     CURRENT_REVISION=$(git describe)
     NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
     CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
-    echo "Changes: (since last git tag)"
-    printf '%s\n' "${CHANGES[@]}"
-    echo
 
     for SERVICE_NAME in ${SERVICES[@]}; do
         for TOOL in ${SERVICE_NAME}/*/; do
             TOOLS+=("$TOOL")
         done
     done
-    echo "Tools:"
-    printf '%s\n' "${TOOLS[@]}"
-    echo
 
     SPACE_SEPARATED=" ${CHANGES[*]} "
     for TOOL in ${TOOLS[@]}; do
@@ -35,7 +29,7 @@ diff_calc() {
         DIFFS+=("$TOOL")
       fi
     done
-    echo "Intersection:"
+    echo "Diffs :"
     echo  ${DIFFS[@]}
     echo
 }
@@ -45,7 +39,7 @@ test_diffs() {
     for TOOL in ${DIFFS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
 
         # Main
         if [[ "$1" == "" ]] || [[ "$1" == "docker" ]]; then
@@ -59,7 +53,7 @@ test_all() {
     for TOOL in ${TOOLS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         # CLI ?
         if [[ "$1" == "cli" ]]; then
             echo "CLI Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
@@ -91,7 +85,7 @@ if [ -n "$1" ]; then
     for TOOL in ${TOOLS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         if [[ "$TOOL" =~ "$1" ]]; then
             echo "Specific Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
             docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"

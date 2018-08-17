@@ -1,1 +1,0 @@
-https://www.sample-videos.com/svg/1.svg
