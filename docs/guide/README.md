@@ -63,7 +63,7 @@ $ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
 ```
 
 ## :whale: CLI
-[fcli](/guide/futils.html#cli), a command line utility that aliases all the 
+[fcli](/guide/CLI.html), a command line utility that aliases all the 
 docker functions 
 is also available, instead of writing :
 ```bash
@@ -74,4 +74,4 @@ You run :
 $ fcli o png input.png
 ```
 To make using these tools even more convenient. Instructions on [how to 
-install the CLI are available on the futils documentation](/guide/futils.html#installing-the-cli-linux-macos)
+install the CLI are available on the futils documentation](/guide/CLI.html#installing-the-cli-linux-macos)

@@ -116,10 +116,11 @@ cli_generate() {
         SERVICE_NAME=${SERVICE:1}
         FIRST_LETTER=$(echo "$SERVICE_NAME" | cut -c1-1)
         echo "echo \"\"" >> "$1"
-        echo "echo \"$FIRST_LETTER, $SERVICE_NAME, $SERVICE:\"" >> "$1"
+        echo "echo \"$(echo \"$FIRST_LETTER , $SERVICE_NAME, $SERVICE\" | awk '{print toupper($0)}'):\"" >> "$1"
         for TOOL in ${SERVICE}/*/; do
             TOOL_NAME=$(basename "$TOOL")
-            echo "echo \">$TOOL_NAME\"" >> "$1"
+            SPEC=($(cat "$START_DIR/$SERVICE/$TOOL_NAME/.spec"| sed -n 2p))
+            echo "echo \"> $TOOL_NAME ( ${SPEC[@]} )\"" >> "$1"
         done
     done
     echo "echo \"\"" >> "$1"
@@ -145,8 +146,52 @@ cli_generate() {
 }
 
 docs_generate() {
-    # TODO
-    break
+    echo "Generating Documentation"
+    # First line
+    for SERVICE in ${SERVICES[@]}; do
+         echo "# $SERVICE" > "docs/guide/$SERVICE.md"
+    done
+    for TOOL in ${TOOLS[@]}; do
+        SERVICE_NAME=$(basename `dirname ${TOOL}`)
+        TOOL_NAME=$(basename "$TOOL")
+        SPEC_1=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC_2=($(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"| sed -n 2p))
+        SPEC_3=$(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"| sed -n 3p)
+        SHORTENED_ARGS=()
+        for ARGUMENT in ${SPEC_1[@]}; do
+            SHORTENED_ARG=$(echo "$ARGUMENT" | awk -v len=25 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')
+            SHORTENED_ARGS+=("$SHORTENED_ARG")
+        done
+        TMP_INDEX=0
+        FINAL_ARGS=()
+        for ARGUMENT_NAME in ${SPEC_2[@]}; do
+            FINAL_ARGS+=("\`${SHORTENED_ARGS[$TMP_INDEX]}\`→\`$ARGUMENT_NAME\`")
+            TMP_INDEX=$((TMP_INDEX + 1))
+        done
+
+        # Then simply append every tool
+        echo "## :whale: $TOOL_NAME" >> "docs/guide/$SERVICE_NAME.md"
+
+        # If it has a tagline, display it
+        if [ -n "$SPEC_3" ]; then
+            echo "$SPEC_3" >> "docs/guide/$SERVICE_NAME.md"
+        fi
+
+        # Usage
+        echo "\`\`\`bash" >> "docs/guide/$SERVICE_NAME.md"
+        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME file.ext" >> "docs/guide/$SERVICE_NAME.md"
+        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME https://...ext" >> "docs/guide/$SERVICE_NAME.md"
+        echo "\$ docker run -v \$(pwd):/d/ $SERVICE_NAME/$TOOL_NAME ${SHORTENED_ARGS[@]}" >> "docs/guide/$SERVICE_NAME.md"
+        echo "\`\`\`" >> "docs/guide/$SERVICE_NAME.md"
+
+        # Instructions
+        echo "**Arguments (in order)**" >> "docs/guide/$SERVICE_NAME.md"
+        ARG_INDEX=1
+        for ARGUMENT in ${FINAL_ARGS[@]}; do
+            echo "$ARG_INDEX. $ARGUMENT" >> "docs/guide/$SERVICE_NAME.md"
+            ARG_INDEX=$((ARG_INDEX + 1))
+        done
+    done
 }
 
 create_hub_repos() {
@@ -245,22 +290,26 @@ fi
 # dont build cli on travis
 if [ -z "$TRAVIS_BRANCH" ]; then
     cli_generate "futils/cli/cli.sh"
+    docs_generate
 fi
 
 if [[ "$TRAVIS_BRANCH" = *"release/"* ]]; then
     create_hub_repos
+    docs_generate
 fi
 
 # On release/* ?
 if [[ $CURRENT_BRANCH = *"release/"* ]]; then
     CLI_VERSION="v$(basename "$CURRENT_BRANCH")"
     cli_generate "futils/cli/cli.sh"
+    docs_generate
 fi
 
 # new tag ?
 if [[ -n "$CURRENTLY_TAGGING" ]]; then
     echo "New Release detected."
     build_all
+    docs_generate
     exit 0
 fi
 
