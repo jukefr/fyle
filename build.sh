@@ -229,9 +229,13 @@ create_hub_repos() {
     const customizeLink = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/label[2]/a\");
     await Promise.all(customizeLink.map(handle => handle.click()));
     const dockerfile1 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[2]/div[3]/input\");
+    await Promise.all(dockerfile1.map(handle => { handle.click({clickCount: 3}) }));
+    await page.waitFor(500);
     await Promise.all(dockerfile1.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
     await page.waitFor(500);
     const dockerfile2 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[3]/input\");
+    await Promise.all(dockerfile2.map(handle => { handle.click({clickCount: 3}) }));
+    await page.waitFor(500);
     await Promise.all(dockerfile2.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
     await page.waitFor(500);
     const typeSelect = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[1]/select\");
