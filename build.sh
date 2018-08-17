@@ -144,6 +144,11 @@ cli_generate() {
     done
 }
 
+docs_generate() {
+    # TODO
+    break
+}
+
 create_hub_repos() {
     HUB_USERNAME="futils"
     npm i puppeteer
