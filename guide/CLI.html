@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CLI | fyle</title>
+    <meta name="description" content="web asset conversion, optimization and processing">
+    <link rel="icon" href="https://s3.eu-west-3.amazonaws.com/juke-github/ico.png">
+    
+    <link rel="preload" href="/fyle/assets/css/0.styles.ddf5180c.css" as="style"><link rel="preload" href="/fyle/assets/js/app.6579c252.js" as="script"><link rel="preload" href="/fyle/assets/js/6.3be908c8.js" as="script"><link rel="prefetch" href="/fyle/assets/js/5.dc9910ba.js"><link rel="prefetch" href="/fyle/assets/js/2.8d45b1a8.js"><link rel="prefetch" href="/fyle/assets/js/3.6ee2642b.js"><link rel="prefetch" href="/fyle/assets/js/4.e00b8897.js"><link rel="prefetch" href="/fyle/assets/js/7.dfc58aa6.js"><link rel="prefetch" href="/fyle/assets/js/8.bb9a1440.js"><link rel="prefetch" href="/fyle/assets/js/9.4d34b28a.js"><link rel="prefetch" href="/fyle/assets/js/10.53934afe.js"><link rel="prefetch" href="/fyle/assets/js/11.e24c0cb2.js">
+    <link rel="stylesheet" href="/fyle/assets/css/0.styles.ddf5180c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/fyle/" class="home-link router-link-active"><!----> <span class="site-name">fyle</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/fyle/" class="nav-link">Home</a></div><div class="nav-item"><a href="/fyle/guide/" class="nav-link router-link-active">Guide</a></div><div class="nav-item"><a href="https://github.com/jukefr/fyle" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/fyle/" class="nav-link">Home</a></div><div class="nav-item"><a href="/fyle/guide/" class="nav-link router-link-active">Guide</a></div><div class="nav-item"><a href="https://github.com/jukefr/fyle" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/fyle/guide/" class="sidebar-link">Documentation</a></li><li><a href="/fyle/guide/foptimize.html" class="sidebar-link">foptimize</a></li><li><a href="/fyle/guide/fconvert.html" class="sidebar-link">fconvert</a></li><li><a href="/fyle/guide/futils.html" class="sidebar-link">futils</a></li><li><a href="/fyle/guide/CLI.html" class="active sidebar-link">CLI</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/fyle/guide/Contributing.html" class="sidebar-link">Contributing</a></li></ul> </div> <div class="page"> <div class="content"><h1 id="cli"><a href="#cli" aria-hidden="true" class="header-anchor">#</a> CLI</h1> <p>A CLI gets dynamically generated on new releases. It aliases the docker commands to make them shorter and easier to use/memorize.
+The way this works is :</p> <ol><li>You call the CLI with a <code>docker run</code> command, it creates a container that has the <strong>host docker socket mounted</strong></li> <li>This container calls the cli.sh script, this script in turn <code>docker runs</code> a container for the needed tool.</li></ol> <p>Effectively you run a docker container, that will run a docker container. But not nested, both containers are on the host, because we bind the socket.</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ docker run -v /var/run/docker.sock:/var/run/docker.sock -v <span class="token variable"><span class="token variable">$(</span><span class="token function">pwd</span><span class="token variable">)</span></span>:/d/ futils/cli --help
+</code></pre></div><h3 id="installing-the-cli-linux-macos"><a href="#installing-the-cli-linux-macos" aria-hidden="true" class="header-anchor">#</a> Installing the CLI (linux, macos)</h3> <p>To &quot;install&quot; on unix you simply need to create an alias for <strong>fcli</strong> that
+will run the <code>docker run ...</code> command for you.</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token keyword">echo</span> <span class="token string">'alias fcli=&quot;docker run -v /var/run/docker.sock:/var/run/docker.sock -v <span class="token variable"><span class="token variable">$(</span><span class="token function">pwd</span><span class="token variable">)</span></span>:/d/ futils/cli&quot;'</span> <span class="token operator">&gt;&gt;</span> ~/.bashrc
+</code></pre></div><p>Then relaunch your terminal or <code>source ~/.bashrc</code>.</p> <h3 id="installing-the-cli-windows"><a href="#installing-the-cli-windows" aria-hidden="true" class="header-anchor">#</a> Installing the CLI (windows)</h3> <p>For Windows, you need to run this <strong>inside the boot2docker or hyper-v instance
+as Windows does not use sockets</strong>. Other solution is to expose the daemon (see
+<a href="https://bit.ly/2MRAk5M" target="_blank" rel="noopener noreferrer">https://bit.ly/2MRAk5M<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>) then you pass the ENV variable
+<strong>DOCKER_HOST=tcp://0.0.0.0:2375 instead of mounting the socket</strong>.</p> <h3 id="usage"><a href="#usage" aria-hidden="true" class="header-anchor">#</a> Usage</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>$ fcli --help
+
+$ fcli o png file.png
+$ fcli c image file1.jpg file2.png
+$ fcli c video <span class="token string">&quot;https://...mp4&quot;</span> file2.mkv  
+$ fcli u resize file1.jpg <span class="token string">&quot;50%&quot;</span>
+
+<span class="token comment"># Example Workflow Chaining :</span>
+$ fcli c video screen_recording.mov demo.gif
+$ fcli u resize demo.gif <span class="token string">&quot;50%&quot;</span>
+$ fcli o gif demo.gif
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/fyle/guide/futils.html" class="prev">
+          futils
+        </a></span> <span class="next"><a href="/fyle/guide/Contributing.html">
+          Contributing
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/fyle/assets/js/6.3be908c8.js" defer></script><script src="/fyle/assets/js/app.6579c252.js" defer></script>
+  </body>
+</html>
