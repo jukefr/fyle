@@ -155,7 +155,7 @@ create_hub_repos() {
             echo "Creating Repo $SERVICE_NAME/$TOOL_NAME"
             echo "const puppeteer = require(\"puppeteer\");
 (async () => {
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch({args: ['--no-sandbox']});
     const page = await browser.newPage();
     await page.goto(\"https://hub.docker.com/sso/start/\");
     await page.type(\"#nw_username\", \"$HUB_USERNAME\");
