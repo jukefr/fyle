@@ -39,7 +39,7 @@ $ ./build.sh $service/$format
 ## :heavy_check_mark: Testing
 I wrote a very basic `test.sh` script that loops over every 
 tool that should be tested. You can use the `
-.spec` file to configure the passed parameters during the test. It will 
+spec.txt` file to configure the passed parameters during the test. It will 
 simply run the docker container with those parameters, inside a temporary 
 folder. If you see % reductions in your logs, **congratulations the test 
 passed** :tada:
@@ -56,7 +56,7 @@ $ ./test.sh $service/$format
 # Force test a specific tool
 
 $ ./test.sh cli
-# Tests all tools against their .spec file, but with fcli directly
+# Tests all tools against their spec.txt file, but with fcli directly
 ```
 
 ## :busts_in_silhouette: Contribution Workflow
@@ -82,7 +82,7 @@ Pat yourself on the back, you are now an open-source contributor ! :tada:
 Here is what happens automatically (or dynamically at least) for every step of development :
 1. **feature/$T**, let's say you are creating a new tool named `T` in service `S`
     - `./build.sh` will build every image that has changed since last git tag by default
-    - **it will also dynamically generate the CLI and the Vuepress documentation for the tool** (make sure the `.spec` file is configured properly)
+    - **it will also dynamically generate the CLI and the Vuepress documentation for the tool** (make sure the `spec.txt` file is configured properly)
     - `./test.sh` will test every image that has changed since last git tag by default
 2. **develop**, let's say the pull request for `T` gets accepted and merged into develop
     - `./build.sh` will behave the same as on a **feature** branch
@@ -101,6 +101,6 @@ Here is what happens automatically (or dynamically at least) for every step of d
 
 And now the entire process is done. I tried to make everything automated/dynamic, currently if you want to add a new tool, the bare minimum you have to edit is :
 1. `entrypoint.sh` of the tool, `Dockerfile` will usually remain the same.
-2. `.spec` of the tool to configure **cli generation**, **doc generation** and **testing**.
+2. `spec.txt` of the tool to configure **cli generation**, **doc generation** and **testing**.
 
 The rest is done for you !

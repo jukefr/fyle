@@ -50,7 +50,7 @@ build_diffs() {
     for TOOL in ${DIFFS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         echo "Building diffed $SERVICE_NAME/$TOOL_NAME:$VERSION"
         build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
     done
@@ -60,7 +60,7 @@ pull_diffs() {
     for TOOL in ${DIFFS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         echo "Pulling latest diffed $SERVICE_NAME/$TOOL_NAME"
         docker pull "$SERVICE_NAME/$TOOL_NAME"
     done
@@ -70,7 +70,7 @@ build_all() {
     for TOOL in ${TOOLS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         echo "Building $SERVICE_NAME/$TOOL_NAME:$VERSION"
         build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
     done
@@ -113,7 +113,7 @@ cli_generate() {
         echo "echo \"$(echo \"$FIRST_LETTER , $SERVICE_NAME, $SERVICE\" | awk '{print toupper($0)}'):\"" >> "$1"
         for TOOL in ${SERVICE}/*/; do
             TOOL_NAME=$(basename "$TOOL")
-            SPEC=($(cat "$START_DIR/$SERVICE/$TOOL_NAME/.spec"| sed -n 2p))
+            SPEC=($(cat "$START_DIR/$SERVICE/$TOOL_NAME/spec.txt"| sed -n 2p))
             echo "echo \"> $TOOL_NAME ( ${SPEC[@]} )\"" >> "$1"
         done
     done
@@ -148,9 +148,9 @@ docs_generate() {
     for TOOL in ${TOOLS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC_1=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
-        SPEC_2=($(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"| sed -n 2p))
-        SPEC_3=$(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"| sed -n 3p)
+        SPEC_1=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
+        SPEC_2=($(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"| sed -n 2p))
+        SPEC_3=$(cat "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"| sed -n 3p)
         SHORTENED_ARGS=()
         for ARGUMENT in ${SPEC_1[@]}; do
             SHORTENED_ARG=$(echo "$ARGUMENT" | awk -v len=25 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')
@@ -194,7 +194,7 @@ create_hub_repos() {
     for TOOL in ${DIFFS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         REMOTE_RESPONSE=$(curl -o -I -L -s -w "%{http_code}" "https://registry.hub.docker.com/v2/repositories/$SERVICE_NAME/$TOOL_NAME/")
         if [ "$REMOTE_RESPONSE" -eq 404 ]; then
             echo "Creating Repo $SERVICE_NAME/$TOOL_NAME"
@@ -272,7 +272,7 @@ if [ -n "$1" ]; then
     for TOOL in ${TOOLS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
         TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/.spec"))
+        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
         if [[ "$TOOL" =~ "$1" ]]; then
             echo "Specific building $SERVICE_NAME/$TOOL_NAME:$VERSION"
             build "$SERVICE_NAME/$TOOL_NAME" "$START_DIR/$TOOL"
