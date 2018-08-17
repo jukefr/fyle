@@ -145,6 +145,7 @@ cli_generate() {
 }
 
 create_hub_repos() {
+    HUB_USERNAME="futils"
     npm i puppeteer
     for TOOL in ${DIFFS[@]}; do
         SERVICE_NAME=$(basename `dirname ${TOOL}`)
@@ -247,7 +248,7 @@ fi
 
 # On release/* ?
 if [[ $CURRENT_BRANCH = *"release/"* ]]; then
-    CLI_VERSION=$(basename "$CURRENT_BRANCH")
+    CLI_VERSION="v$(basename "$CURRENT_BRANCH")"
     cli_generate "futils/cli/cli.sh"
 fi
 
