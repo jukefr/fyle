@@ -162,7 +162,7 @@ create_hub_repos() {
     await page.type(\"#nw_password\", \"$HUB_PW\");
     await page.click(\"#nw_submit\");
     await page.waitFor(1000);
-    await page.goto(\"https://hub.docker.com/add/automated-build/$SERVICE/github/orgs/\");
+    await page.goto(\"https://hub.docker.com/add/automated-build/$SERVICE_NAME/github/orgs/\");
     const search = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div[2]/div/div/div/form/div/div[1]/input\");
     await Promise.all(search.map(handle => handle.type(\"fyle\")));
     await page.waitFor(1000);
@@ -175,19 +175,19 @@ create_hub_repos() {
     }));
     await page.waitFor(500);
     await Promise.all(tool.map(handle => {
-        handle.type(\"$TOOL\")
+        handle.type(\"$TOOL_NAME\")
     }));
     await page.waitFor(500);
     const description = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[3]/textarea\");
-    await Promise.all(description.map(handle => handle.type(\"$SERVICE/$TOOL\")));
+    await Promise.all(description.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME\")));
     await page.waitFor(500);
     const customizeLink = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/label[2]/a\");
     await Promise.all(customizeLink.map(handle => handle.click()));
     const dockerfile1 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[2]/div[3]/input\");
-    await Promise.all(dockerfile1.map(handle => handle.type(\"$SERVICE/$TOOL/Dockerfile\")));
+    await Promise.all(dockerfile1.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
     await page.waitFor(500);
     const dockerfile2 = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[3]/input\");
-    await Promise.all(dockerfile2.map(handle => handle.type(\"$SERVICE/$TOOL/Dockerfile\")));
+    await Promise.all(dockerfile2.map(handle => handle.type(\"$SERVICE_NAME/$TOOL_NAME/Dockerfile\")));
     await page.waitFor(500);
     const typeSelect = await page.\$x(\"//*[@id='app']/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[3]/div[1]/select\");
     await Promise.all(typeSelect.map(handle => handle.click()));
