@@ -241,11 +241,12 @@ if [ -z "$TRAVIS_BRANCH" ]; then
     cli_generate "futils/cli/cli.sh"
 fi
 
+if [[ "$TRAVIS_BRANCH" = *"release/"* ]]; then
+    create_hub_repos
+fi
+
 # On release/* ?
 if [[ $CURRENT_BRANCH = *"release/"* ]]; then
-    if [ -n "$TRAVIS_BRANCH" ]; then
-        create_hub_repos
-    fi
     CLI_VERSION=$(basename "$CURRENT_BRANCH")
     cli_generate "futils/cli/cli.sh"
 fi
