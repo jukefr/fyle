@@ -1,5 +1,6 @@
-FROM futils/alpine:latest
-RUN apk add mpg123
+FROM futils/alpine:v0.1-alpha9
+RUN apk add --no-cache mpg123=1.25.10-r0
+RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 WORKDIR /
 COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh

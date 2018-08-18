@@ -2,24 +2,24 @@
 ## :whale: image
 image format conversion
 ```bash
-$ docker run -v $(pwd):/d/ fconvert/image $input $output
-$ docker run -v $(pwd):/d/ fconvert/image https://www.sample-vid... ouput.jpg
+docker run --rm -v $PWD:/d/ fconvert/image $input $output
+docker run --rm -v $PWD:/d/ fconvert/image https://www.sample-vid... ouput.jpg
 ```
 1. `https://www.sample-vid...`→`$input`
 2. `ouput.jpg`→`$output`
 ## :whale: sound
 sound format conversion
 ```bash
-$ docker run -v $(pwd):/d/ fconvert/sound $input $output
-$ docker run -v $(pwd):/d/ fconvert/sound https://www.sample-vid... ouput.wav
+docker run --rm -v $PWD:/d/ fconvert/sound $input $output
+docker run --rm -v $PWD:/d/ fconvert/sound https://www.sample-vid... ouput.wav
 ```
 1. `https://www.sample-vid...`→`$input`
 2. `ouput.wav`→`$output`
 ## :whale: video
 video format conversion
 ```bash
-$ docker run -v $(pwd):/d/ fconvert/video $input $output
-$ docker run -v $(pwd):/d/ fconvert/video https://www.sample-vid... ouput.avi
+docker run --rm -v $PWD:/d/ fconvert/video $input $output
+docker run --rm -v $PWD:/d/ fconvert/video https://www.sample-vid... ouput.avi
 ```
 1. `https://www.sample-vid...`→`$input`
 2. `ouput.avi`→`$output`

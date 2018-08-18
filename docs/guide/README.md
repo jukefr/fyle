@@ -55,11 +55,11 @@ Each repository contains its own unique tool (service/format combo). **I try
 to keep their arguments consistent to ease memorization.** If in one repository
 you type :
 ```bash
-$ docker run -v $(pwd):/d/ foptimize/png input.png
+docker run --rm -v $PWD:/d/ foptimize/png input.png
 ```
 then on another the command would be :
 ```bash
-$ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
+docker run --rm -v $PWD:/d/ fconvert/image input.png output.jpg
 ```
 
 ## :whale: CLI
@@ -67,11 +67,11 @@ $ docker run -v $(pwd):/d/ fconvert/image input.png output.jpg
 docker functions 
 is also available, instead of writing :
 ```bash
-$ docker run -v $(pwd):/d/ foptimize/png input.png
+docker run --rm -v $PWD:/d/ foptimize/png input.png
 ```
 You run :
 ```bash
-$ fcli o png input.png
+fcli o png input.png
 ```
 To make using these tools even more convenient. Instructions on [how to 
 install the CLI are available on the futils documentation](/guide/CLI.html#installing-the-cli-linux-macos)

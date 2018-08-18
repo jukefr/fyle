@@ -1,4 +1,8 @@
 # CLI
+
+![cli demo](https://s3.eu-west-3.amazonaws.com/juke-github/fyle-demo.gif)
+*(this foptimized gif is 16KB)*
+
 A CLI gets dynamically generated on new releases. It aliases the docker commands to make them shorter and easier to use/memorize.
 The way this works is :
 1. You call the CLI with a `docker run` command, it creates a container that has the **host docker socket mounted**
@@ -7,14 +11,18 @@ The way this works is :
 Effectively you run a docker container, that will run a docker container. But not nested, both containers are on the host, because we bind the socket.
 
 ```bash
-$ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli --help
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/d/ futils/cli --help
 ```
 
 ### Installing the CLI (linux, macos)
 To "install" on unix you simply need to create an alias for **fcli** that 
 will run the `docker run ...` command for you.
 ```bash
-$ echo 'alias fcli="docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/d/ futils/cli"' >> ~/.bashrc
+# The function
+fcli(){ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD":/d/ futils/cli "$@";}
+
+# Adding it to your .bashrc (or .zshrc) to make it persistent
+echo 'fcli(){ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD":/d/ futils/cli "$@";}' >> ~/.bashrc
 ```
 Then relaunch your terminal or `source ~/.bashrc`.
 
@@ -26,15 +34,19 @@ as Windows does not use sockets**. Other solution is to expose the daemon (see
 
 ### Usage
 ```bash
-$ fcli --help
+fcli --help
 
-$ fcli o png file.png
-$ fcli c image file1.jpg file2.png
-$ fcli c video "https://...mp4" file2.mkv  
-$ fcli u resize file1.jpg "50%"
+fcli optimize png file.png
+fcli convert image file1.jpg file2.png
+fcli c video "https://...mp4" file2.mkv  
+fcli utils resize file1.jpg "50%"
 
 # Example Workflow Chaining :
-$ fcli c video screen_recording.mov demo.gif
-$ fcli u resize demo.gif "50%"
-$ fcli o gif demo.gif
+fcli c video screen_recording.mov demo.gif
+fcli u resize demo.gif "50%"
+fcli o gif demo.gif
 ```
+
+::: tip
+*Pssst...* `fcli` also supports the `lint` command for development of shell scripts.
+:::
