@@ -105,6 +105,7 @@ if [ "$BRANCH" = "develop" ]; then
     if [ "$LOCAL" -eq 1 ]; then
         build_changed
     else
+        echo "hello travis"
         build_changed
     fi
 fi
