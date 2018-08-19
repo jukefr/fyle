@@ -34,7 +34,7 @@ init() {
     echo "Linting scripts..."
     mapfile -t TMP_SCRIPTS < <(find "$PWD/scripts/" -name "*.sh" -print)
     for TMP_SCRIPT in "${TMP_SCRIPTS[@]}"; do
-        TMP_REL_PATH="$(realpath --relative-to="$PWD" "$TMP_SCRIPT")"
+        TMP_REL_PATH="$(realpath "$TMP_SCRIPT")"
         echo "Linting $TMP_REL_PATH"
         docker run --rm -w="/d/" -v "$PWD:/d/" koalaman/shellcheck-alpine /bin/shellcheck -f gcc -x "$TMP_REL_PATH"
     done
