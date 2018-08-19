@@ -77,8 +77,8 @@ if [ "$BRANCH" = "release" ]; then
     if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
     else
-        build_changed
-        travis_generate_hub "$CHANGED"
+        build_all
+        travis_generate_hub "$TOOLS"
         # Push new tagged images to fhub
         FHUB_TOOLS="$(list_tools fhub)"
         FHUB_CHANGED="$(list_changed "$FHUB_TOOLS")"

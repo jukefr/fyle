@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
     const page = await browser.newPage();
     await page.goto("https://hub.docker.com/sso/start/");
-    await page.type("#nw_username", "$HUB_USERNAME");
+    await page.type("#nw_username", "futils");
     await page.type("#nw_password", "$HUB_PW");
     await page.click("#nw_submit");
     await page.waitFor(1000);
