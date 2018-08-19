@@ -8,13 +8,6 @@ docker run --rm -v $PWD:/d/ futils/alpha https://www.sample-vid... White 10
 1. `https://www.sample-vid...`→`$input`
 2. `White`→`$color`
 3. `10`→`$fuzziness`
-## :whale: alpine
-base docker image for all tools
-```bash
-docker run --rm -v $PWD:/d/ futils/alpine $command
-docker run --rm -v $PWD:/d/ futils/alpine uname -r
-```
-1. `uname`→`$command`
 ## :whale: cli
 cli for fyle
 ```bash

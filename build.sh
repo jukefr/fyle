@@ -5,7 +5,7 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\/.*//')"
 # CURRENT VERSION
 TAG="$(git describe --abbrev=0 --tags)"
 ################################################################################
-if [ -n "$TRAVIS_BRANCH" ]; then BRANCH="$TRAVIS_BRANCH"; fi
+if [ -n "$TRAVIS_BRANCH" ]; then BRANCH="$(echo "$TRAVIS_BRANCH" | sed 's/\/.*//')"; fi
 
 # IMPORT FUNCTIONS
 . scripts/build_docker.sh
@@ -72,13 +72,15 @@ if [ "$BRANCH" = "master" ]; then
 fi
 
 if [ "$BRANCH" = "release" ]; then
-    TAG="v$(basename "$BRANCH")"
-    generate_all
     if [ -z "$TRAVIS_BRANCH" ]; then
+        TAG="v$(git rev-parse --abbrev-ref HEAD | xargs -I % basename %)"
+        generate_all
         build_changed
     else
-        build_changed
-        travis_generate_hub "$CHANGED"
+        TAG="v$(basename "$TRAVIS_BRANCH")"
+        generate_all
+        build_all
+        travis_generate_hub "$TOOLS"
         # Push new tagged images to fhub
         FHUB_TOOLS="$(list_tools fhub)"
         FHUB_CHANGED="$(list_changed "$FHUB_TOOLS")"

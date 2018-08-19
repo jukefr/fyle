@@ -1,4 +1,4 @@
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 RUN apk add --no-cache mpg123=1.25.10-r0
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 WORKDIR /

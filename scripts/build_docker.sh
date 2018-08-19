@@ -4,5 +4,5 @@
 # $2=STRING="VERSION"
 # $3=STRING="CONTEXT"
 build_docker() {
-    docker build --cache-from "$1" -t "$1:$2" "$3"
+    docker build -t "$1:$2" "$3"
 }

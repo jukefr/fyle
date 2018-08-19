@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
     const page = await browser.newPage();
     await page.goto("https://hub.docker.com/sso/start/");
-    await page.type("#nw_username", "$HUB_USERNAME");
+    await page.type("#nw_username", "futils");
     await page.type("#nw_password", "$HUB_PW");
     await page.click("#nw_submit");
     await page.waitFor(1000);
@@ -49,7 +49,7 @@ const puppeteer = require("puppeteer");
     const newRowName = await page.$x("//*[@id=\"app\"]/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[4]/div[2]/input");
     await Promise.all(newRowName.map(handle => { handle.click() }));
     await page.waitFor(500);
-    await Promise.all(newRowName.map(handle => handle.type("/release\\/([0-9.]+)/")));
+    await Promise.all(newRowName.map(handle => handle.type("/release\\/([0-9.].*)/")));
     await page.waitFor(500);
 
     const newRowDockerfile = await page.$x("//*[@id=\"app\"]/main/div[3]/div[2]/div/div/div/form/div[4]/div[2]/div[4]/div[3]/input");

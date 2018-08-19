@@ -1,4 +1,4 @@
-FROM fhub/alpine-sdk:v0.1-alpha9 as build
+FROM fhub/alpine-sdk:v0.1-beta1 as build
 WORKDIR /
 RUN apk add --no-cache autoconf=2.69-r2 automake=1.16.1-r0
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
@@ -10,7 +10,7 @@ RUN ./configure
 RUN make install
 
 # Multi-stage build to reduce image size
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 WORKDIR /
 COPY --from=build /usr/local/bin/gifsicle /usr/local/bin/gifsicle
 COPY ./entrypoint.sh /e/entrypoint.sh
