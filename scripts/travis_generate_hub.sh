@@ -11,9 +11,10 @@ travis_generate_hub() {
         if [ "$TMP_REMOTE_RESPONSE" -eq 404 ]; then
             echo "Creating Repo $TMP_SERVICE_NAME/$TMP_TOOL_NAME"
             if [ "$TMP_SERVICE_NAME" = "fhub" ]; then
-                x="\$x" envsubst < scripts/create-repo-fhub.js 
+                TMP_TOOL_NAME="$TMP_TOOL_NAME" TMP_SERVICE_NAME="$TMP_SERVICE_NAME" x="\$x" envsubst < scripts/create-repo-fhub.js
+                exit 1
             else
-                x="\$x" envsubst < scripts/create-repo.js | node
+                TMP_TOOL_NAME="$TMP_TOOL_NAME" TMP_SERVICE_NAME="$TMP_SERVICE_NAME" x="\$x" envsubst < scripts/create-repo.js | node
             fi
             echo "Docker Hub Repository created"
         fi
