@@ -72,7 +72,7 @@ if [ "$BRANCH" = "master" ]; then
 fi
 
 if [ "$BRANCH" = "release" ]; then
-    TAG="v$(basename "$BRANCH")"
+    TAG="v$(basename "$TRAVIS_BRANCH")"
     generate_all
     if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
