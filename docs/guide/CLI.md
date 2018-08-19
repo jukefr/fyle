@@ -47,6 +47,3 @@ fcli u resize demo.gif "50%"
 fcli o gif demo.gif
 ```
 
-::: tip
-*Pssst...* `fcli` also supports the `lint` command for development of shell scripts.
-:::
