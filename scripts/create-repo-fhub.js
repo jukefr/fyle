@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
     const page = await browser.newPage();
     await page.goto("https://hub.docker.com/sso/start/");
     await page.type("#nw_username", "futils");
-    await page.type("#nw_password", "foobar");
+    await page.type("#nw_password", "$HUB_PW");
     await page.click("#nw_submit");
     await page.waitFor(1000);
     await page.goto("https://hub.docker.com/add/automated-build/$TMP_SERVICE_NAME/github/orgs/");
