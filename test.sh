@@ -112,7 +112,7 @@ if [ "$BRANCH" = "release" ]; then
     if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
-        test_changed
+        test_all
     fi
 fi
 
