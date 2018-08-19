@@ -5,6 +5,7 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\/.*//')"
 # CURRENT VERSION
 TAG="$(git describe --abbrev=0 --tags)"
 ################################################################################
+if [ -n "$TRAVIS_BRANCH" ]; then BRANCH="$TRAVIS_BRANCH"; fi
 
 # IMPORT FUNCTIONS
 . scripts/build_docker.sh
