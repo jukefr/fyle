@@ -7,7 +7,7 @@ TAG="$(git describe --abbrev=0 --tags)"
 ################################################################################
 # LOCAL OR TRAVIS
 LOCAL=1
-if [ "$TRAVIS_BRANCH" ]; then LOCAL=0; fi
+if [ -n "$TRAVIS_BRANCH" ]; then LOCAL=0; fi
 ################################################################################
 
 # IMPORT FUNCTIONS
