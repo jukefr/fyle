@@ -108,7 +108,7 @@ if [ "$BRANCH" = "master" ]; then
 fi
 
 if [ "$BRANCH" = "release" ]; then
-    TAG="v$(basename "$BRANCH")"
+    TAG="v$(basename "$TRAVIS_BRANCH")"
     if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
