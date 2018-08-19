@@ -1,4 +1,4 @@
-FROM fhub/alpine-sdk:v0.1-alpha9 as build
+FROM fhub/alpine-sdk:v0.1-beta1 as build
 WORKDIR /
 RUN apk add --no-cache libpng-dev=1.6.34-r1
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*

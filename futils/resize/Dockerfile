@@ -1,4 +1,4 @@
-FROM fhub/imagemagick:v0.1-alpha9
+FROM fhub/imagemagick:v0.1-beta1
 WORKDIR /
 COPY ./entrypoint.sh /e/entrypoint.sh
 RUN chmod +x /e/entrypoint.sh

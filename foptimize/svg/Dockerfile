@@ -1,4 +1,4 @@
-FROM fhub/alpine-sdk:v0.1-alpha9 as build
+FROM fhub/alpine-sdk:v0.1-beta1 as build
 WORKDIR /
 RUN mkdir svgcleaner
 WORKDIR /svgcleaner/

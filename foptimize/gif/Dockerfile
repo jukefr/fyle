@@ -1,4 +1,4 @@
-FROM fhub/alpine-sdk:v0.1-alpha9 as build
+FROM fhub/alpine-sdk:v0.1-beta1 as build
 WORKDIR /
 RUN apk add --no-cache autoconf=2.69-r2 automake=1.16.1-r0
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
