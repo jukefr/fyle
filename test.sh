@@ -1,108 +1,141 @@
 #!/usr/bin/env bash
-set -e
-START_DIR=$(pwd)
-SERVICES=("fconvert" "foptimize" "futils")
+set -eo pipefail
+################################################################################
+# GIT FLOW BASED STRUCTURE
+BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\/.*//')"
+# CURRENT VERSION
+TAG="$(git describe --abbrev=0 --tags)"
+################################################################################
+if [ -n "$TRAVIS_BRANCH" ]; then BRANCH="$(echo "$TRAVIS_BRANCH" | sed 's/\/.*//')"; fi
 
-CURRENTLY_TAGGING=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
-if [ -n "$CURRENTLY_TAGGING" ]; then
-    VERSION="$CURRENTLY_TAGGING"
-else
-    VERSION="latest"
-fi
+# IMPORT FUNCTIONS
+. scripts/test_docker.sh
+. scripts/test_cli.sh
+. scripts/test_lint.sh
+. scripts/list_changed.sh
+. scripts/list_tools.sh
 
-diff_calc() {
-    unset GIT_DIR
-    LATEST_TAG=$(git describe --tags --abbrev=0)
-    CURRENT_REVISION=$(git describe)
-    NUMBER_FILES_CHANGED=$(git diff --name-only HEAD ${LATEST_TAG} | wc -l)
-    CHANGES=($(git diff --name-only HEAD ${LATEST_TAG}))
+init() {
 
-    for SERVICE_NAME in ${SERVICES[@]}; do
-        for TOOL in ${SERVICE_NAME}/*/; do
-            TOOLS+=("$TOOL")
-        done
+    SERVICES="fhub futils fconvert foptimize"
+    TOOLS="$(list_tools "$SERVICES")"
+    CHANGED="$(list_changed "$TOOLS")"
+
+    # Always lint build and test
+    echo "Linting build.sh"
+    docker run --rm -w="/d/" -v "$PWD:/d/" koalaman/shellcheck-alpine /bin/shellcheck -x -f gcc build.sh
+    echo "Linting test.sh"
+    docker run --rm -w="/d/" -v "$PWD:/d/" koalaman/shellcheck-alpine /bin/shellcheck -x -f gcc test.sh
+
+    # Always test lint scripts
+    echo "Linting scripts..."
+    mapfile -t TMP_SCRIPTS < <(find "$PWD/scripts/" -name "*.sh" -print)
+    for TMP_SCRIPT in "${TMP_SCRIPTS[@]}"; do
+        TMP_REL_PATH="$(printf '%s\n' "${TMP_SCRIPT//$PWD/}" | cut -c2- )"
+        echo "Linting $TMP_REL_PATH"
+        docker run --rm -w="/d/" -v "$PWD:/d/" koalaman/shellcheck-alpine /bin/shellcheck -f gcc -x "$TMP_REL_PATH"
     done
 
-    SPACE_SEPARATED=" ${CHANGES[*]} "
-    for TOOL in ${TOOLS[@]}; do
-      if [[ "$SPACE_SEPARATED" = *"$TOOL"* ]] ; then
-        DIFFS+=("$TOOL")
-      fi
-    done
-    echo "Diffs :"
-    echo  ${DIFFS[@]}
-    echo
 }
-diff_calc
-
-test_diffs() {
-    for TOOL in ${DIFFS[@]}; do
-        SERVICE_NAME=$(basename `dirname ${TOOL}`)
-        TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
-
-        # Main
-        if [[ "$1" == "" ]] || [[ "$1" == "docker" ]]; then
-            echo "Testing diffed $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
-        fi
-    done
-}
+init
 
 test_all() {
-    for TOOL in ${TOOLS[@]}; do
-        SERVICE_NAME=$(basename `dirname ${TOOL}`)
-        TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
-        # CLI ?
-        if [[ "$1" == "cli" ]]; then
-            echo "CLI Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(mktemp -d):/d/ "futils/cli:$VERSION" "$SERVICE_NAME" "$TOOL_NAME" "${SPEC[@]}"
-            continue
-        fi
-        echo "Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-        docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
+    echo "Testing all tools..."
+    for TOOL in $TOOLS; do
+        echo "Testing ${TOOL::-1}..."
+        # shellcheck source=/dev/null
+        . "$TOOL"spec.cfg
+        test_lint "${TOOL::-1}"
+        echo "Docker testing ${TOOL::-1}..."
+        test_docker "${TOOL::-1}" "$TAG" # SPEC IMPLIED
+        echo "CLI testing ${TOOL::-1}..."
+        test_cli "${TOOL::-1}" "$TAG" # SPEC IMPLIED
     done
 }
 
-# Arguments
-if [ -n "$1" ]; then
-    # CLI
-    if [[ "$1" == "cli" ]]; then
-        echo "Testing CLI..."
-        test_all "cli"
-        exit 0
-    fi
-
-    # Force all ?
-    if [[ "$1" == "all" ]]; then
-        echo "Testing all"
-        test_all
-        exit 0
-    fi
-
-    # Otherwise, assume specific image
-    for TOOL in ${TOOLS[@]}; do
-        SERVICE_NAME=$(basename `dirname ${TOOL}`)
-        TOOL_NAME=$(basename "$TOOL")
-        SPEC=($(head -n 1 "$START_DIR/$SERVICE_NAME/$TOOL_NAME/spec.txt"))
-        if [[ "$TOOL" =~ "$1" ]]; then
-            echo "Specific Testing $SERVICE_NAME/$TOOL_NAME:$VERSION"
-            docker run -v $(mktemp -d):/d/ "$SERVICE_NAME/$TOOL_NAME:$VERSION" "${SPEC[@]}"
-            exit 0
-        fi
+test_changed() {
+    echo "Testing changed tools..."
+    for TOOL in $CHANGED; do
+        echo "Testing changed ${TOOL::-1}..."
+        # shellcheck source=/dev/null
+        . "$TOOL"spec.cfg
+        test_lint "${TOOL::-1}"
+        echo "Docker testing ${TOOL::-1}..."
+        test_docker "${TOOL::-1}" "$TAG" # SPEC IMPLIED
+        echo "CLI testing ${TOOL::-1}..."
+        test_cli "${TOOL::-1}" "$TAG" # SPEC IMPLIED
     done
-fi
+}
 
-# New Release
-if [ -n "$CURRENTLY_TAGGING" ] ; then
-    echo "New Release detected."
-    test_all
-    test_all "cli"
+test_specific() {
+    echo "Testing $1..."
+    # shellcheck source=/dev/null
+    . "$1/spec.cfg"
+    test_lint "$1"
+    echo "Docker testing $1..."
+    test_docker "$1" "$TAG" # SPEC IMPLIED
+    echo "CLI testing $1..."
+    test_cli "$1" "$TAG" # SPEC IMPLIED
+}
+
+
+# INVOCATION ARGUMENT PROCESSING
+if [ "$1" ]; then
+    if [ "$1" = "all" ]; then
+        test_all
+    elif [ "$1" = "lint" ]; then
+        if [ "$2" ]; then
+            test_lint "$2"
+        else
+            test_lint
+        fi
+    else
+        # ASSUME SPECIFIC IMAGE OTHERWISE
+        echo "Testing $1..."
+        test_specific "$1"
+    fi
     exit 0
 fi
 
-# Main
-test_diffs
+# FLOW LOGIC
+if [ "$BRANCH" = "master" ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
+        test_changed
+    else
+        test_all
+        gren release
+    fi
+fi
 
-echo "Test script done."
+if [ "$BRANCH" = "release" ]; then
+    TAG="v$(basename "$TRAVIS_BRANCH")"
+    if [ -z "$TRAVIS_BRANCH" ]; then
+        test_changed
+    else
+        test_all
+    fi
+fi
+
+if [ "$BRANCH" = "hotfix" ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
+        test_changed
+    else
+        test_changed
+    fi
+fi
+
+if [ "$BRANCH" = "develop" ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
+        test_changed
+    else
+        test_changed
+    fi
+fi
+
+if [ "$BRANCH" = "feature" ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
+        test_changed
+    else
+        test_changed
+    fi
+fi

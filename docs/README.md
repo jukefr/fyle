@@ -1,8 +1,8 @@
 ---
 home: true
-heroText: 📁 fyle
-tagline: web asset conversion, optimization and processing
-heroImage: false
+heroText: fyle 📁 
+tagline: process any web asset easily
+heroImage: "https://s3.eu-west-3.amazonaws.com/juke-github/fyle-demo.gif"
 actionText: Get Started →
 actionLink: /guide/
 features:

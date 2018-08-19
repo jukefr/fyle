@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -e
 if echo "$1" | grep -Eq '^(http|https)://'; then
     in=$(wget -nv "$1" 2>&1 |cut -d\" -f2 | sed -e "s/?.*//g")
     wget -q -O "$in" "$1"
@@ -15,4 +15,4 @@ mpg123 -q -w "$out" "$in" > /dev/null
 
 new_size=$(wc -c < "$out")
 
-printf "$in ($orig_size) is now \033[32;7m$out ($new_size)\e[0m.\n"
+printf "%s (%s) is now \033[32;7m%s (%s)\e[0m.\n" "$in" "$orig_size" "$out" "$new_size"

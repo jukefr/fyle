@@ -10,7 +10,7 @@ services:
   - docker
 before_install:
   - if [ ! -f "/home/travis/.nvm/versions/node/v10.9.0/bin/vuepress" ];then npm i -g vuepress; fi
-  - bash build.sh travis
+  - if [ ! -f "/home/travis/.nvm/versions/node/v10.9.0/bin/gren" ];then npm i -g github-release-notes; fi
 script:
   - bash build.sh
   - bash test.sh
