@@ -5,10 +5,6 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\/.*//')"
 # CURRENT VERSION
 TAG="$(git describe --abbrev=0 --tags)"
 ################################################################################
-# LOCAL OR TRAVIS
-LOCAL=1
-if [ -n "$TRAVIS_BRANCH" ]; then LOCAL=0; fi
-################################################################################
 
 # IMPORT FUNCTIONS
 . scripts/build_docker.sh
@@ -65,7 +61,7 @@ fi
 
 # FLOW LOGIC
 if [ "$BRANCH" = "master" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
        build_changed
     else
         echo "Building Vuepress documentation..."
@@ -77,7 +73,7 @@ fi
 if [ "$BRANCH" = "release" ]; then
     TAG="v$(basename "$BRANCH")"
     generate_all
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
     else
         build_changed
@@ -94,7 +90,7 @@ if [ "$BRANCH" = "release" ]; then
 fi
 
 if [ "$BRANCH" = "hotfix" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
     else
         build_changed
@@ -102,7 +98,7 @@ if [ "$BRANCH" = "hotfix" ]; then
 fi
 
 if [ "$BRANCH" = "develop" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
     else
         echo "hello travis"
@@ -111,7 +107,7 @@ if [ "$BRANCH" = "develop" ]; then
 fi
 
 if [ "$BRANCH" = "feature" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         build_changed
     else
         build_changed

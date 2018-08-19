@@ -6,10 +6,6 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\/.*//')"
 # CURRENT VERSION
 TAG="$(git describe --abbrev=0 --tags)"
 ################################################################################
-# LOCAL OR TRAVIS
-LOCAL=1
-if [ "$TRAVIS_BRANCH" ]; then LOCAL=0; fi
-################################################################################
 
 # IMPORT FUNCTIONS
 . scripts/test_docker.sh
@@ -102,7 +98,7 @@ fi
 
 # FLOW LOGIC
 if [ "$BRANCH" = "master" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
         test_all
@@ -112,7 +108,7 @@ fi
 
 if [ "$BRANCH" = "release" ]; then
     TAG="v$(basename "$BRANCH")"
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
         test_changed
@@ -120,7 +116,7 @@ if [ "$BRANCH" = "release" ]; then
 fi
 
 if [ "$BRANCH" = "hotfix" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
         test_changed
@@ -128,7 +124,7 @@ if [ "$BRANCH" = "hotfix" ]; then
 fi
 
 if [ "$BRANCH" = "develop" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
         test_changed
@@ -136,7 +132,7 @@ if [ "$BRANCH" = "develop" ]; then
 fi
 
 if [ "$BRANCH" = "feature" ]; then
-    if [ "$LOCAL" -eq 1 ]; then
+    if [ -z "$TRAVIS_BRANCH" ]; then
         test_changed
     else
         test_changed
