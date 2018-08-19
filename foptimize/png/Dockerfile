@@ -8,7 +8,7 @@ WORKDIR /advancecomp-2.1/
 RUN ./configure
 RUN make
 
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 RUN apk add --no-cache optipng=0.7.7-r0 pngcrush=1.8.13-r0 pngquant=2.12.0-r0 zlib-dev=1.2.11-r1 libstdc++=6.4.0-r8
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 WORKDIR /

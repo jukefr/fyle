@@ -10,7 +10,7 @@ RUN ./configure
 RUN make install
 
 # Multi-stage build to reduce image size
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 WORKDIR /
 COPY --from=build /usr/local/bin/gifsicle /usr/local/bin/gifsicle
 COPY ./entrypoint.sh /e/entrypoint.sh

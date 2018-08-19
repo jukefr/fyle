@@ -8,7 +8,7 @@ RUN wget -O tar_pkg.tar.gz https://github.com/RazrFalcon/svgcleaner-gui/releases
 RUN tar -xvzf tar_pkg.tar.gz
 
 # Multi-stage build to reduce image size
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 WORKDIR /
 RUN apk add --no-cache npm=8.11.4-r0
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*

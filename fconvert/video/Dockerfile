@@ -1,4 +1,4 @@
-FROM futils/alpine:v0.1-alpha9
+FROM fhub/alpine:v0.1-beta1
 RUN apk add --no-cache ffmpeg=3.4.2-r2
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 WORKDIR /

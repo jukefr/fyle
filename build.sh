@@ -72,11 +72,13 @@ if [ "$BRANCH" = "master" ]; then
 fi
 
 if [ "$BRANCH" = "release" ]; then
-    TAG="v$(basename "$TRAVIS_BRANCH")"
-    generate_all
     if [ -z "$TRAVIS_BRANCH" ]; then
+        TAG="v$(git rev-parse --abbrev-ref HEAD | xargs -I % basename %)"
+        generate_all
         build_changed
     else
+        TAG="v$(basename "$TRAVIS_BRANCH")"
+        generate_all
         build_all
         travis_generate_hub "$TOOLS"
         # Push new tagged images to fhub
